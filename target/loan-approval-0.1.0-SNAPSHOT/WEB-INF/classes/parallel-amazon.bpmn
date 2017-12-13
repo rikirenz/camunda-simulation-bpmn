@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
+  <bpmn:process id="amazon-delivery" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>start</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="start" sourceRef="StartEvent_1" targetRef="parallelGatewayStart" />
+    <bpmn:parallelGateway id="parallelGatewayStart">
+      <bpmn:incoming>start</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1n01b5o</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0nvyzvr</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:parallelGateway id="parallelGatewayEnd">
+      <bpmn:incoming>SequenceFlow_1aoq7vn</bpmn:incoming>
+      <bpmn:incoming>A</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0nj7im6</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1n01b5o" sourceRef="parallelGatewayStart" targetRef="shipOrder" />
+    <bpmn:sequenceFlow id="SequenceFlow_0nvyzvr" sourceRef="parallelGatewayStart" targetRef="receivePayment" />
+    <bpmn:sequenceFlow id="SequenceFlow_1aoq7vn" sourceRef="receivePayment" targetRef="parallelGatewayEnd" />
+    <bpmn:sequenceFlow id="A" sourceRef="shipOrder" targetRef="parallelGatewayEnd" />
+    <bpmn:endEvent id="end">
+      <bpmn:incoming>SequenceFlow_0nj7im6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0nj7im6" sourceRef="parallelGatewayEnd" targetRef="end" />
+    <bpmn:serviceTask id="receivePayment" name="receive payment" camunda:class="org.camunda.bpm.getstarted.parallelamazon.RandomTaskTimeDelegate">
+      <bpmn:incoming>SequenceFlow_0nvyzvr</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1aoq7vn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="shipOrder" name="Ship Order" camunda:class="org.camunda.bpm.getstarted.parallelamazon.RandomTaskTimeDelegate">
+      <bpmn:incoming>SequenceFlow_1n01b5o</bpmn:incoming>
+      <bpmn:outgoing>A</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="amazon-delivery">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="161" y="298" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="134" y="334" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qe84o7_di" bpmnElement="start">
+        <di:waypoint xsi:type="dc:Point" x="197" y="316" />
+        <di:waypoint xsi:type="dc:Point" x="323" y="316" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="260" y="295" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ParallelGateway_1tag3l0_di" bpmnElement="parallelGatewayStart">
+        <dc:Bounds x="323" y="291" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="348" y="345" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ParallelGateway_10p08r7_di" bpmnElement="parallelGatewayEnd">
+        <dc:Bounds x="545" y="291" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="570" y="345" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1n01b5o_di" bpmnElement="SequenceFlow_1n01b5o">
+        <di:waypoint xsi:type="dc:Point" x="348" y="341" />
+        <di:waypoint xsi:type="dc:Point" x="348" y="389" />
+        <di:waypoint xsi:type="dc:Point" x="406" y="389" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="363" y="359" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0nvyzvr_di" bpmnElement="SequenceFlow_0nvyzvr">
+        <di:waypoint xsi:type="dc:Point" x="348" y="291" />
+        <di:waypoint xsi:type="dc:Point" x="348" y="221" />
+        <di:waypoint xsi:type="dc:Point" x="406" y="221" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="363" y="250" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1aoq7vn_di" bpmnElement="SequenceFlow_1aoq7vn">
+        <di:waypoint xsi:type="dc:Point" x="506" y="221" />
+        <di:waypoint xsi:type="dc:Point" x="570" y="221" />
+        <di:waypoint xsi:type="dc:Point" x="570" y="291" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="538" y="200" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0vgim5i_di" bpmnElement="A">
+        <di:waypoint xsi:type="dc:Point" x="506" y="389" />
+        <di:waypoint xsi:type="dc:Point" x="570" y="389" />
+        <di:waypoint xsi:type="dc:Point" x="570" y="341" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="538" y="368" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_173w05u_di" bpmnElement="end">
+        <dc:Bounds x="728" y="298" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="746" y="338" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0nj7im6_di" bpmnElement="SequenceFlow_0nj7im6">
+        <di:waypoint xsi:type="dc:Point" x="595" y="316" />
+        <di:waypoint xsi:type="dc:Point" x="728" y="316" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="661.5" y="295" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0dcusz5_di" bpmnElement="receivePayment">
+        <dc:Bounds x="406" y="181" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_03uwjqt_di" bpmnElement="shipOrder">
+        <dc:Bounds x="406" y="349" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

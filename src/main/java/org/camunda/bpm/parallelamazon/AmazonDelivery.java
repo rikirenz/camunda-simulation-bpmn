@@ -1,4 +1,4 @@
-package org.camunda.bpm.getstarted.parallelamazon;
+package org.camunda.bpm.parallelamazon;
 
 import org.camunda.bpm.application.ProcessApplication;
 import org.camunda.bpm.application.impl.ServletProcessApplication;

@@ -1,2 +1,8 @@
-org\camunda\bpm\getstarted\parallelamazon\RandomTaskTimeDelegate.class
-org\camunda\bpm\getstarted\parallelamazon\AmazonDelivery.class
+org\camunda\bpm\parallelamazon\AmazonDelivery.class
+org\camunda\bpm\simulation\EventsQueue.class
+org\camunda\bpm\interfaces\Subject.class
+org\camunda\bpm\simulation\SimulationClock.class
+org\camunda\bpm\parallelamazon\ExampleExecutionListener.class
+org\camunda\bpm\simulation\SimulationEvent.class
+org\camunda\bpm\interfaces\Observer.class
+org\camunda\bpm\simulation\EventsHandler.class

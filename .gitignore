@@ -24,3 +24,4 @@ webapp/*.log
 debug.log
 test-results
 *.class
+/target/

@@ -1,12 +1,12 @@
-package org.camunda.bpm.parallelamazon;
+package parallelamazon;
 
 import java.util.Random;
 import java.util.logging.Logger;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
-import org.camunda.bpm.simulation.EventsQueue;
-import org.camunda.bpm.simulation.SimulationEvent;
+import simulation.EventsQueue;
+import simulation.SimulationEvent;
 
 public class ExampleExecutionListener implements ExecutionListener {
     

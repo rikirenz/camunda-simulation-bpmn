@@ -1,4 +1,4 @@
-package org.camunda.bpm.simulation;
+package simulation;
 
 public class SimulationEvent {
 

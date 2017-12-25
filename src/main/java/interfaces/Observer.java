@@ -1,4 +1,4 @@
-package org.camunda.bpm.interfaces;
+package interfaces;
 
 public interface Observer {
 	

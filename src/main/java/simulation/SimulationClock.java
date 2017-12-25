@@ -1,4 +1,4 @@
-package org.camunda.bpm.simulation;
+package simulation;
 
 import java.util.logging.Logger;
 

@@ -1,10 +1,10 @@
-package org.camunda.bpm.simulation;
+package simulation;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-import org.camunda.bpm.interfaces.Observer;
-import org.camunda.bpm.interfaces.Subject;
+import interfaces.Observer;
+import interfaces.Subject;
 
 public class EventsHandler implements Observer{
 

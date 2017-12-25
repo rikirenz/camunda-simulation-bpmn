@@ -1,8 +1,8 @@
-C:\projects\camunda-simulation-bpmn\src\main\java\org\camunda\bpm\simulation\EventsHandler.java
-C:\projects\camunda-simulation-bpmn\src\main\java\org\camunda\bpm\simulation\SimulationEvent.java
-C:\projects\camunda-simulation-bpmn\src\main\java\org\camunda\bpm\parallelamazon\AmazonDelivery.java
-C:\projects\camunda-simulation-bpmn\src\main\java\org\camunda\bpm\interfaces\Subject.java
-C:\projects\camunda-simulation-bpmn\src\main\java\org\camunda\bpm\simulation\EventsQueue.java
-C:\projects\camunda-simulation-bpmn\src\main\java\org\camunda\bpm\interfaces\Observer.java
-C:\projects\camunda-simulation-bpmn\src\main\java\org\camunda\bpm\simulation\SimulationClock.java
-C:\projects\camunda-simulation-bpmn\src\main\java\org\camunda\bpm\parallelamazon\ExampleExecutionListener.java
+C:\projects\enso\src\main\java\interfaces\Subject.java
+C:\projects\enso\src\main\java\simulation\SimulationClock.java
+C:\projects\enso\src\main\java\simulation\SimulationEvent.java
+C:\projects\enso\src\main\java\parallelamazon\ExampleExecutionListener.java
+C:\projects\enso\src\main\java\simulation\EventsHandler.java
+C:\projects\enso\src\main\java\simulation\EventsQueue.java
+C:\projects\enso\src\main\java\interfaces\Observer.java
+C:\projects\enso\src\main\java\enso\App.java

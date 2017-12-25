@@ -1,2 +1,2 @@
-# camunda-simulation-bpmn
+# Enso
 Master thesis project

@@ -37,6 +37,6 @@ public class App {
 		deploymentBuilder.deploy();
 
 		RuntimeService runtimeService = processEngine.getRuntimeService();
-		ProcessInstance test = runtimeService.startProcessInstanceByKey("amazon-delivery-test");
+		ProcessInstance amazonDelivery = runtimeService.startProcessInstanceByKey("amazon-delivery-test");
     }
 }

@@ -18,8 +18,7 @@ public class SimulationEvent implements Comparable<SimulationEvent> {
 		return description;
 	}
 	
-	public int compareTo(SimulationEvent se)
-	{
+	public int compareTo(SimulationEvent se) {
 		return 0;
 	}
 }

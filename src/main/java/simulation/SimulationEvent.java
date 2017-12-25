@@ -1,6 +1,6 @@
 package simulation;
 
-public class SimulationEvent {
+public class SimulationEvent implements Comparable<SimulationEvent> {
 
 	private String description;
 	private int time;
@@ -16,5 +16,10 @@ public class SimulationEvent {
 
 	public String getDescription() {
 		return description;
+	}
+	
+	public int compareTo(SimulationEvent se)
+	{
+		return 0;
 	}
 }

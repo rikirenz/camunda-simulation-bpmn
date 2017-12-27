@@ -2,19 +2,31 @@ package simulation;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Logger;
 
 
 public class EventsHandler implements Observer {
 
-	private EventsQueue eventsQueue = new EventsQueue();
+	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
+	private static EventsHandler instance;
+	
+	private EventsQueue eventsQueue = EventsQueue.getInstance();
 	private SimulationClock simClock = new SimulationClock();
 	
-	public EventsHandler() { 
+	public static EventsHandler getInstance() {
+	   if(instance == null) {
+		   instance = new EventsHandler();
+	   }
+	   return instance;
+	}	
+	
+	protected EventsHandler() { 
 		eventsQueue.addObserver(this);
 	}
 	
 	public void update(Observable o, Object arg) {
 		SimulationEvent currEvent = eventsQueue.remove();
-		simClock.addTime(currEvent.getTime());		
+		simClock.addTime(currEvent.getTime());
+		LOGGER.info("Simulation Event: " + currEvent.getDescription() + " has been processed");
 	}
 }

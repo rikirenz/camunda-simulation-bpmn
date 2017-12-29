@@ -19,14 +19,10 @@ public class ExampleExecutionListener implements ExecutionListener {
 	private EventsQueue eventsQueue = EventsQueue.getInstance();
 	
 	public void notify(DelegateExecution execution) throws Exception {
-
 		Random randomGenerator = new Random();
 		int randomTime = randomGenerator.nextInt(100);
 		LOGGER.info("This task requires " + randomTime + " seconds");
-		SimulationEvent simEvnt = new SimulationEvent("ciccio", randomTime);
+		SimulationEvent simEvnt = new SimulationEvent("standard process", randomTime);
 		eventsQueue.add(simEvnt);
-	
-		
-		
 	}
 }

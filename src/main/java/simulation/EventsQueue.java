@@ -21,7 +21,6 @@ public class EventsQueue extends Observable {
 	}
 	
 	public void add(SimulationEvent currentEvent) {		
-		LOGGER.info("Observers #: " + countObservers());
 		eventsQueue.add(currentEvent);
 		setChanged();
 		notifyObservers("An element has been added to the queue");

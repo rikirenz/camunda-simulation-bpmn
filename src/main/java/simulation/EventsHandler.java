@@ -27,6 +27,5 @@ public class EventsHandler implements Observer {
 	public void update(Observable o, Object arg) {
 		SimulationEvent currEvent = eventsQueue.remove();
 		simClock.addTime(currEvent.getTime());
-		LOGGER.info("Simulation Event: " + currEvent.getDescription() + " has been processed");
 	}
 }

@@ -17,24 +17,11 @@ import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 public class App {
     
 	public static void main( String[] args ) throws FileNotFoundException {	
-    	ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration();
-		ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration();
-		ProcessEngine processEngine = ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration()
-				  .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
-				  .setJdbcUrl("jdbc:h2:mem:my-own-db;DB_CLOSE_DELAY=1000")
-				  .setJobExecutorActivate(true)
-				  .buildProcessEngine();
-		
-		RepositoryService repositoryService = processEngine.getRepositoryService();
-		
-	    BpmnModelInstance instance = Bpmn.readModelFromFile(new File("C:\\projects\\enso\\src\\main\\java\\bpmprocesses\\parallel-amazon.bpmn"));
-	    DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name("test");
-		deploymentBuilder.addModelInstance("amazon-delivery-test.bpmn", instance);
-		Collection<String> names = deploymentBuilder.getResourceNames();		
-		System.out.println(Arrays.toString(names.toArray()));
-		deploymentBuilder.deploy();
-
-		RuntimeService runtimeService = processEngine.getRuntimeService();
-		ProcessInstance amazonDelivery = runtimeService.startProcessInstanceByKey("amazon-delivery-test");
-    }
+		EnsoApp app = new EnsoApp(
+				"C:\\projects\\camunda-simulation-bpmn\\src\\main\\java\\bpmprocesses\\parallel-amazon.bpmn", 
+				"amazon-delivery-test"
+		);
+		app.startApp();
+	}
+	
 }

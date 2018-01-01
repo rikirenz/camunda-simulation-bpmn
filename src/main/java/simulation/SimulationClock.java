@@ -19,5 +19,9 @@ public class SimulationClock {
 	
 	public int getCurrentTime() {
 		return simulationTime;
-	}	
+	}
+	
+	public void resetTime() {
+		simulationTime = 0;
+	}
 }

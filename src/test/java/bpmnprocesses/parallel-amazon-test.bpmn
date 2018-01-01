@@ -25,14 +25,14 @@
     <bpmn:sequenceFlow id="SequenceFlow_0nj7im6" sourceRef="parallelGatewayEnd" targetRef="end" />
     <bpmn:task id="shipOrder" name="Ship Order">
       <bpmn:extensionElements>
-        <camunda:executionListener class="executionlisteners.ExecutionListenerMaster" event="start" />
+        <camunda:executionListener class="executionlisteners.ExecutionListenerFixedTime" event="start" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1n01b5o</bpmn:incoming>
       <bpmn:outgoing>A</bpmn:outgoing>
     </bpmn:task>
     <bpmn:task id="receivePayment" name="receive payment">
       <bpmn:extensionElements>
-        <camunda:executionListener class="executionlisteners.ExecutionListenerMaster" event="start" />
+        <camunda:executionListener class="executionlisteners.ExecutionListenerFixedTime" event="start" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0nvyzvr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1aoq7vn</bpmn:outgoing>

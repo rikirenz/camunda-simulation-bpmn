@@ -1,19 +1,45 @@
 package integration;
 
+import enso.EnsoApp;
 import junit.framework.TestCase;
+import simulation.SimulationClock;
+import util.CleanUp;
 
 public class SimulationTimeTest extends TestCase{
-
-	public void testConcurrentEvents() {
-		// load a process with 2 concurrent branches
-		
-		// Create 2 events
-		assertTrue(true);
-	}
-	
 	
 	public void testLinearEvents() {
-		// here I should test the update method that is a delegate :)
-		assertTrue(true);
+		try {
+			EnsoApp app = new EnsoApp(
+					"C:\\projects\\camunda-simulation-bpmn\\src\\test\\java\\bpmnprocesses\\linear-amazon-test.bpmn", 
+					"amazon-delivery-test"
+			);
+			app.startApp();
+			
+			SimulationClock simClock =  new SimulationClock();
+			int currTime = simClock.getCurrentTime();
+			
+			assertEquals(20, currTime);
+		
+		} finally {
+			CleanUp.resetSimulationClock();
+		}
+	}
+	
+	public void testParallelEvents() {
+		try {
+			EnsoApp app = new EnsoApp(
+					"C:\\projects\\camunda-simulation-bpmn\\src\\test\\java\\bpmnprocesses\\parallel-amazon-test.bpmn", 
+					"amazon-delivery-test"
+			);
+			app.startApp();
+			
+			SimulationClock simClock =  new SimulationClock();
+			int currTime = simClock.getCurrentTime();
+			
+			assertEquals(10, currTime);
+		
+		} finally {
+			CleanUp.resetSimulationClock();
+		} 
 	}
 }

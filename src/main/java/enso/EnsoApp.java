@@ -43,13 +43,13 @@ public class EnsoApp {
 		ProcessEngine processEngine = processEngineInit();
 		RepositoryService repositoryService = processEngine.getRepositoryService();		
 	    BpmnModelInstance instance = loadBpmnProcess(processBpmnPath);
-	    DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name("amazon-delivery-test1");
-	    deploymentBuilder.addModelInstance("amazon-delivery-test.bpmn", instance);
+	    DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(processBpmnId);
+	    deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", instance);
 		deploymentBuilder.deploy();
 		
 		LOGGER.info("Numbers of name " + deploymentBuilder.getResourceNames().toString());
 		
 		RuntimeService runtimeService = processEngine.getRuntimeService();
-		ProcessInstance amazonDelivery = runtimeService.startProcessInstanceByKey("amazon-delivery-test");
+		ProcessInstance amazonDelivery = runtimeService.startProcessInstanceByKey(processBpmnId);
 	}	
 }

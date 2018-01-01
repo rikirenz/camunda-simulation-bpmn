@@ -9,14 +9,14 @@
     </bpmn:endEvent>
     <bpmn:task id="shipOrder" name="Ship Order">
       <bpmn:extensionElements>
-        <camunda:executionListener class="executionlisteners.ExecutionListenerMaster" event="start" />
+        <camunda:executionListener class="executionlisteners.ExecutionListenerFixedTime" event="start" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0vk69w6</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1qi9zw8</bpmn:outgoing>
     </bpmn:task>
     <bpmn:task id="receivePayment" name="receive payment">
       <bpmn:extensionElements>
-        <camunda:executionListener class="executionlisteners.ExecutionListenerMaster" event="start" />
+        <camunda:executionListener class="executionlisteners.ExecutionListenerFixedTime" event="start" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1qi9zw8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1q7zg8g</bpmn:outgoing>

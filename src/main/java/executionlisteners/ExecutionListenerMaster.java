@@ -1,4 +1,4 @@
-package parallelamazon;
+package executionlisteners;
 
 import java.util.Random;
 import java.util.logging.Logger;
@@ -10,13 +10,11 @@ import simulation.EventsHandler;
 import simulation.EventsQueue;
 import simulation.SimulationEvent;
 
-public class ExampleExecutionListener implements ExecutionListener {
+public class ExecutionListenerMaster implements ExecutionListener {
     
-	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
-
+	protected final static Logger LOGGER = Logger.getLogger("ENSO-APP");
+	protected EventsQueue eventsQueue = EventsQueue.getInstance();
 	private EventsHandler eventsHandler = EventsHandler.getInstance();
-	
-	private EventsQueue eventsQueue = EventsQueue.getInstance();
 	
 	public void notify(DelegateExecution execution) throws Exception {
 		Random randomGenerator = new Random();

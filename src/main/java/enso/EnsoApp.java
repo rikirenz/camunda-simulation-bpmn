@@ -2,6 +2,7 @@ package enso;
 
 import java.awt.List;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -16,11 +17,11 @@ import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 
 public class EnsoApp {
 	
-	private String processBpmnPath;
+	private Path processBpmnPath;
 	private String processBpmnId;
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 
-	public EnsoApp(String processBpmnPath, String processBpmnId) {
+	public EnsoApp(Path processBpmnPath, String processBpmnId) {
 		this.processBpmnPath = processBpmnPath;
 		this.processBpmnId = processBpmnId;
 	}
@@ -35,8 +36,8 @@ public class EnsoApp {
 				  .buildProcessEngine();
 	}
 	
-	private BpmnModelInstance loadBpmnProcess(String filePath) {		
-		return Bpmn.readModelFromFile(new File(filePath));
+	private BpmnModelInstance loadBpmnProcess(Path filePath) {		
+		return Bpmn.readModelFromFile(new File(filePath.toString()));
 	}
 
 	public void startApp() {

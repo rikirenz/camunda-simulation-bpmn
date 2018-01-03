@@ -18,9 +18,9 @@ public class EventsHandler implements Observer {
 		   instance = new EventsHandler();
 	   }
 	   return instance;
-	}	
+	}
 	
-	protected EventsHandler() { 
+	protected EventsHandler() {
 		eventsQueue.addObserver(this);
 	}
 	

@@ -36,7 +36,7 @@ public class EnsoApp {
 				  .buildProcessEngine();
 	}
 	
-	private BpmnModelInstance loadBpmnProcess(Path filePath) {		
+	private BpmnModelInstance loadBpmnProcess(Path filePath) {
 		return Bpmn.readModelFromFile(new File(filePath.toString()));
 	}
 
@@ -52,5 +52,8 @@ public class EnsoApp {
 		
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		ProcessInstance amazonDelivery = runtimeService.startProcessInstanceByKey(processBpmnId);
+		
+	
+		
 	}	
 }

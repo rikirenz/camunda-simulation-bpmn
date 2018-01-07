@@ -10,10 +10,14 @@ public class App {
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 
 	public static void main( String[] args ) throws FileNotFoundException {
+		// init app
 		EnsoApp app = new EnsoApp(
 			Paths.get("src","main","java","bpmprocesses", System.getProperty("bpmn")),
 			"amazon-delivery-test"
 		);
+		// start app
 		app.startApp();
+		// kill app
+		System.exit(0);
 	}
 }

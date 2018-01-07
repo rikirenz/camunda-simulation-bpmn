@@ -1,5 +1,6 @@
 package executionlisteners;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -14,13 +15,15 @@ public class ExecutionListenerMaster implements ExecutionListener {
     
 	protected final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	protected EventsQueue eventsQueue = EventsQueue.getInstance();
-	private EventsHandler eventsHandler = EventsHandler.getInstance();
+	
+	public static ArrayList<String> waitingTasks = new ArrayList<String>();
 	
 	public void notify(DelegateExecution execution) throws Exception {
+		
 		Random randomGenerator = new Random();
 		int randomTime = randomGenerator.nextInt(100);
-		LOGGER.info("This task requires " + randomTime + " seconds");
-		SimulationEvent simEvnt = new SimulationEvent("standard process", randomTime);
+		SimulationEvent simEvnt = new SimulationEvent(execution.getCurrentActivityId(), randomTime);		
 		eventsQueue.add(simEvnt);
+		LOGGER.info("Current Task: " + simEvnt.toString());
 	}
 }

@@ -10,15 +10,16 @@ public class SimulationClock {
 
 	public SimulationClock() {}
 	
-	public void addTime(int time) {
-		synchronized (MUTEXTIME) {
-			simulationTime += time;
-		}
-		LOGGER.info("Simulation time: " + simulationTime);
-	}
 	
 	public int getCurrentTime() {
 		return simulationTime;
+	}
+	
+	public void setCurrentTime(int simulationTime) {
+		synchronized (MUTEXTIME) {
+			this.simulationTime = simulationTime;
+		}
+		LOGGER.info("Simulation time: " + this.simulationTime);
 	}
 	
 	public void resetTime() {

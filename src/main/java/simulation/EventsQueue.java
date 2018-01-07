@@ -5,7 +5,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.logging.Logger;
 
 
-public class EventsQueue extends Observable {
+public class EventsQueue {
 
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	private static PriorityBlockingQueue<SimulationEvent> eventsQueue = new PriorityBlockingQueue<SimulationEvent>();
@@ -22,11 +22,18 @@ public class EventsQueue extends Observable {
 	
 	public void add(SimulationEvent currentEvent) {		
 		eventsQueue.add(currentEvent);
-		setChanged();
-		notifyObservers("An element has been added to the queue");
 	}
 
 	public SimulationEvent remove() {		
 		return eventsQueue.remove();
 	}
+	
+	public boolean isEmpty() {
+		return eventsQueue.isEmpty();
+	}
+	
+	public int size() {
+		return eventsQueue.size();
+	}
+	
 }

@@ -1,24 +1,35 @@
 package enso;
 
-import java.awt.List;
 import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.logging.Logger;
+import java.util.List;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.repository.DeploymentBuilder;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.runtime.ProcessInstanceModificationBuilder;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+
+
+import org.camunda.bpm.engine.task.Task;
+import org.camunda.bpm.engine.task.TaskQuery;
+
+import simulation.EventsHandler;
+import simulation.EventsQueue;
+import simulation.SimulationClock;
 
 public class EnsoApp {
 	
 	private Path processBpmnPath;
 	private String processBpmnId;
+	private EventsQueue eventsQueue = EventsQueue.getInstance();
+	private EventsHandler eventsHandler = EventsHandler.getInstance();
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 
 	public EnsoApp(Path processBpmnPath, String processBpmnId) {
@@ -47,13 +58,11 @@ public class EnsoApp {
 	    DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(processBpmnId);
 	    deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", instance);
 		deploymentBuilder.deploy();
-		
-		LOGGER.info("Numbers of name " + deploymentBuilder.getResourceNames().toString());
-		
 		RuntimeService runtimeService = processEngine.getRuntimeService();
-		ProcessInstance amazonDelivery = runtimeService.startProcessInstanceByKey(processBpmnId);
+		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processBpmnId);
 		
-	
+		// move on with the simulation.
+		eventsHandler.update(runtimeService, processInstance.getId());
 		
 	}	
 }

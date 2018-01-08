@@ -11,7 +11,7 @@ public class EventsQueueTest extends TestCase{
 			eq.add(new SimulationEvent("", 0));
 			SimulationEvent se = eq.remove();
 			
-			assertEquals("", se.getTaskId());
+			assertEquals("", se.getName());
 			assertEquals(0, se.getTime());			
 		} finally {
 			CleanUp.resetSimulationClock();

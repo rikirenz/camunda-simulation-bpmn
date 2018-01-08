@@ -22,7 +22,7 @@ public class ExecutionListenerMaster implements ExecutionListener {
 		
 		Random randomGenerator = new Random();
 		int randomTime = randomGenerator.nextInt(100);
-		SimulationEvent simEvnt = new SimulationEvent(execution.getCurrentActivityId(), randomTime);		
+		SimulationEvent simEvnt = new SimulationEvent(execution.getCurrentActivityName(), randomTime);		
 		eventsQueue.add(simEvnt);
 		LOGGER.info("Current Task: " + simEvnt.toString());
 	}

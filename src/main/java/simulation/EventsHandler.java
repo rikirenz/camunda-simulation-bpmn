@@ -1,11 +1,10 @@
 package simulation;
 
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Logger;
 
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.runtime.ProcessInstanceModificationBuilder;
+import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.task.Task;
+
 
 
 public class EventsHandler {
@@ -25,17 +24,15 @@ public class EventsHandler {
 	}
 
 
-	public void update(RuntimeService runtimeService, String processId) {
+	public void update(TaskService taskService) {
 		while (!eventsQueue.isEmpty()) {
 			SimulationEvent currEvent = eventsQueue.remove();
 			// if end time more than current time skip
 			if (currEvent.getEndTime() > simClock.getCurrentTime()) simClock.setCurrentTime(currEvent.getEndTime());
-			// move on with the simulation.
-
-			runtimeService.createProcessInstanceModification(processId)
-				.startAfterActivity(currEvent.getTaskId())
-				.execute();
-
+			
+			// move on with the simulation.			
+			Task currTask = taskService.createTaskQuery().taskName(currEvent.getName()).singleResult();
+			taskService.complete(currTask.getId());
 		}
 	}
 }

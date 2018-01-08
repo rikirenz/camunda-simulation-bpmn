@@ -12,17 +12,12 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.repository.DeploymentBuilder;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.runtime.ProcessInstanceModificationBuilder;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 
 
-import org.camunda.bpm.engine.task.Task;
-import org.camunda.bpm.engine.task.TaskQuery;
-
 import simulation.EventsHandler;
 import simulation.EventsQueue;
-import simulation.SimulationClock;
 
 public class EnsoApp {
 	
@@ -59,10 +54,11 @@ public class EnsoApp {
 	    deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", instance);
 		deploymentBuilder.deploy();
 		RuntimeService runtimeService = processEngine.getRuntimeService();
+		TaskService taskService = processEngine.getTaskService();
 		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processBpmnId);
 		
 		// move on with the simulation.
-		eventsHandler.update(runtimeService, processInstance.getId());
+		eventsHandler.update(taskService);
 		
 	}	
 }

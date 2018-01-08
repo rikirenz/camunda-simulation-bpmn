@@ -18,7 +18,7 @@ public class SimulationEventTest extends TestCase{
 	public void testGetDescription() {
 		try {
 			SimulationEvent se = new SimulationEvent("simulation event test", 0);
-			String simulationEventDescritpion = se.getTaskId();
+			String simulationEventDescritpion = se.getName();
 			assertEquals("simulation event test", simulationEventDescritpion);
 		} finally {
 			CleanUp.resetSimulationClock();	

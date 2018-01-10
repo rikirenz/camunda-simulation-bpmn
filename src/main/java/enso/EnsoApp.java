@@ -12,20 +12,23 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.repository.DeploymentBuilder;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 
 
 import simulation.EventsHandler;
 import simulation.EventsQueue;
+import simulation.SimulationClock;
+import simulation.SimulationEvent;
 
 public class EnsoApp {
 	
 	private Path processBpmnPath;
 	private String processBpmnId;
 	private EventsQueue eventsQueue = EventsQueue.getInstance();
-	private EventsHandler eventsHandler = EventsHandler.getInstance();
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
+	private SimulationClock simClock = new SimulationClock();
 
 	public EnsoApp(Path processBpmnPath, String processBpmnId) {
 		this.processBpmnPath = processBpmnPath;
@@ -55,10 +58,19 @@ public class EnsoApp {
 		deploymentBuilder.deploy();
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		TaskService taskService = processEngine.getTaskService();
-		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processBpmnId);
+		runtimeService.startProcessInstanceByKey(processBpmnId);
 		
 		// move on with the simulation.
-		eventsHandler.update(taskService);
+		while (!eventsQueue.isEmpty()) {
+			SimulationEvent currEvent = eventsQueue.remove();
+			// if end time more than current time skip
+			if (currEvent.getEndTime() > simClock.getCurrentTime()) simClock.setCurrentTime(currEvent.getEndTime());
+				
+			// move on with the simulation.			
+			Task currTask = taskService.createTaskQuery().taskName(currEvent.getName()).singleResult();
+			taskService.complete(currTask.getId());
+		}
+		
 		
 	}	
 }

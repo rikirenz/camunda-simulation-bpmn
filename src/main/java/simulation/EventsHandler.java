@@ -2,19 +2,12 @@ package simulation;
 
 import java.util.logging.Logger;
 
-import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.task.Task;
-
-
-
 public class EventsHandler {
 
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	private static EventsHandler instance;
 	
-	private EventsQueue eventsQueue = EventsQueue.getInstance();
-	private SimulationClock simClock = new SimulationClock();
-	
+	private EventsQueue eventsQueue = EventsQueue.getInstance();	
 	
 	public static EventsHandler getInstance() {
 	   if(instance == null) {
@@ -23,16 +16,10 @@ public class EventsHandler {
 	   return instance;
 	}
 
-
-	public void update(TaskService taskService) {
-		while (!eventsQueue.isEmpty()) {
-			SimulationEvent currEvent = eventsQueue.remove();
-			// if end time more than current time skip
-			if (currEvent.getEndTime() > simClock.getCurrentTime()) simClock.setCurrentTime(currEvent.getEndTime());
-			
-			// move on with the simulation.			
-			Task currTask = taskService.createTaskQuery().taskName(currEvent.getName()).singleResult();
-			taskService.complete(currTask.getId());
-		}
+	public void addEvent(String taskName, int time) {
+		SimulationEvent simEvnt = new SimulationEvent(taskName, time);
+		eventsQueue.add(simEvnt);
+		LOGGER.info("Current Task: " + simEvnt.toString());
 	}
+
 }

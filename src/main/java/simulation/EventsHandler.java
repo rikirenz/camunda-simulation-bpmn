@@ -16,8 +16,14 @@ public class EventsHandler {
 	   return instance;
 	}
 
-	public void addEvent(String taskName, int time) {
-		SimulationEvent simEvnt = new SimulationEvent(taskName, time);
+	public void addTaskEvent(String taskName, int time) {
+		SimulationEvent simEvnt = new SimulationTaskEvent(taskName, time);
+		eventsQueue.add(simEvnt);
+		LOGGER.info("Current Task: " + simEvnt.toString());
+	}
+
+	public void addStartEvent(String taskName, int startTime) {
+		SimulationEvent simEvnt = new SimulationStartEvent(taskName, startTime);
 		eventsQueue.add(simEvnt);
 		LOGGER.info("Current Task: " + simEvnt.toString());
 	}

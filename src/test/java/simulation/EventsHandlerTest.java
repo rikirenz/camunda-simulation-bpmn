@@ -1,22 +1,21 @@
 package simulation;
 
 import junit.framework.TestCase;
-import util.CleanUp;
+import testutils.CleanUp;
 
 public class EventsHandlerTest extends TestCase{
 
-	public void testUpdate() {
+	public void testAddEvent() {
 		try {
-			// put an event in the queue
-			SimulationEvent simEvnt = new SimulationEvent("test process", 10);
-			EventsQueue eventsQueue = EventsQueue.getInstance();
 			SimulationClock simClock = new SimulationClock();
+			EventsHandler eventsHandler = EventsHandler.getInstance();
+			eventsHandler.addTaskEvent("test process", 10);
+			
+			EventsQueue eventsQueue = EventsQueue.getInstance();
 
-			// put an event in the queue
-			eventsQueue.add(simEvnt);
-
+			SimulationTaskEvent currEvent = (SimulationTaskEvent) eventsQueue.remove();
 			// test current time
-			assertEquals(10, simClock.getCurrentTime());
+			assertEquals(10, currEvent.getTime());
 		} finally {
 			CleanUp.resetSimulationClock();
 		}

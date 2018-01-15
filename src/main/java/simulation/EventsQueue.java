@@ -4,11 +4,10 @@ import java.util.Observable;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.logging.Logger;
 
-
 public class EventsQueue {
 
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
-	private static PriorityBlockingQueue<SimulationEvent> eventsQueue = new PriorityBlockingQueue<SimulationEvent>();
+	private static PriorityBlockingQueue<SimulationEvent> eventsQueue = new PriorityBlockingQueue<SimulationEvent>(1, new SimulationEventsComparator());
 	private static EventsQueue instance;
 	
 	protected EventsQueue() { }

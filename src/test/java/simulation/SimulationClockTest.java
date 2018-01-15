@@ -1,9 +1,9 @@
 package simulation;
 
 import junit.framework.TestCase;
-import util.CleanUp;
+import testutils.CleanUp;
 
-public class SimulationClockTest  extends TestCase {
+public class SimulationClockTest extends TestCase {
 
 	public void testAddAndGetTime() {
 		try {

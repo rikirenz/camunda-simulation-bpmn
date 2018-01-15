@@ -1,9 +1,12 @@
 package enso;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 import java.util.List;
+import java.util.Properties;
+import java.util.Timer;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
@@ -19,20 +22,30 @@ import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 
 import simulation.EventsHandler;
 import simulation.EventsQueue;
+import simulation.ProcessScheduler;
 import simulation.SimulationClock;
 import simulation.SimulationEvent;
+import simulation.SimulationStartEvent;
+import simulation.SimulationTaskEvent;
 
 public class EnsoApp {
 	
 	private Path processBpmnPath;
 	private String processBpmnId;
+	
+	private int instancesNumber;
+	private int delayBetweenInstances;
+	
+	
 	private EventsQueue eventsQueue = EventsQueue.getInstance();
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	private SimulationClock simClock = new SimulationClock();
 
-	public EnsoApp(Path processBpmnPath, String processBpmnId) {
+	public EnsoApp(Path processBpmnPath, String processBpmnId, int instancesNumber, int delayBetweenInstances) {
 		this.processBpmnPath = processBpmnPath;
 		this.processBpmnId = processBpmnId;
+		this.instancesNumber = instancesNumber;
+		this.delayBetweenInstances = delayBetweenInstances;
 	}
 	
 	private ProcessEngine processEngineInit() {
@@ -56,21 +69,34 @@ public class EnsoApp {
 	    DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(processBpmnId);
 	    deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", instance);
 		deploymentBuilder.deploy();
+		
+		
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		TaskService taskService = processEngine.getTaskService();
-		runtimeService.startProcessInstanceByKey(processBpmnId);
 		
-		// move on with the simulation.
-		while (!eventsQueue.isEmpty()) {
-			SimulationEvent currEvent = eventsQueue.remove();
-			// if end time more than current time skip
-			if (currEvent.getEndTime() > simClock.getCurrentTime()) simClock.setCurrentTime(currEvent.getEndTime());
-				
-			// move on with the simulation.			
-			Task currTask = taskService.createTaskQuery().taskName(currEvent.getName()).singleResult();
-			taskService.complete(currTask.getId());
+		int startTime = delayBetweenInstances;
+		for (int i = 0; i < instancesNumber; i++) {
+			SimulationEvent startProcessEvent = new SimulationStartEvent("start event", startTime);
+			eventsQueue.add(startProcessEvent);
+			startTime += delayBetweenInstances;
 		}
 		
-		
+		while (!eventsQueue.isEmpty()) {
+			SimulationEvent currEvent = eventsQueue.remove();
+			
+			if (currEvent.getClass().getSimpleName().equals("SimulationTaskEvent")) {
+				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
+				if (currTaskEvent.getEndTime() > simClock.getCurrentTime()) simClock.setCurrentTime(currTaskEvent.getEndTime());
+
+				// move on with the simulation	
+				List<Task> currTasks = taskService.createTaskQuery().taskName(currTaskEvent.getName()).list();
+				for(Task currTask : currTasks){				
+					taskService.complete(currTask.getId());
+				}
+			} else {
+				LOGGER.info("===================== The process Started =====================");
+		    	runtimeService.startProcessInstanceByKey(processBpmnId);				
+			}
+		}
 	}	
 }

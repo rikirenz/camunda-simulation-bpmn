@@ -84,7 +84,7 @@ public class EnsoApp {
 		while (!eventsQueue.isEmpty()) {
 			SimulationEvent currEvent = eventsQueue.remove();
 			
-			if (currEvent.getClass().getSimpleName().equals("SimulationTaskEvent")) {
+			if (currEvent instanceof SimulationTaskEvent) {
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
 				if (currTaskEvent.getEndTime() > simClock.getCurrentTime()) simClock.setCurrentTime(currTaskEvent.getEndTime());
 

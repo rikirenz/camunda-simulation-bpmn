@@ -16,7 +16,7 @@ public class ExecutionListenerFixedTime extends ExecutionListenerMaster{
 	public void notify(DelegateExecution execution) throws Exception {
 		// @todo get the time from the variables of the bpmn
 		int fixedTime = 10;
-		eventsHandler.addTaskEvent(execution.getCurrentActivityName(), fixedTime);
+		eventsHandler.addTaskEvent(execution.getCurrentActivityName(), fixedTime, execution.getProcessInstanceId());
 
 	}
 }

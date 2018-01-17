@@ -88,8 +88,8 @@ public class EnsoApp {
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
 				if (currTaskEvent.getEndTime() > simClock.getCurrentTime()) simClock.setCurrentTime(currTaskEvent.getEndTime());
 
-				// move on with the simulation	
-				List<Task> currTasks = taskService.createTaskQuery().taskName(currTaskEvent.getName()).list();
+				// move on with the simulation
+				List<Task> currTasks = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).taskName(currTaskEvent.getName()).list();
 				for(Task currTask : currTasks){				
 					taskService.complete(currTask.getId());
 				}

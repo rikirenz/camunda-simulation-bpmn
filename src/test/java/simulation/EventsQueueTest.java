@@ -8,7 +8,7 @@ public class EventsQueueTest extends TestCase{
 	public void testAddRemove() {
 		try {
 			EventsQueue eq = new EventsQueue();		
-			eq.add(new SimulationTaskEvent("", 0));
+			eq.add(new SimulationTaskEvent("", 0, "processId"));
 			SimulationTaskEvent se = (SimulationTaskEvent) eq.remove();
 			
 			assertEquals("", se.getName());
@@ -24,9 +24,9 @@ public class EventsQueueTest extends TestCase{
 			eq.add(new SimulationStartEvent("test1", 0));
 			eq.add(new SimulationStartEvent("test2", 10));
 			eq.add(new SimulationStartEvent("test3", 20));
-			eq.add(new SimulationTaskEvent("test4", 15));
-			eq.add(new SimulationTaskEvent("test5", 22));
-			eq.add(new SimulationTaskEvent("test6", 25));
+			eq.add(new SimulationTaskEvent("test4", 15, "processId"));
+			eq.add(new SimulationTaskEvent("test5", 22, "processId"));
+			eq.add(new SimulationTaskEvent("test6", 25, "processId"));
 			
 			SimulationEvent se = (SimulationEvent) eq.remove();			
 			assertEquals("test1", se.getName());

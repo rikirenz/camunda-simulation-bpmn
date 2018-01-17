@@ -9,7 +9,7 @@ public class EventsHandlerTest extends TestCase{
 		try {
 			SimulationClock simClock = new SimulationClock();
 			EventsHandler eventsHandler = EventsHandler.getInstance();
-			eventsHandler.addTaskEvent("test process", 10);
+			eventsHandler.addTaskEvent("test process", 10, "processId");
 			
 			EventsQueue eventsQueue = EventsQueue.getInstance();
 

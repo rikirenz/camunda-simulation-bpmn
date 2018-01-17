@@ -55,7 +55,7 @@ public class SimulationTimeTest extends TestCase{
 		}
 	}
 	
-	public void testMultipleEvents() {
+	public void testMultipleProcess() {
 		try {
 			EnsoApp app = new EnsoApp(
 					Paths.get(
@@ -76,4 +76,28 @@ public class SimulationTimeTest extends TestCase{
 			CleanUp.resetSimulationClock();
 		}
 	}
+	
+	public void testMultipleEvents() {
+		try {
+			EnsoApp app = new EnsoApp(
+					Paths.get(
+						"src","test","java","bpmnprocesses","parallel-amazon-fixed-different-time-test.bpmn"
+					),
+					"amazon-delivery-test",
+					3,
+					0
+			);
+			app.startApp();
+			
+			SimulationClock simClock =  new SimulationClock();
+			int currTime = simClock.getCurrentTime();
+
+			assertEquals(11, currTime);
+
+		} finally {
+			CleanUp.resetSimulationClock();
+		}
+	}
+	
+	
 }

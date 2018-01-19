@@ -19,7 +19,6 @@ public class SimulationClock {
 		synchronized (MUTEXTIME) {
 			this.simulationTime = simulationTime;
 		}
-		LOGGER.info("Simulation time: " + this.simulationTime);
 	}
 
 	public void resetTime() {

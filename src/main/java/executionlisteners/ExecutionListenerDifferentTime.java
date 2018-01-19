@@ -17,7 +17,7 @@ public class ExecutionListenerDifferentTime extends ExecutionListenerMaster{
 	public void notify(DelegateExecution execution) throws Exception {
 		// @todo get the time from the variables of the bpmn
 		
-		int taskTime = (changeTime) ? 11 : 9;
+		int taskTime = (changeTime) ? 13 : 7;
 		changeTime = !changeTime;
 		
 		eventsHandler.addTaskEvent(execution.getCurrentActivityName(), taskTime, execution.getProcessInstanceId());

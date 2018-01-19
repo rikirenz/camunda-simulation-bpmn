@@ -77,11 +77,11 @@ public class SimulationTimeTest extends TestCase{
 		}
 	}
 	
-	public void testMultipleEvents() {
+	public void testMultipleWithDifferentTimes() {
 		try {
 			EnsoApp app = new EnsoApp(
 					Paths.get(
-						"src","test","java","bpmnprocesses","parallel-amazon-fixed-different-time-test.bpmn"
+						"src","test","java","bpmnprocesses","linear-amazon-fixed-different-time-test.bpmn"
 					),
 					"amazon-delivery-test",
 					3,
@@ -92,7 +92,7 @@ public class SimulationTimeTest extends TestCase{
 			SimulationClock simClock =  new SimulationClock();
 			int currTime = simClock.getCurrentTime();
 
-			assertEquals(11, currTime);
+			assertEquals(26, currTime);
 
 		} finally {
 			CleanUp.resetSimulationClock();

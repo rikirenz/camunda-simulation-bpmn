@@ -87,15 +87,12 @@ public class EnsoApp {
 			if (currEvent instanceof SimulationTaskEvent) {
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
 				if (currTaskEvent.getEndTime() > simClock.getCurrentTime()) simClock.setCurrentTime(currTaskEvent.getEndTime());
-
 				// move on with the simulation
-				List<Task> currTasks = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).taskName(currTaskEvent.getName()).list();
-				for(Task currTask : currTasks){				
-					taskService.complete(currTask.getId());
-				}
+				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).taskName(currTaskEvent.getName()).singleResult();
+				taskService.complete(currTask.getId());
+				LOGGER.info(currTaskEvent.toString());
 			} else {
-				LOGGER.info("===================== The process Started =====================");
-		    	runtimeService.startProcessInstanceByKey(processBpmnId);				
+		    	runtimeService.startProcessInstanceByKey(processBpmnId);
 			}
 		}
 	}	

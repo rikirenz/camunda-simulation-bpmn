@@ -19,7 +19,7 @@ public class ProcessScheduler extends TimerTask{
 	}
 	
     public void run() {
-    	LOGGER.info("==========================Running new Instance ================================== number:" + instancesNumber);
+    	LOGGER.info("========================== Running new Instance ================================== number:" + instancesNumber);
     	runtimeService.startProcessInstanceByKey(processBpmnId);
     	instancesNumber--;
         if (instancesNumber == 0) {

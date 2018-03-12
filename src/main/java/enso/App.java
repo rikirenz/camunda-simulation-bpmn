@@ -13,7 +13,7 @@ public class App {
 		// init app
 		EnsoApp app = new EnsoApp(
 			Paths.get("src","main","java","bpmprocesses", System.getProperty("bpmn")),
-			"amazon-delivery-test",
+			System.getProperty("processId"),
 			Integer.valueOf(System.getProperty("instancesNumber")),
 			Integer.valueOf(System.getProperty("delayBetweenInstances"))
 			

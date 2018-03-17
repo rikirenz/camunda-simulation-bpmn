@@ -11,11 +11,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
 
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -54,6 +49,7 @@ import simulation.SimulationClock;
 import simulation.SimulationEvent;
 import simulation.SimulationStartEvent;
 import simulation.SimulationTaskEvent;
+import util.BpsimLoader;
 
 public class EnsoApp {
 	
@@ -91,65 +87,12 @@ public class EnsoApp {
 	}
 
 	public void startApp() {
-		loadBpsimAnnotations();
+		// load the bpsim data in the xml
+		bpsimData = new BpsimLoader(processBpmnPath).loadBpsimAnnotations();
 		startSimulation();
 	}
 	
 	
-	private void loadBpsimAnnotations() {
-		try {
-			JAXBContext jc = JAXBContext.newInstance(BPSimData.class);
-	        Unmarshaller unmarshaller = jc.createUnmarshaller();
-	        
-	        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder builder = factory.newDocumentBuilder();
-	        Document doc = builder.parse(new File(this.processBpmnPath.toString()));
-	        XPathFactory xPathfactory = XPathFactory.newInstance();
-	        XPath xpath = xPathfactory.newXPath();
-	        XPathExpression expr = xpath.compile("//*[local-name()='BPSimData']");	        
-	        NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-	        if (nl.getLength() < 1) return;
-
-	        
-	        ((Element) nl.item(0)).setAttribute("xmlns:bpsim","http://www.bpsim.org/schemas/2.0");
-			String fileString = toString(nl.item(0));
-			InputSource fileSource = new InputSource(new StringReader(fileString)); 
-			bpsimData = (BPSimData) unmarshaller.unmarshal(fileSource);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	public static String toString(Node node) {
-	    if (node == null) {
-	        throw new IllegalArgumentException("node is null.");
-	    }
-
-	    try {
-	        // Remove unwanted whitespaces
-	        node.normalize();
-	        XPath xpath = XPathFactory.newInstance().newXPath();
-	        XPathExpression expr = xpath.compile("//text()[normalize-space()='']");
-	        NodeList nodeList = (NodeList)expr.evaluate(node, XPathConstants.NODESET);
-
-	        for (int i = 0; i < nodeList.getLength(); ++i) {
-	            Node nd = nodeList.item(i);
-	            nd.getParentNode().removeChild(nd);
-	        }
-
-	        // Create and setup transformer
-	        Transformer transformer =  TransformerFactory.newInstance().newTransformer();
-	        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-	        StringWriter writer = new StringWriter();
-	        transformer.transform(new DOMSource(node), new StreamResult(writer));
-	        return writer.toString();
-	    } catch (TransformerException e) {
-	        throw new RuntimeException(e);
-	    } catch (XPathExpressionException e) {
-	        throw new RuntimeException(e);
-	    }
-	}
 	
 	private void startSimulation() {
 		ProcessEngine processEngine = processEngineInit();

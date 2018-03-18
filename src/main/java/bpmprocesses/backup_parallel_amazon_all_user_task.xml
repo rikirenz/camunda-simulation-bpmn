@@ -1,62 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<semantic:definitions xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" id="_1364754643385" name="Definitions_1" targetNamespace="http://www.trisotech.com/definitions/_1364754643385" exporter="Camunda Modeler" exporterVersion="1.11.3">
-  <semantic:process id="amazon-delivery-test" isExecutable="true">
-    <semantic:extensionElements>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
+  <bpmn:process id="amazon-delivery-test" isExecutable="true">
+    <bpmn:extensionElements>
       <camunda:executionListener expression="${execution.setVariable(&#39;x&#39;, &#39;1&#39;)}" event="start" />
-    </semantic:extensionElements>
-    <semantic:startEvent id="StartEvent_16xee7k">
-      <semantic:outgoing>SequenceFlow_1r0xh80</semantic:outgoing>
-    </semantic:startEvent>
-    <semantic:userTask id="receivePayment" name="receive payment">
-      <semantic:extensionElements>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_16xee7k">
+      <bpmn:outgoing>SequenceFlow_1r0xh80</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="receivePayment" name="receive payment">
+      <bpmn:extensionElements>
         <camunda:executionListener class="executionlisteners.ExecutionListenerMaster" event="start" />
-      </semantic:extensionElements>
-      <semantic:incoming>paymentFlow</semantic:incoming>
-      <semantic:outgoing>receivePaymentToConfirmPaymentFlow</semantic:outgoing>
-    </semantic:userTask>
-    <semantic:userTask id="confirmPayment" name="confirm payment">
-      <semantic:extensionElements>
+      </bpmn:extensionElements>
+      <bpmn:incoming>paymentFlow</bpmn:incoming>
+      <bpmn:outgoing>receivePaymentToConfirmPaymentFlow</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="confirmPayment" name="confirm payment">
+      <bpmn:extensionElements>
         <camunda:executionListener class="executionlisteners.ExecutionListenerMaster" event="start" />
-      </semantic:extensionElements>
-      <semantic:incoming>receivePaymentToConfirmPaymentFlow</semantic:incoming>
-      <semantic:outgoing>ConfirmPaymentToEndGatewayFlow</semantic:outgoing>
-    </semantic:userTask>
-    <semantic:parallelGateway id="ParallelGatewayEnd">
-      <semantic:incoming>ConfirmPaymentToEndGatewayFlow</semantic:incoming>
-      <semantic:incoming>ShipToEndGatewayFlow</semantic:incoming>
-      <semantic:outgoing>SequenceFlow_0nctq0l</semantic:outgoing>
-    </semantic:parallelGateway>
-    <semantic:endEvent id="end">
-      <semantic:extensionElements>
+      </bpmn:extensionElements>
+      <bpmn:incoming>receivePaymentToConfirmPaymentFlow</bpmn:incoming>
+      <bpmn:outgoing>ConfirmPaymentToEndGatewayFlow</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:parallelGateway id="ParallelGatewayEnd">
+      <bpmn:incoming>ConfirmPaymentToEndGatewayFlow</bpmn:incoming>
+      <bpmn:incoming>ShipToEndGatewayFlow</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0nctq0l</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:endEvent id="end">
+      <bpmn:extensionElements>
         <camunda:executionListener class="executionlisteners.TerminateEventListener" event="start" />
-      </semantic:extensionElements>
-      <semantic:incoming>SequenceFlow_0nctq0l</semantic:incoming>
-    </semantic:endEvent>
-    <semantic:userTask id="shipOrder" name="Ship Order">
-      <semantic:extensionElements>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0nctq0l</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="shipOrder" name="Ship Order">
+      <bpmn:extensionElements>
         <camunda:executionListener class="executionlisteners.ExecutionListenerMaster" event="start" />
-      </semantic:extensionElements>
-      <semantic:incoming>shipFlow</semantic:incoming>
-      <semantic:outgoing>ShipToEndGatewayFlow</semantic:outgoing>
-    </semantic:userTask>
-    <semantic:sequenceFlow id="SequenceFlow_1r0xh80" sourceRef="StartEvent_16xee7k" targetRef="ParallelGatewayStart" />
-    <semantic:sequenceFlow id="shipFlow" sourceRef="ParallelGatewayStart" targetRef="shipOrder">
-      <semantic:conditionExpression xsi:type="semantic:tFormalExpression">${x == 1}</semantic:conditionExpression>
-    </semantic:sequenceFlow>
-    <semantic:sequenceFlow id="paymentFlow" sourceRef="ParallelGatewayStart" targetRef="receivePayment" />
-    <semantic:sequenceFlow id="receivePaymentToConfirmPaymentFlow" sourceRef="receivePayment" targetRef="confirmPayment" />
-    <semantic:sequenceFlow id="ConfirmPaymentToEndGatewayFlow" sourceRef="confirmPayment" targetRef="ParallelGatewayEnd" />
-    <semantic:sequenceFlow id="ShipToEndGatewayFlow" sourceRef="shipOrder" targetRef="ParallelGatewayEnd" />
-    <semantic:sequenceFlow id="SequenceFlow_0nctq0l" sourceRef="ParallelGatewayEnd" targetRef="end" />
-    <semantic:exclusiveGateway id="ParallelGatewayStart" default="paymentFlow">
-      <semantic:extensionElements>
-        <camunda:executionListener class="executionlisteners.ExecutionListenerGateway" event="start" />
-      </semantic:extensionElements>
-      <semantic:incoming>SequenceFlow_1r0xh80</semantic:incoming>
-      <semantic:outgoing>shipFlow</semantic:outgoing>
-      <semantic:outgoing>paymentFlow</semantic:outgoing>
-    </semantic:exclusiveGateway>
-  </semantic:process>
+      </bpmn:extensionElements>
+      <bpmn:incoming>shipFlow</bpmn:incoming>
+      <bpmn:outgoing>ShipToEndGatewayFlow</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1r0xh80" sourceRef="StartEvent_16xee7k" targetRef="ParallelGatewayStart" />
+    <bpmn:sequenceFlow id="shipFlow" sourceRef="ParallelGatewayStart" targetRef="shipOrder">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${x == 1}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="paymentFlow" sourceRef="ParallelGatewayStart" targetRef="receivePayment" />
+    <bpmn:sequenceFlow id="receivePaymentToConfirmPaymentFlow" sourceRef="receivePayment" targetRef="confirmPayment" />
+    <bpmn:sequenceFlow id="ConfirmPaymentToEndGatewayFlow" sourceRef="confirmPayment" targetRef="ParallelGatewayEnd" />
+    <bpmn:sequenceFlow id="ShipToEndGatewayFlow" sourceRef="shipOrder" targetRef="ParallelGatewayEnd" />
+    <bpmn:sequenceFlow id="SequenceFlow_0nctq0l" sourceRef="ParallelGatewayEnd" targetRef="end" />
+    <bpmn:exclusiveGateway id="ParallelGatewayStart" default="paymentFlow">
+      <bpmn:incoming>SequenceFlow_1r0xh80</bpmn:incoming>
+      <bpmn:outgoing>shipFlow</bpmn:outgoing>
+      <bpmn:outgoing>paymentFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+  </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="amazon-delivery-test">
       <bpmndi:BPMNShape id="StartEvent_16xee7k_di" bpmnElement="StartEvent_16xee7k">
@@ -147,21 +144,4 @@
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
-  <semantic:relationship type="BPSimData">
-    <semantic:extensionElements>
-      <bpsim:BPSimData>
-        <bpsim:Scenario author="Tim Stephenson" id="default" name="Scenario 1">
-          <bpsim:ElementParameters elementRef="ParallelGatewayStart">
-            <bpsim:ControlParameters>
-              <bpsim:Probability>
-                <bpsim:TriangularDistribution max="30" min="10" mode="16" />
-              </bpsim:Probability>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-        </bpsim:Scenario>
-      </bpsim:BPSimData>
-    </semantic:extensionElements>
-    <semantic:source>_1364754643385</semantic:source>
-    <semantic:target>_1364754643385</semantic:target>
-  </semantic:relationship>
-</semantic:definitions>
+</bpmn:definitions>

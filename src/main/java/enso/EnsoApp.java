@@ -53,7 +53,7 @@ import util.BpsimLoader;
 
 public class EnsoApp {
 	
-	private BPSimData bpsimData;
+	public static BPSimData bpsimData;
 	private Path processBpmnPath;
 	private String processBpmnId;
 	

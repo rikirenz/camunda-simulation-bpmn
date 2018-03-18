@@ -21,6 +21,5 @@ public class ExecutionListenerDifferentTime extends ExecutionListenerMaster{
 		changeTime = !changeTime;
 		
 		eventsHandler.addTaskEvent(execution.getCurrentActivityName(), taskTime, execution.getProcessInstanceId());
-
 	}
 }

@@ -151,6 +151,17 @@
     <semantic:extensionElements>
       <bpsim:BPSimData>
         <bpsim:Scenario author="Tim Stephenson" id="default" name="Scenario 1">
+          <bpsim:ScenarioParameters baseTimeUnit="min" replication="3">
+            <bpsim:Duration>
+              <bpsim:DurationParameter value="PT40H" />
+            </bpsim:Duration>
+            <bpsim:Start>
+              <bpsim:DateTimeParameter value="2016-01-01T06:00:00"/>
+            </bpsim:Start>
+             <bpsim:Warmup>
+              <bpsim:DurationParameter value="P7D"/>
+            </bpsim:Warmup>
+          </bpsim:ScenarioParameters>
           <bpsim:ElementParameters elementRef="ParallelGatewayStart">
             <bpsim:ControlParameters>
               <bpsim:Probability>

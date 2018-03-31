@@ -10,9 +10,10 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
 
 import bpsim.ElementParameters;
-import bpsim.TriangularDistribution;;
+import bpsim.TriangularDistribution;
 import enso.EnsoApp;
 import simulation.EventsHandler;
+import util.BpsimQueryTool;
 
 public class ExecutionListenerGateway implements ExecutionListener {
     
@@ -20,15 +21,15 @@ public class ExecutionListenerGateway implements ExecutionListener {
 	private EventsHandler eventsHandler = EventsHandler.getInstance();
 	
 	public void notify(DelegateExecution execution) throws Exception {
-		ElementParameters test = EnsoApp.bpsimData.getScenario().get(0).getElementParameters().get(0);		
-		JAXBElement<TriangularDistribution> distribution = (JAXBElement<TriangularDistribution>) test.getControlParameters().getProbability().getParameterValue().get(0);
-		LOGGER.info("Gateway Id:" + execution.getCurrentActivityId());
-		LOGGER.info("Gateway Distribution:" + distribution.getValue().getMax() + " " + distribution.getValue().getMin() + " " + distribution.getValue().getMode());
-
-		Random randomGenerator = new Random();
-		int randomTime = randomGenerator.nextInt(2);
+		String currentId = execution.getCurrentActivityId();
+		JAXBElement<TriangularDistribution> distribution = null;
+	
+		// Search all the parameters for a given element
+		// 				we miss this part
 		
-		execution.setVariable("x", randomTime);
+		// set the variable in camunda
+		Random randomGenerator = new Random();
+		execution.setVariable("shipOrPay", randomGenerator.nextInt(2));
 		
 	}
 }

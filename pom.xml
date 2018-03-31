@@ -48,5 +48,12 @@
       <artifactId>camunda-engine</artifactId>
       <version>7.8.0</version>
     </dependency>
+    
+  	<!-- https://mvnrepository.com/artifact/net.sourceforge.jdistlib/jdistlib -->
+  	<dependency>
+      <groupId>net.sourceforge.jdistlib</groupId>
+      <artifactId>jdistlib</artifactId>
+      <version>0.4.5</version>
+	</dependency>
   </dependencies>
 </project>

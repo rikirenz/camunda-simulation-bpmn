@@ -49,11 +49,10 @@ import simulation.SimulationClock;
 import simulation.SimulationEvent;
 import simulation.SimulationStartEvent;
 import simulation.SimulationTaskEvent;
-import util.BpsimLoader;
+import util.BpsimCollection;
 
 public class EnsoApp {
 	
-	public static BPSimData bpsimData;
 	private Path processBpmnPath;
 	private String processBpmnId;
 	
@@ -88,7 +87,7 @@ public class EnsoApp {
 
 	public void startApp() {
 		// load the bpsim data in the xml
-		bpsimData = new BpsimLoader(processBpmnPath).loadBpsimAnnotations();
+		new BpsimCollection(processBpmnPath);
 		startSimulation();
 	}
 	

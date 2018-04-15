@@ -1,50 +1,51 @@
 package bpsimWrappers;
 
+import java.util.logging.Logger;
+
 import bpsim.ParameterValue;
+import interfaces.IControlParametersWrapper;
 
-public class ControlParametersWrapper {
+public class ControlParametersWrapper implements IControlParametersWrapper{
 
-	private ParameterValue InterTriggerTimer;
-	private ParameterValue Probability;
-	private ParameterValue TriggerCount;
-	private ParameterValue Condition;
+	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
+	
+	private ParameterValue interTriggerTimer;
+	private ParameterValue probability;
+	private ParameterValue triggerCount;
+	private ParameterValue condition;
 	
 	public ControlParametersWrapper() {}
 
-	public ParameterValue getInterTriggerTimer() {
-		return InterTriggerTimer;
+	public Double getInterTriggerTimer() throws Exception {
+		return TheTypeBrain.returnDouble(interTriggerTimer);
 	}
 
 	public void setInterTriggerTimer(ParameterValue interTriggerTimer) {
-		InterTriggerTimer = interTriggerTimer;
+		this.interTriggerTimer = interTriggerTimer;
 	}
 
-	public ParameterValue getProbability() {
-		return Probability;
+	public Double getProbability() throws Exception {
+		return TheTypeBrain.returnDouble(probability);
 	}
 
 	public void setProbability(ParameterValue probability) {
-		Probability = probability;
+		this.probability = probability;
 	}
 
-	public ParameterValue getTriggerCount() {
-		return TriggerCount;
+	public Long getTriggerCount() throws Exception {
+		return TheTypeBrain.returnLong(triggerCount);
 	}
 
 	public void setTriggerCount(ParameterValue triggerCount) {
-		TriggerCount = triggerCount;
+		this.triggerCount = triggerCount;
 	}
 
-	public ParameterValue getCondition() {
-		return Condition;
+	public Boolean getCondition() throws Exception {
+		return TheTypeBrain.returnBoolean(condition);
 	}
 
 	public void setCondition(ParameterValue condition) {
-		Condition = condition;
+		this.condition = condition;
 	}
 	
-	public String toString() {
-		return "InterTriggerTimer: " + InterTriggerTimer.toString()  + " - Probability: " + Probability.toString() + 
-			   " - TriggerCount: " + TriggerCount.toString() + " - Condition: " + Condition.toString();
-	}
 }

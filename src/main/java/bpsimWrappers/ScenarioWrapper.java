@@ -1,18 +1,17 @@
 package bpsimWrappers;
 
-import bpsim.DateTimeParameter;
-import bpsim.DurationParameter;
-import bpsim.Parameter;
-import bpsim.ParameterValue;
-import bpsim.ScenarioParameters;
+import java.util.Date;
 
-public class ScenarioWrapper {
+import bpsim.ParameterValue;
+import interfaces.IScenarioParametersWrapper;
+
+public class ScenarioWrapper  implements IScenarioParametersWrapper{
 
 	private String id;
 	private String name;
 	private String description;
-	private int replication;
-	private long seed;
+	private Long replication;
+	private Long seed;
 	private String baseTimeUnit;
 	private String currencyUnit;
 	private String baseResultFrequency;
@@ -47,15 +46,15 @@ public class ScenarioWrapper {
 		this.description = description;
 	}
 
-	public int getReplication() {
+	public Long getReplication() {
 		return replication;
 	}
 
-	public void setReplication(int replication) {
+	public void setReplication(long replication) {
 		this.replication = replication;
 	}
 
-	public long getSeed() {
+	public Long getSeed() {
 		return seed;
 	}
 
@@ -87,24 +86,24 @@ public class ScenarioWrapper {
 		this.baseResultFrequency = baseResultFrequency;
 	}
 
-	public ParameterValue getDuration() {
-		return duration;
+	public Double getDuration() throws Exception {
+		return TheTypeBrain.returnDouble(duration);
 	}
-
+	
 	public void setDuration(ParameterValue duration) {
 		this.duration = duration;
 	}
 
-	public ParameterValue getWarmup() {
-		return warmup;
+	public Double getWarmup() throws Exception {
+		return TheTypeBrain.returnDouble(warmup);
 	}
 
 	public void setWarmup(ParameterValue warmup) {
 		this.warmup = warmup;
 	}
 
-	public ParameterValue getStart() {
-		return start;
+	public Date getStart() throws Exception {
+		return TheTypeBrain.returnDate(start);
 	}
 
 	public void setStart(ParameterValue start) {
@@ -118,12 +117,5 @@ public class ScenarioWrapper {
 	public void setTraceFormat(String traceFormat) {
 		this.traceFormat = traceFormat;
 	}
-	
-	public String toString() {
-		return " - id:" + id + " - name:" + name + " - description:" + description + " - replication:" + replication + 
-			   " - seed:" + seed + " - baseTimeUnit:" + baseTimeUnit + " - currencyUnit:" + currencyUnit + 
-			   " - baseResultFrequency:" + baseResultFrequency + " - duration:" + duration + " - warmup:" + warmup + 
-			   " - start:" + start + " - traceFormat:" + traceFormat;
-	}
-	
+
 }

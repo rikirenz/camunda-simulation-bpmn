@@ -1,127 +1,101 @@
 package bpsimWrappers;
 
 import bpsim.ParameterValue;
+import interfaces.ITimeParametersWrapper;
 
-public class TimeParametersWrapper {
+public class TimeParametersWrapper implements ITimeParametersWrapper {
 
-	private ParameterValue Duration;
-	private ParameterValue LagTime;
-	private ParameterValue WaitTime;
-	private ParameterValue QueueTime;
-	private ParameterValue SetUpTime;
-	private ParameterValue ReworkTime;
-	private ParameterValue ElapsedTime;
-	private ParameterValue TransferTime;
-	private ParameterValue ValidationTime;
-	private ParameterValue ProcessingTime;
-	
+	private ParameterValue duration;
+	private ParameterValue lagTime;
+	private ParameterValue waitTime;
+	private ParameterValue queueTime;
+	private ParameterValue setUpTime;
+	private ParameterValue reworkTime;
+	private ParameterValue elapsedTime;
+	private ParameterValue transferTime;
+	private ParameterValue validationTime;
+	private ParameterValue processingTime;
 	
 	public TimeParametersWrapper() {}
 
-
-	public ParameterValue getDuration() {
-		return Duration;
+	public Long getDuration() throws Exception {
+		return TheTypeBrain.returnLong(duration);
 	}
 
-
-	public void setDuration(ParameterValue duration) {
-		Duration = duration;
+	public void setDuration(ParameterValue currDuration) {
+		this.duration = currDuration;
 	}
 
-
-	public ParameterValue getLagTime() {
-		return LagTime;
+	public Long getLagTime() throws Exception {
+		return TheTypeBrain.returnLong(lagTime);
 	}
 
-
-	public void setLagTime(ParameterValue lagTime) {
-		LagTime = lagTime;
+	public void setLagTime(ParameterValue currLagTime) {
+		this.lagTime = currLagTime;
 	}
 
-
-	public ParameterValue getWaitTime() {
-		return WaitTime;
+	public Long getWaitTime() throws Exception {
+		return TheTypeBrain.returnLong(waitTime);
 	}
 
-
-	public void setWaitTime(ParameterValue waitTime) {
-		WaitTime = waitTime;
+	public void setWaitTime(ParameterValue currWaitTime) {
+		this.waitTime = currWaitTime;
 	}
 
-
-	public ParameterValue getQueueTime() {
-		return QueueTime;
+	public Long getQueueTime() throws Exception {
+		return TheTypeBrain.returnLong(queueTime);
 	}
 
-
-	public void setQueueTime(ParameterValue queueTime) {
-		QueueTime = queueTime;
+	public void setQueueTime(ParameterValue currQueueTime) {
+		this.queueTime = currQueueTime;
 	}
 
-
-	public ParameterValue getSetUpTime() {
-		return SetUpTime;
+	public Long getSetupTime() throws Exception {
+		return TheTypeBrain.returnLong(setUpTime);
 	}
 
-
-	public void setSetUpTime(ParameterValue setUpTime) {
-		SetUpTime = setUpTime;
+	public void setSetupTime(ParameterValue currSetUpTime) {
+		this.setUpTime = currSetUpTime;
 	}
 
-
-	public ParameterValue getReworkTime() {
-		return ReworkTime;
+	public Long getReworkTime() throws Exception {
+		return TheTypeBrain.returnLong(reworkTime);
 	}
 
-
-	public void setReworkTime(ParameterValue reworkTime) {
-		ReworkTime = reworkTime;
+	public void setReworkTime(ParameterValue currReworkTime) {
+		this.reworkTime = currReworkTime;
 	}
 
-
-	public ParameterValue getElapsedTime() {
-		return ElapsedTime;
+	public Long getElapsedTime() throws Exception {
+		return TheTypeBrain.returnLong(elapsedTime);
 	}
 
-
-	public void setElapsedTime(ParameterValue elapsedTime) {
-		ElapsedTime = elapsedTime;
+	public void setElapsedTime(ParameterValue currElapsedTime) {
+		this.elapsedTime = currElapsedTime;
 	}
 
-
-	public ParameterValue getTransferTime() {
-		return TransferTime;
+	public Long getTransferTime() throws Exception {
+		return TheTypeBrain.returnLong(transferTime);
 	}
 
-
-	public void setTransferTime(ParameterValue transferTime) {
-		TransferTime = transferTime;
+	public void setTransferTime(ParameterValue currTransferTime) {
+		this.transferTime = currTransferTime;
 	}
 
-
-	public ParameterValue getValidationTime() {
-		return ValidationTime;
+	public Long getValidationTime() throws Exception {
+		return TheTypeBrain.returnLong(validationTime);
 	}
 
-
-	public void setValidationTime(ParameterValue validationTime) {
-		ValidationTime = validationTime;
+	public void setValidationTime(ParameterValue currValidationTime) {
+		this.validationTime = currValidationTime;
 	}
 
-
-	public ParameterValue getProcessingTime() {
-		return ProcessingTime;
+	public Long getProcessingTime() throws Exception {
+		return TheTypeBrain.returnLong(processingTime);
 	}
 
-
-	public void setProcessingTime(ParameterValue processingTime) {
-		ProcessingTime = processingTime;
+	public void setProcessingTime(ParameterValue currProcessingTime) {
+		this.processingTime = currProcessingTime;
 	} 
-	
-	public String toString() {
-		return "Duration: " + Duration.toString() + " - LagTime: " + LagTime.toString() + " - WaitTime: " + WaitTime.toString() + 
-			   " - QueueTime: " + QueueTime.toString() + " - SetUpTime: " + SetUpTime.toString() + " - ReworkTime: " + ReworkTime.toString() + 
-			   " - ElapsedTime: " + ElapsedTime.toString() + " - TransferTime: " + TransferTime.toString() + 
-			   " - ValidationTime: " + ValidationTime.toString() + " - ProcessingTime: " + ProcessingTime.toString();
-	}
 }
+	

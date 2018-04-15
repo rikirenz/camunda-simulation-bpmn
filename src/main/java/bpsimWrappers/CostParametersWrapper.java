@@ -1,27 +1,28 @@
 package bpsimWrappers;
 
 import bpsim.ParameterValue;
+import interfaces.ICostParametersWrapper;
 
-public class CostParametersWrapper {
+public class CostParametersWrapper implements ICostParametersWrapper {
 
 	private ParameterValue fixedCost;
 	private ParameterValue unitCost;
 
 	public CostParametersWrapper() {}
 
-	public ParameterValue getFixedCost() {
-		return fixedCost;
+	public Double getFixedCost() throws Exception {
+		return TheTypeBrain.returnDouble(fixedCost);
 	}
 
-	public void setFixedCost(ParameterValue fixedCost) {
+	public void setFixedCost(ParameterValue fixedCost)  {
 		this.fixedCost = fixedCost;
 	}
 
-	public ParameterValue getUnitCost() {
-		return unitCost;
+	public Double getUnitCost() throws Exception {
+		return TheTypeBrain.returnDouble(unitCost);
 	}
 
-	public void setUnitCost(ParameterValue unitCost) {
+	public void setUnitCost(ParameterValue unitCost)  {
 		this.unitCost = unitCost;
 	}
 	

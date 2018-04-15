@@ -151,23 +151,100 @@
     <semantic:extensionElements>
       <bpsim:BPSimData>
         <bpsim:Scenario author="Tim Stephenson" id="default" name="Scenario 1">
-          <bpsim:ScenarioParameters baseTimeUnit="min" replication="3">
+          <bpsim:ScenarioParameters baseTimeUnit="min" replication="3" seed="1" baseCurrencyUnit="USD" traceFormat="XES">
+            <bpsim:baseResultFrequency>
+              <bpsim:DurationParameter value="PT40H" />              
+            </bpsim:baseResultFrequency>
             <bpsim:Duration>
               <bpsim:DurationParameter value="PT40H" />
             </bpsim:Duration>
             <bpsim:Start>
               <bpsim:DateTimeParameter value="2016-01-01T06:00:00"/>
             </bpsim:Start>
-             <bpsim:Warmup>
+            <bpsim:Warmup>
               <bpsim:DurationParameter value="P7D"/>
             </bpsim:Warmup>
           </bpsim:ScenarioParameters>
           <bpsim:ElementParameters elementRef="ParallelGatewayStart">
+            <bpsim:TimeParameters>
+              <bpsim:transferTime>
+                <bpsim:FloatingParameter value="60"/>
+              </bpsim:transferTime>
+              <bpsim:QueueTime>
+                <bpsim:DurationParameter value="P7D"/>
+              </bpsim:QueueTime>
+              <bpsim:waitTime>
+                <bpsim:NumericParameter value="10"/>
+              </bpsim:waitTime>
+              <bpsim:setupTime>
+                <bpsim:TriangularDistribution max="30" min="10" mode="16" />
+              </bpsim:setupTime>
+              <bpsim:processingTime>
+                <bpsim:FloatingParameter value="60"/>
+              </bpsim:processingTime>
+              <bpsim:validationTime>
+                <bpsim:FloatingParameter value="60"/>
+              </bpsim:validationTime>
+              <bpsim:reworkTime>
+                <bpsim:FloatingParameter value="60"/>
+              </bpsim:reworkTime>
+              <bpsim:Duration>
+                <bpsim:FloatingParameter value="60"/>
+              </bpsim:Duration>
+            </bpsim:TimeParameters>
             <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:DurationParameter value="P7D"/>
+              </bpsim:InterTriggerTimer>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60"/>
+              </bpsim:InterTriggerTimer>
+              <bpsim:InterTriggerTimer>
+                <bpsim:NumericParameter value="10"/>
+              </bpsim:InterTriggerTimer>
+              <bpsim:InterTriggerTimer>
+                <bpsim:TriangularDistribution max="2.5" min="0.35" mode="2"/>
+              </bpsim:InterTriggerTimer>
               <bpsim:Probability>
                 <bpsim:TriangularDistribution max="30" min="10" mode="16" />
               </bpsim:Probability>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10"/>
+              </bpsim:TriggerCount>
+              <bpsim:Condition>
+                <bpsim:BooleanParameter value="true"/>
+              </bpsim:Condition>
+              <bpsim:Condition>
+                <bpsim:BooleanParameter value="true"/>
+              </bpsim:Condition>
             </bpsim:ControlParameters>
+            <bpsim:ResourceParameters>
+              <bpsim:Quantity>
+                <bpsim:NumericParameter validFor="C1" value="200"/>
+              </bpsim:Quantity>
+              <bpsim:availability>
+                <bpsim:BooleanParameter value="true"/>
+              </bpsim:availability>
+              <bpsim:selection>
+                <bpsim:StringParameter value="employer1"/>
+              </bpsim:selection>
+            </bpsim:ResourceParameters>    
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200"/>
+              </bpsim:FixedCost>
+              <bpsim:unitCost>
+                <bpsim:FloatingParameter value="10"/>
+              </bpsim:unitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:interruptible>
+                <bpsim:BooleanParameter value="true"/>
+              </bpsim:interruptible>
+              <bpsim:priority>
+                <bpsim:NumericParameter value="200"/>
+              </bpsim:priority>
+            </bpsim:PriorityParameters>
           </bpsim:ElementParameters>
         </bpsim:Scenario>
       </bpsim:BPSimData>

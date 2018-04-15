@@ -1,32 +1,29 @@
 package bpsimWrappers;
 
 import bpsim.ParameterValue;
+import interfaces.IPriorityParametersWrapper;
 
-public class PriorityParametersWrapper {
+public class PriorityParametersWrapper implements IPriorityParametersWrapper {
 
 	private ParameterValue interruptible;
 	private ParameterValue priority;
 
 	public PriorityParametersWrapper() {}
 
-	public ParameterValue getInterruptible() {
-		return interruptible;
+	public Boolean getInterruptible() throws Exception {
+		return TheTypeBrain.returnBoolean(interruptible);
 	}
 
 	public void setInterruptible(ParameterValue interruptible) {
 		this.interruptible = interruptible;
 	}
 
-	public ParameterValue getPriority() {
-		return priority;
+	public Long getPriority() throws Exception {
+		return TheTypeBrain.returnLong(priority);
 	}
 
 	public void setPriority(ParameterValue priority) {
 		this.priority = priority;
 	}
 
-	public String toString() {
-		return "interruptible" + interruptible + "- :" + priority;
-	}
-	
 }

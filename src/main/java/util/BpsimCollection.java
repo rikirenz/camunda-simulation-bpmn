@@ -77,8 +77,8 @@ public class BpsimCollection {
 	private BPSimData bpsimData;
 	private Path xmlFilePath;
 	
-	private HashMap taskObjects;
-	private HashMap scenarioObjects;
+	public static HashMap<String, ArrayList<Object>> taskObjects;
+	public static HashMap<String, Object> scenarioObjects;
 	
 	public BpsimCollection(Path xmlFilePath) {
 		try {
@@ -86,6 +86,7 @@ public class BpsimCollection {
 			this.bpsimData = loadBpsimAnnotations();
 			createScenarioObjectsHashMap();			
 			createTaskObjectsHashMap();
+			// I do not think are necessary
 			// createGatewayObjectsHashMap();
 			// createEventObjectsHashMap();	
 			
@@ -130,44 +131,58 @@ public class BpsimCollection {
 		}	
 	}
 	
+	
+	private void updateHashMap(String id, Object element) {
+		ArrayList currArrayList = taskObjects.get(id);
+		currArrayList.add(element);
+		taskObjects.put(id, currArrayList);
+	}
+	
 	private HashMap createTaskObjectsHashMap() {
 		try {
 			if (bpsimData == null) throw new NullPointerException("The bpsim object cannot be null");
-			taskObjects = new HashMap<String, Object>();
+			taskObjects = new HashMap<String, ArrayList<Object>>();
 
 			for(Scenario currScenario : bpsimData.getScenario()) {
+				//for(ElementParameters currElement : currScenario.getElementParameters()) {
 				for(ElementParameters currElement : currScenario.getElementParameters()) {
 					// creates the TimeParameters object
 					TimeParametersWrapper currTimeParametersWrapper =  new TimeParametersWrapper(); 
 					TimeParameters timeParam = currElement.getTimeParameters();
+					
+					taskObjects.put(currElement.getElementRef().toString(), new ArrayList());
+					
 					if (timeParam != null) {						
 						// use the wrapper
 						if (timeParam.getDuration() != null) currTimeParametersWrapper.setDuration(timeParam.getDuration().getParameterValue().get(0).getValue());
 						if (timeParam.getLagTime() != null) currTimeParametersWrapper.setLagTime(timeParam.getLagTime().getParameterValue().get(0).getValue());
 						if (timeParam.getWaitTime() != null) currTimeParametersWrapper.setWaitTime(timeParam.getWaitTime().getParameterValue().get(0).getValue());
 						if (timeParam.getQueueTime() != null) currTimeParametersWrapper.setQueueTime(timeParam.getQueueTime().getParameterValue().get(0).getValue());
-						if (timeParam.getSetUpTime() != null) currTimeParametersWrapper.setSetUpTime(timeParam.getSetUpTime().getParameterValue().get(0).getValue());
+						if (timeParam.getSetUpTime() != null) currTimeParametersWrapper.setSetupTime(timeParam.getSetUpTime().getParameterValue().get(0).getValue());
 						if (timeParam.getReworkTime() != null) currTimeParametersWrapper.setReworkTime(timeParam.getReworkTime().getParameterValue().get(0).getValue());
 						if (timeParam.getElapsedTime() != null) currTimeParametersWrapper.setElapsedTime(timeParam.getElapsedTime().getParameterValue().get(0).getValue());
 						if (timeParam.getTransferTime() != null) currTimeParametersWrapper.setTransferTime(timeParam.getTransferTime().getParameterValue().get(0).getValue());
 						if (timeParam.getValidationTime() != null) currTimeParametersWrapper.setValidationTime(timeParam.getValidationTime().getParameterValue().get(0).getValue());
 						if (timeParam.getProcessingTime() != null) currTimeParametersWrapper.setProcessingTime(timeParam.getProcessingTime().getParameterValue().get(0).getValue());
 						
-						// add it to the list
-						taskObjects.put(currElement.getElementRef(), currTimeParametersWrapper);
+						updateHashMap(currElement.getElementRef().toString(), currTimeParametersWrapper);
 					}
 
 					// creates the ControlParameters object
 					ControlParametersWrapper currControlParametersWrapper =  new ControlParametersWrapper(); 
 					ControlParameters controlParam = currElement.getControlParameters();
+
 					if (controlParam != null) {
-						if (controlParam.getInterTriggerTimer() != null) currControlParametersWrapper.setInterTriggerTimer( controlParam.getInterTriggerTimer().getParameterValue().get(0).getValue());
+						if (controlParam.getInterTriggerTimer() != null) currControlParametersWrapper.setInterTriggerTimer(controlParam.getInterTriggerTimer().getParameterValue().get(0).getValue());
 						if (controlParam.getProbability() != null) currControlParametersWrapper.setProbability( controlParam.getProbability().getParameterValue().get(0).getValue());
 						if (controlParam.getTriggerCount() != null) currControlParametersWrapper.setTriggerCount( controlParam.getTriggerCount().getParameterValue().get(0).getValue());
-						if (controlParam.getCondition() != null) currControlParametersWrapper.setCondition( controlParam.getCondition().getParameterValue().get(0).getValue());
+						if (controlParam.getCondition() != null) {
+							currControlParametersWrapper.setCondition( controlParam.getCondition().getParameterValue().get(0).getValue());
+						}
+
 						
 						// add it to the list
-						taskObjects.put(currElement.getElementRef(), currControlParametersWrapper);
+						updateHashMap(currElement.getElementRef().toString(), currControlParametersWrapper);
 					}
 					
 					CostParametersWrapper currCostParametersWrapper = new CostParametersWrapper();
@@ -176,7 +191,7 @@ public class BpsimCollection {
 						// add it to the list
 						if (costParam.getUnitCost() != null) currCostParametersWrapper.setUnitCost(costParam.getUnitCost().getParameterValue().get(0).getValue());
 						if (costParam.getFixedCost() != null) currCostParametersWrapper.setFixedCost(costParam.getFixedCost().getParameterValue().get(0).getValue());
-						taskObjects.put(currElement.getElementRef(), currCostParametersWrapper);
+						updateHashMap(currElement.getElementRef().toString(), currCostParametersWrapper);
 					}
 
 					ResourceParametersWrapper currResourceParametersWrapper = new ResourceParametersWrapper();
@@ -185,8 +200,8 @@ public class BpsimCollection {
 						if (resourceParam.getAvailability() != null) currResourceParametersWrapper.setAvailability(resourceParam.getAvailability().getParameterValue().get(0).getValue());
 						if (resourceParam.getQuantity() != null) currResourceParametersWrapper.setQuantity(resourceParam.getQuantity().getParameterValue().get(0).getValue());
 						if (resourceParam.getSelection() != null) currResourceParametersWrapper.setSelection(resourceParam.getSelection().getParameterValue().get(0).getValue());
-						// add it to the list						
-						taskObjects.put(currElement.getElementRef(), currResourceParametersWrapper);
+						// add it to the list
+						updateHashMap(currElement.getElementRef().toString(), currResourceParametersWrapper);
 					}
 										
 					PriorityParametersWrapper currPriorityParametersWrapper = new PriorityParametersWrapper();
@@ -195,14 +210,15 @@ public class BpsimCollection {
 						if (priorityParam.getInterruptible() != null) currPriorityParametersWrapper.setInterruptible(priorityParam.getInterruptible().getParameterValue().get(0).getValue());
 						if (priorityParam.getPriority() != null) currPriorityParametersWrapper.setPriority(priorityParam.getPriority().getParameterValue().get(0).getValue());
 						// add it to the list
-						taskObjects.put(currElement.getElementRef(), currPriorityParametersWrapper);
+						updateHashMap(currElement.getElementRef().toString(), currPriorityParametersWrapper);
 					}
-
-
-
+					
+					LOGGER.info("ID: "  + currElement.getElementRef().toString());
+					LOGGER.info("COUNTER ARRAY LIST: "  + taskObjects.get(currElement.getElementRef().toString()).size());
 				}
 			} 
 
+			
 			return taskObjects;
 		} catch (Exception e) {
 			//e.printStackTrace();
@@ -233,7 +249,6 @@ public class BpsimCollection {
 			return null;
 		}
 	}
-	
 	
 	private String toString(Node node) {
 	    if (node == null) {

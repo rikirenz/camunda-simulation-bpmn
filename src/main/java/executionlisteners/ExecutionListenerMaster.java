@@ -17,6 +17,5 @@ public class ExecutionListenerMaster implements ExecutionListener {
 		Random randomGenerator = new Random();
 		int randomTime = randomGenerator.nextInt(100);
 		eventsHandler.addTaskEvent(execution.getCurrentActivityName(), randomTime, execution.getProcessInstanceId());
-
 	}
 }

@@ -3,7 +3,7 @@ package bpsimWrappers;
 import bpsim.ParameterValue;
 import interfaces.ITimeParametersWrapper;
 
-public class TimeParametersWrapper implements ITimeParametersWrapper {
+public class TimeParametersWrapper extends ParametersWrapper implements ITimeParametersWrapper {
 
 	private ParameterValue duration;
 	private ParameterValue lagTime;
@@ -19,7 +19,7 @@ public class TimeParametersWrapper implements ITimeParametersWrapper {
 	public TimeParametersWrapper() {}
 
 	public Long getDuration() throws Exception {
-		return TheTypeBrain.returnLong(duration);
+		return TypeBrain.returnLong(duration);
 	}
 
 	public void setDuration(ParameterValue currDuration) {
@@ -27,7 +27,7 @@ public class TimeParametersWrapper implements ITimeParametersWrapper {
 	}
 
 	public Long getLagTime() throws Exception {
-		return TheTypeBrain.returnLong(lagTime);
+		return TypeBrain.returnLong(lagTime);
 	}
 
 	public void setLagTime(ParameterValue currLagTime) {
@@ -35,7 +35,7 @@ public class TimeParametersWrapper implements ITimeParametersWrapper {
 	}
 
 	public Long getWaitTime() throws Exception {
-		return TheTypeBrain.returnLong(waitTime);
+		return TypeBrain.returnLong(waitTime);
 	}
 
 	public void setWaitTime(ParameterValue currWaitTime) {
@@ -43,7 +43,7 @@ public class TimeParametersWrapper implements ITimeParametersWrapper {
 	}
 
 	public Long getQueueTime() throws Exception {
-		return TheTypeBrain.returnLong(queueTime);
+		return TypeBrain.returnLong(queueTime);
 	}
 
 	public void setQueueTime(ParameterValue currQueueTime) {
@@ -51,7 +51,7 @@ public class TimeParametersWrapper implements ITimeParametersWrapper {
 	}
 
 	public Long getSetupTime() throws Exception {
-		return TheTypeBrain.returnLong(setUpTime);
+		return TypeBrain.returnLong(setUpTime);
 	}
 
 	public void setSetupTime(ParameterValue currSetUpTime) {
@@ -59,7 +59,7 @@ public class TimeParametersWrapper implements ITimeParametersWrapper {
 	}
 
 	public Long getReworkTime() throws Exception {
-		return TheTypeBrain.returnLong(reworkTime);
+		return TypeBrain.returnLong(reworkTime);
 	}
 
 	public void setReworkTime(ParameterValue currReworkTime) {
@@ -67,7 +67,7 @@ public class TimeParametersWrapper implements ITimeParametersWrapper {
 	}
 
 	public Long getElapsedTime() throws Exception {
-		return TheTypeBrain.returnLong(elapsedTime);
+		return TypeBrain.returnLong(elapsedTime);
 	}
 
 	public void setElapsedTime(ParameterValue currElapsedTime) {
@@ -75,7 +75,7 @@ public class TimeParametersWrapper implements ITimeParametersWrapper {
 	}
 
 	public Long getTransferTime() throws Exception {
-		return TheTypeBrain.returnLong(transferTime);
+		return TypeBrain.returnLong(transferTime);
 	}
 
 	public void setTransferTime(ParameterValue currTransferTime) {
@@ -83,7 +83,7 @@ public class TimeParametersWrapper implements ITimeParametersWrapper {
 	}
 
 	public Long getValidationTime() throws Exception {
-		return TheTypeBrain.returnLong(validationTime);
+		return TypeBrain.returnLong(validationTime);
 	}
 
 	public void setValidationTime(ParameterValue currValidationTime) {
@@ -91,7 +91,7 @@ public class TimeParametersWrapper implements ITimeParametersWrapper {
 	}
 
 	public Long getProcessingTime() throws Exception {
-		return TheTypeBrain.returnLong(processingTime);
+		return TypeBrain.returnLong(processingTime);
 	}
 
 	public void setProcessingTime(ParameterValue currProcessingTime) {

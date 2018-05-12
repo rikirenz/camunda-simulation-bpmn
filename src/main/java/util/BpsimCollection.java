@@ -78,7 +78,7 @@ public class BpsimCollection {
 	private Path xmlFilePath;
 	
 	public static HashMap<String, ArrayList<Object>> taskObjects;
-	public static HashMap<String, Object> scenarioObjects;
+	public static ScenarioWrapper scenarioObject;
 	
 	public BpsimCollection(Path xmlFilePath) {
 		try {
@@ -98,32 +98,29 @@ public class BpsimCollection {
 	private HashMap createScenarioObjectsHashMap() {
 		try {
 			if (bpsimData == null) throw new NullPointerException("The bpsim object cannot be null");
-			scenarioObjects = new HashMap<String, Object>();
 	
-			List<Scenario> scenarioList = bpsimData.getScenario();
+			// we assume that we have just one scenario per bpmn file
+			Scenario currScenario= bpsimData.getScenario().get(0);
 			
-			// Search all ElementParameters associated with the elementId
-			for(Scenario currScenario : scenarioList) {
-				// creates the Scenario object
-				ScenarioWrapper currScenarioWrapper = new ScenarioWrapper();
-				currScenarioWrapper.setId(currScenario.getId());
-				currScenarioWrapper.setName(currScenario.getName());
-				currScenarioWrapper.setDescription(currScenario.getDescription());
-				ScenarioParameters scenarioParameters = currScenario.getScenarioParameters();
-				if (scenarioParameters != null) {
-					if (scenarioParameters.getReplication() != null) currScenarioWrapper.setReplication(scenarioParameters.getReplication().intValue());
-					if (scenarioParameters.getSeed() != null) currScenarioWrapper.setSeed(scenarioParameters.getSeed().longValue());
-					if (scenarioParameters.getBaseTimeUnit() != null) currScenarioWrapper.setBaseTimeUnit(scenarioParameters.getBaseTimeUnit().toString());
-					if (scenarioParameters.getBaseCurrencyUnit() != null) currScenarioWrapper.setCurrencyUnit(scenarioParameters.getBaseCurrencyUnit().toString());
-					if (scenarioParameters.getBaseResultFrequency() != null) currScenarioWrapper.setBaseResultFrequency(scenarioParameters.getBaseResultFrequency().toString());
-					if (scenarioParameters.getTraceFormat() != null) currScenarioWrapper.setTraceFormat(scenarioParameters.getTraceFormat());
-					if (scenarioParameters.getDuration() != null) currScenarioWrapper.setDuration(scenarioParameters.getDuration().getParameterValue().get(0).getValue());
-					if (scenarioParameters.getWarmup() != null) currScenarioWrapper.setWarmup(scenarioParameters.getWarmup().getParameterValue().get(0).getValue());
-					if (scenarioParameters.getStart() != null)  currScenarioWrapper.setStart(scenarioParameters.getStart().getParameterValue().get(0).getValue());
-				}
-				// add the element to the hashMap
-				scenarioObjects.put(currScenario.getId(), currScenarioWrapper);
+			// creates the Scenario object
+			ScenarioWrapper currScenarioWrapper = new ScenarioWrapper();
+			currScenarioWrapper.setId(currScenario.getId());
+			currScenarioWrapper.setName(currScenario.getName());
+			currScenarioWrapper.setDescription(currScenario.getDescription());
+			ScenarioParameters scenarioParameters = currScenario.getScenarioParameters();
+			if (scenarioParameters != null) {
+				if (scenarioParameters.getReplication() != null) currScenarioWrapper.setReplication(scenarioParameters.getReplication().intValue());
+				if (scenarioParameters.getSeed() != null) currScenarioWrapper.setSeed(scenarioParameters.getSeed().longValue());
+				if (scenarioParameters.getBaseTimeUnit() != null) currScenarioWrapper.setBaseTimeUnit(scenarioParameters.getBaseTimeUnit().toString());
+				if (scenarioParameters.getBaseCurrencyUnit() != null) currScenarioWrapper.setCurrencyUnit(scenarioParameters.getBaseCurrencyUnit().toString());
+				if (scenarioParameters.getBaseResultFrequency() != null) currScenarioWrapper.setBaseResultFrequency(scenarioParameters.getBaseResultFrequency().toString());
+				if (scenarioParameters.getTraceFormat() != null) currScenarioWrapper.setTraceFormat(scenarioParameters.getTraceFormat());
+				if (scenarioParameters.getDuration() != null) currScenarioWrapper.setDuration(scenarioParameters.getDuration().getParameterValue().get(0).getValue());
+				if (scenarioParameters.getWarmup() != null) currScenarioWrapper.setWarmup(scenarioParameters.getWarmup().getParameterValue().get(0).getValue());
+				if (scenarioParameters.getStart() != null)  currScenarioWrapper.setStart(scenarioParameters.getStart().getParameterValue().get(0).getValue());
 			}
+			// add the element to the hashMap
+			scenarioObject = currScenarioWrapper;
 			return taskObjects;
 		} catch (Exception e) {
 			//e.printStackTrace();

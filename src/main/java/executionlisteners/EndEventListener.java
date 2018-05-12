@@ -5,12 +5,16 @@ import java.util.logging.Logger;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
 
+import simulation.EventsHandler;
 
-public class TerminateEventListener implements ExecutionListener {
+
+public class EndEventListener implements ExecutionListener {
     
 	protected final static Logger LOGGER = Logger.getLogger("ENSO-APP");
-		
-	public void notify(DelegateExecution execution) throws Exception {
+	private EventsHandler eventsHandler = EventsHandler.getInstance();
+
+	public void notify(DelegateExecution execution) throws Exception {			
+				LOGGER.info(this.getClass().getName() + " " + execution.getCurrentActivityId());
 		LOGGER.info("===================== The process Ended =====================");
-	}
+	}	
 }

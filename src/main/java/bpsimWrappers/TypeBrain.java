@@ -32,7 +32,7 @@ import bpsim.WeibullDistribution;
  * otherwise is not possible to continue 
  * with the simulation in case a cast is wrong.
  */
-public class TheTypeBrain {
+public class TypeBrain {
 	
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	private static Random randomGenerator = new Random();

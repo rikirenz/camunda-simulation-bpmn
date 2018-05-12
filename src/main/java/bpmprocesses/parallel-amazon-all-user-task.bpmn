@@ -4,7 +4,10 @@
     <semantic:extensionElements>
       <camunda:executionListener expression="${execution.setVariable(&#39;x&#39;, &#39;1&#39;)}" event="start" />
     </semantic:extensionElements>
-    <semantic:startEvent id="StartEvent_16xee7k">
+    <semantic:startEvent id="StartEvent">
+      <semantic:extensionElements>
+        <camunda:executionListener class="executionlisteners.StartEventListener" event="start" />
+      </semantic:extensionElements>
       <semantic:outgoing>SequenceFlow_1r0xh80</semantic:outgoing>
     </semantic:startEvent>
     <semantic:userTask id="receivePayment" name="receive payment">
@@ -28,7 +31,7 @@
     </semantic:parallelGateway>
     <semantic:endEvent id="end">
       <semantic:extensionElements>
-        <camunda:executionListener class="executionlisteners.TerminateEventListener" event="start" />
+        <camunda:executionListener class="executionlisteners.EndEventListener" event="start" />
       </semantic:extensionElements>
       <semantic:incoming>SequenceFlow_0nctq0l</semantic:incoming>
     </semantic:endEvent>
@@ -39,7 +42,7 @@
       <semantic:incoming>shipFlow</semantic:incoming>
       <semantic:outgoing>ShipToEndGatewayFlow</semantic:outgoing>
     </semantic:userTask>
-    <semantic:sequenceFlow id="SequenceFlow_1r0xh80" sourceRef="StartEvent_16xee7k" targetRef="ParallelGatewayStart" />
+    <semantic:sequenceFlow id="SequenceFlow_1r0xh80" sourceRef="StartEvent" targetRef="ParallelGatewayStart" />
     <semantic:sequenceFlow id="shipFlow" sourceRef="ParallelGatewayStart" targetRef="shipOrder">
       <semantic:conditionExpression xsi:type="semantic:tFormalExpression">${x == 1}</semantic:conditionExpression>
     </semantic:sequenceFlow>
@@ -50,7 +53,7 @@
     <semantic:sequenceFlow id="SequenceFlow_0nctq0l" sourceRef="ParallelGatewayEnd" targetRef="end" />
     <semantic:exclusiveGateway id="ParallelGatewayStart" default="paymentFlow">
       <semantic:extensionElements>
-        <camunda:executionListener class="executionlisteners.ExecutionListenerGateway" event="start" />
+        <camunda:executionListener class="executionlisteners.GatewayListener" event="start" />
       </semantic:extensionElements>
       <semantic:incoming>SequenceFlow_1r0xh80</semantic:incoming>
       <semantic:outgoing>shipFlow</semantic:outgoing>
@@ -59,7 +62,7 @@
   </semantic:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="amazon-delivery-test">
-      <bpmndi:BPMNShape id="StartEvent_16xee7k_di" bpmnElement="StartEvent_16xee7k">
+      <bpmndi:BPMNShape id="StartEvent_16xee7k_di" bpmnElement="StartEvent">
         <dc:Bounds x="272" y="248" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="245" y="284" width="0" height="12" />
@@ -153,96 +156,124 @@
         <bpsim:Scenario author="Tim Stephenson" id="default" name="Scenario 1">
           <bpsim:ScenarioParameters baseTimeUnit="min" replication="3" seed="1" baseCurrencyUnit="USD" traceFormat="XES">
             <bpsim:baseResultFrequency>
-              <bpsim:DurationParameter value="PT40H" />              
+              <bpsim:DurationParameter value="PT40H" />
             </bpsim:baseResultFrequency>
             <bpsim:Duration>
               <bpsim:DurationParameter value="PT40H" />
             </bpsim:Duration>
             <bpsim:Start>
-              <bpsim:DateTimeParameter value="2016-01-01T06:00:00"/>
+              <bpsim:DateTimeParameter value="2016-01-01T06:00:00" />
             </bpsim:Start>
             <bpsim:Warmup>
-              <bpsim:DurationParameter value="P7D"/>
+              <bpsim:DurationParameter value="P7D" />
             </bpsim:Warmup>
           </bpsim:ScenarioParameters>
-          <bpsim:ElementParameters elementRef="ParallelGatewayStart">
-            <bpsim:TimeParameters>
-              <bpsim:transferTime>
-                <bpsim:FloatingParameter value="60"/>
-              </bpsim:transferTime>
-              <bpsim:QueueTime>
-                <bpsim:DurationParameter value="P7D"/>
-              </bpsim:QueueTime>
-              <bpsim:waitTime>
-                <bpsim:NumericParameter value="10"/>
-              </bpsim:waitTime>
-              <bpsim:setupTime>
-                <bpsim:TriangularDistribution max="30" min="10" mode="16" />
-              </bpsim:setupTime>
-              <bpsim:processingTime>
-                <bpsim:FloatingParameter value="60"/>
-              </bpsim:processingTime>
-              <bpsim:validationTime>
-                <bpsim:FloatingParameter value="60"/>
-              </bpsim:validationTime>
-              <bpsim:reworkTime>
-                <bpsim:FloatingParameter value="60"/>
-              </bpsim:reworkTime>
-              <bpsim:Duration>
-                <bpsim:FloatingParameter value="60"/>
-              </bpsim:Duration>
-            </bpsim:TimeParameters>
+          <bpsim:ElementParameters elementRef="StartEvent">
             <bpsim:ControlParameters>
               <bpsim:InterTriggerTimer>
-                <bpsim:DurationParameter value="P7D"/>
+                <bpsim:DurationParameter value="P7D" />
               </bpsim:InterTriggerTimer>
               <bpsim:InterTriggerTimer>
-                <bpsim:FloatingParameter value="60"/>
+                <bpsim:FloatingParameter value="60" />
               </bpsim:InterTriggerTimer>
               <bpsim:InterTriggerTimer>
-                <bpsim:NumericParameter value="10"/>
+                <bpsim:NumericParameter value="10" />
               </bpsim:InterTriggerTimer>
               <bpsim:InterTriggerTimer>
-                <bpsim:TriangularDistribution max="2.5" min="0.35" mode="2"/>
+                <bpsim:TriangularDistribution max="2.5" min="0.35" mode="2" />
               </bpsim:InterTriggerTimer>
               <bpsim:Probability>
                 <bpsim:TriangularDistribution max="30" min="10" mode="16" />
               </bpsim:Probability>
               <bpsim:TriggerCount>
-                <bpsim:NumericParameter value="10"/>
+                <bpsim:NumericParameter value="10" />
               </bpsim:TriggerCount>
               <bpsim:Condition>
-                <bpsim:BooleanParameter value="true"/>
+                <bpsim:BooleanParameter value="true" />
               </bpsim:Condition>
               <bpsim:Condition>
-                <bpsim:BooleanParameter value="true"/>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Condition>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="ParallelGatewayStart">
+            <bpsim:TimeParameters>
+              <bpsim:transferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:transferTime>
+              <bpsim:QueueTime>
+                <bpsim:DurationParameter value="P7D" />
+              </bpsim:QueueTime>
+              <bpsim:waitTime>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:waitTime>
+              <bpsim:setupTime>
+                <bpsim:TriangularDistribution max="30" min="10" mode="16" />
+              </bpsim:setupTime>
+              <bpsim:processingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:processingTime>
+              <bpsim:validationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:validationTime>
+              <bpsim:reworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:reworkTime>
+              <bpsim:Duration>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:Duration>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:DurationParameter value="P7D" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:InterTriggerTimer>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:InterTriggerTimer>
+                <bpsim:TriangularDistribution max="2.5" min="0.35" mode="2" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:Probability>
+                <bpsim:TriangularDistribution max="30" min="10" mode="16" />
+              </bpsim:Probability>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+              <bpsim:Condition>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Condition>
+              <bpsim:Condition>
+                <bpsim:BooleanParameter value="true" />
               </bpsim:Condition>
             </bpsim:ControlParameters>
             <bpsim:ResourceParameters>
               <bpsim:Quantity>
-                <bpsim:NumericParameter validFor="C1" value="200"/>
+                <bpsim:NumericParameter validFor="C1" value="200" />
               </bpsim:Quantity>
               <bpsim:availability>
-                <bpsim:BooleanParameter value="true"/>
+                <bpsim:BooleanParameter value="true" />
               </bpsim:availability>
               <bpsim:selection>
-                <bpsim:StringParameter value="employer1"/>
+                <bpsim:StringParameter value="employer1" />
               </bpsim:selection>
-            </bpsim:ResourceParameters>    
+            </bpsim:ResourceParameters>
             <bpsim:CostParameters>
               <bpsim:FixedCost>
-                <bpsim:NumericParameter value="200"/>
+                <bpsim:NumericParameter value="200" />
               </bpsim:FixedCost>
               <bpsim:unitCost>
-                <bpsim:FloatingParameter value="10"/>
+                <bpsim:FloatingParameter value="10" />
               </bpsim:unitCost>
             </bpsim:CostParameters>
             <bpsim:PriorityParameters>
               <bpsim:interruptible>
-                <bpsim:BooleanParameter value="true"/>
+                <bpsim:BooleanParameter value="true" />
               </bpsim:interruptible>
               <bpsim:priority>
-                <bpsim:NumericParameter value="200"/>
+                <bpsim:NumericParameter value="200" />
               </bpsim:priority>
             </bpsim:PriorityParameters>
           </bpsim:ElementParameters>

@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import bpsim.ParameterValue;
 import interfaces.IControlParametersWrapper;
 
-public class ControlParametersWrapper implements IControlParametersWrapper{
+public class ControlParametersWrapper extends ParametersWrapper implements IControlParametersWrapper{
 
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	
@@ -17,7 +17,7 @@ public class ControlParametersWrapper implements IControlParametersWrapper{
 	public ControlParametersWrapper() {}
 
 	public Double getInterTriggerTimer() throws Exception {
-		return TheTypeBrain.returnDouble(interTriggerTimer);
+		return TypeBrain.returnDouble(interTriggerTimer);
 	}
 
 	public void setInterTriggerTimer(ParameterValue interTriggerTimer) {
@@ -25,7 +25,7 @@ public class ControlParametersWrapper implements IControlParametersWrapper{
 	}
 
 	public Double getProbability() throws Exception {
-		return TheTypeBrain.returnDouble(probability);
+		return TypeBrain.returnDouble(probability);
 	}
 
 	public void setProbability(ParameterValue probability) {
@@ -33,7 +33,7 @@ public class ControlParametersWrapper implements IControlParametersWrapper{
 	}
 
 	public Long getTriggerCount() throws Exception {
-		return TheTypeBrain.returnLong(triggerCount);
+		return TypeBrain.returnLong(triggerCount);
 	}
 
 	public void setTriggerCount(ParameterValue triggerCount) {
@@ -41,7 +41,7 @@ public class ControlParametersWrapper implements IControlParametersWrapper{
 	}
 
 	public Boolean getCondition() throws Exception {
-		return TheTypeBrain.returnBoolean(condition);
+		return TypeBrain.returnBoolean(condition);
 	}
 
 	public void setCondition(ParameterValue condition) {

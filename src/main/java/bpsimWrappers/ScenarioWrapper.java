@@ -5,7 +5,7 @@ import java.util.Date;
 import bpsim.ParameterValue;
 import interfaces.IScenarioParametersWrapper;
 
-public class ScenarioWrapper  implements IScenarioParametersWrapper{
+public class ScenarioWrapper extends ParametersWrapper implements IScenarioParametersWrapper{
 
 	private String id;
 	private String name;
@@ -87,7 +87,7 @@ public class ScenarioWrapper  implements IScenarioParametersWrapper{
 	}
 
 	public Double getDuration() throws Exception {
-		return TheTypeBrain.returnDouble(duration);
+		return TypeBrain.returnDouble(duration);
 	}
 	
 	public void setDuration(ParameterValue duration) {
@@ -95,7 +95,7 @@ public class ScenarioWrapper  implements IScenarioParametersWrapper{
 	}
 
 	public Double getWarmup() throws Exception {
-		return TheTypeBrain.returnDouble(warmup);
+		return TypeBrain.returnDouble(warmup);
 	}
 
 	public void setWarmup(ParameterValue warmup) {
@@ -103,7 +103,7 @@ public class ScenarioWrapper  implements IScenarioParametersWrapper{
 	}
 
 	public Date getStart() throws Exception {
-		return TheTypeBrain.returnDate(start);
+		return TypeBrain.returnDate(start);
 	}
 
 	public void setStart(ParameterValue start) {

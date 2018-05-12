@@ -3,7 +3,7 @@ package bpsimWrappers;
 import bpsim.ParameterValue;
 import interfaces.ICostParametersWrapper;
 
-public class CostParametersWrapper implements ICostParametersWrapper {
+public class CostParametersWrapper extends ParametersWrapper implements ICostParametersWrapper {
 
 	private ParameterValue fixedCost;
 	private ParameterValue unitCost;
@@ -11,7 +11,7 @@ public class CostParametersWrapper implements ICostParametersWrapper {
 	public CostParametersWrapper() {}
 
 	public Double getFixedCost() throws Exception {
-		return TheTypeBrain.returnDouble(fixedCost);
+		return TypeBrain.returnDouble(fixedCost);
 	}
 
 	public void setFixedCost(ParameterValue fixedCost)  {
@@ -19,7 +19,7 @@ public class CostParametersWrapper implements ICostParametersWrapper {
 	}
 
 	public Double getUnitCost() throws Exception {
-		return TheTypeBrain.returnDouble(unitCost);
+		return TypeBrain.returnDouble(unitCost);
 	}
 
 	public void setUnitCost(ParameterValue unitCost)  {

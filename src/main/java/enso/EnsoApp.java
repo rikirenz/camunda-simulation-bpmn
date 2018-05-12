@@ -52,14 +52,13 @@ import simulation.SimulationTaskEvent;
 import util.BpsimCollection;
 
 public class EnsoApp {
-	
+
 	private Path processBpmnPath;
 	private String processBpmnId;
-	
+
 	private int instancesNumber;
 	private int delayBetweenInstances;
-	
-	
+
 	private EventsQueue eventsQueue = EventsQueue.getInstance();
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	private SimulationClock simClock = new SimulationClock();
@@ -70,17 +69,16 @@ public class EnsoApp {
 		this.instancesNumber = instancesNumber;
 		this.delayBetweenInstances = delayBetweenInstances;
 	}
-	
+
 	private ProcessEngine processEngineInit() {
-    	ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration();
+		ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration();
 		ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration();
 		return ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration()
-				  .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
-				  .setJdbcUrl("jdbc:h2:mem:my-own-db;DB_CLOSE_DELAY=1000")
-				  .setJobExecutorActivate(true)
-				  .buildProcessEngine();
+				.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
+				.setJdbcUrl("jdbc:h2:mem:my-own-db;DB_CLOSE_DELAY=1000").setJobExecutorActivate(true)
+				.buildProcessEngine();
 	}
-	
+
 	private BpmnModelInstance loadBpmnProcess(Path filePath) {
 		return Bpmn.readModelFromFile(new File(filePath.toString()));
 	}
@@ -90,40 +88,38 @@ public class EnsoApp {
 		new BpsimCollection(processBpmnPath);
 		startSimulation();
 	}
-	
-	
-	
+
 	private void startSimulation() {
 		ProcessEngine processEngine = processEngineInit();
-		RepositoryService repositoryService = processEngine.getRepositoryService();		
-	    BpmnModelInstance instance = loadBpmnProcess(processBpmnPath);
-	    DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(processBpmnId);
-	    deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", instance);
+		RepositoryService repositoryService = processEngine.getRepositoryService();
+		BpmnModelInstance instance = loadBpmnProcess(processBpmnPath);
+		DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(processBpmnId);
+		deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", instance);
 		deploymentBuilder.deploy();
-		
-		
+
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		TaskService taskService = processEngine.getTaskService();
-		
+
 		int startTime = delayBetweenInstances;
 		for (int i = 0; i < instancesNumber; i++) {
 			SimulationEvent startProcessEvent = new SimulationStartEvent("start event", startTime);
 			eventsQueue.add(startProcessEvent);
 			startTime += delayBetweenInstances;
 		}
-		
+
 		while (!eventsQueue.isEmpty()) {
 			SimulationEvent currEvent = eventsQueue.remove();
-			
+
 			if (currEvent instanceof SimulationTaskEvent) {
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
-				if (currTaskEvent.getEndTime() > simClock.getCurrentTime()) simClock.setCurrentTime(currTaskEvent.getEndTime());
+				if (currTaskEvent.getEndTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currTaskEvent.getEndTime());
 				// move on with the simulation
-				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).taskName(currTaskEvent.getName()).singleResult();
+				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId())
+						.taskName(currTaskEvent.getName()).singleResult();
 				taskService.complete(currTask.getId());
-				LOGGER.info(currTaskEvent.toString());
 			} else {
-		    	runtimeService.startProcessInstanceByKey(processBpmnId);
+				runtimeService.startProcessInstanceByKey(processBpmnId);
 			}
 		}
 	}

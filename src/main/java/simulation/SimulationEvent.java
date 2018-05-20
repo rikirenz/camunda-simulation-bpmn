@@ -3,7 +3,7 @@ package simulation;
 public abstract class SimulationEvent implements Comparable<SimulationEvent> {
 
 	protected String name;
-	protected int endTime;
+	protected long endTime;
 	
 	public SimulationEvent() {}
 	
@@ -16,7 +16,7 @@ public abstract class SimulationEvent implements Comparable<SimulationEvent> {
 		return name;
 	}
 	
-	public int getEndTime() {
+	public long getEndTime() {
 		return endTime;
 	}
 	

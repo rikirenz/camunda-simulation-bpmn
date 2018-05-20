@@ -27,6 +27,8 @@ public class TaskListener implements ExecutionListener {
 	private Long processingTime;
 	private Long validationTime;
 	private Long reworkTime;
+	private Long queueTime;
+	private Long transferTime; 
 	
 	private Double interTriggerTimer;
 	private Long triggerCount;
@@ -39,8 +41,8 @@ public class TaskListener implements ExecutionListener {
 
 	
 	public void notify(DelegateExecution execution) throws Exception {
-		LOGGER.info(this.getClass().getName() + " " + execution.getCurrentActivityId());
-		eventsHandler.addTaskEvent(execution.getCurrentActivityName(), 1, execution.getProcessInstanceId());
+		
+		LOGGER.info("TASK: " + execution.getCurrentActivityName());
 		
 		costParameters = (CostParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), CostParametersWrapper.class);
 		timeParameters = (TimeParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), TimeParametersWrapper.class);
@@ -48,25 +50,45 @@ public class TaskListener implements ExecutionListener {
 		priorityParameters = (PriorityParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), PriorityParametersWrapper.class);
 		
 		// element not defined
-		if (costParameters == null) return;
-		if (timeParameters == null) return;
-		if (controlParameters == null) return;
-		if (priorityParameters == null) return;
+		if (costParameters == null || timeParameters == null || controlParameters == null || priorityParameters == null) {
+			throw new Exception("The Parameters for the task:" + execution.getCurrentActivityId() + " are not well defined.");
+		}
+		
 
+		Long totalTime = calculateTaskTime(timeParameters);
+		Double totalCost = calculateTaskCost(costParameters);
+		
+				
+		interTriggerTimer = controlParameters.getInterTriggerTimer(); // ?
+		triggerCount = controlParameters.getTriggerCount(); // ?
+				
+		interruptible = priorityParameters.getInterruptible();
+		priority = priorityParameters.getPriority();
+				
+		
+		LOGGER.info("TASK: " + execution.getCurrentActivityName() + " TOTAL TIME: " + totalTime);
+		
+		eventsHandler.addTaskEvent(execution.getCurrentActivityName(), totalTime, execution.getProcessInstanceId());
+	}
+	
+	public Long calculateTaskTime(TimeParametersWrapper currTimeParameters) throws Exception {
 		waitTime = timeParameters.getWaitTime();
 		setupTime = timeParameters.getSetupTime();	
 		processingTime = timeParameters.getProcessingTime();
 		validationTime = timeParameters.getValidationTime();
 		reworkTime = timeParameters.getReworkTime();
-		
-		interTriggerTimer = controlParameters.getInterTriggerTimer();
-		triggerCount = controlParameters.getTriggerCount();
-		
+		reworkTime = timeParameters.getQueueTime();
+		queueTime = timeParameters.getQueueTime();
+		transferTime = timeParameters.getTransferTime();		
+
+		return waitTime + setupTime + processingTime + validationTime + reworkTime + queueTime + transferTime;
+	}
+
+	public Double calculateTaskCost(CostParametersWrapper costParameters) throws Exception {
 		fixedCost = costParameters.getFixedCost();
 		unitCost = costParameters.getUnitCost();
-		
-		interruptible = priorityParameters.getInterruptible();
-		priority = priorityParameters.getPriority();	
+
+		return unitCost +  fixedCost;
 	}
 
 }

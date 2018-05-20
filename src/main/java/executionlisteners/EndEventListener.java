@@ -14,7 +14,7 @@ public class EndEventListener implements ExecutionListener {
 	private EventsHandler eventsHandler = EventsHandler.getInstance();
 
 	public void notify(DelegateExecution execution) throws Exception {			
-				LOGGER.info(this.getClass().getName() + " " + execution.getCurrentActivityId());
+		eventsHandler.addEndEvent(execution.getCurrentActivityName(), 0, execution.getProcessInstanceId());		
 		LOGGER.info("===================== The process Ended =====================");
 	}	
 }

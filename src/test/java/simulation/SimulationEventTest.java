@@ -8,7 +8,7 @@ public class SimulationEventTest extends TestCase{
 	public void testGetTime() {
 		try {
 			SimulationTaskEvent se = new SimulationTaskEvent(null, 10, "processId");
-			int simulationEventTime = se.getTime();
+			long simulationEventTime = se.getTime();
 			assertEquals(10, simulationEventTime);
 		} finally {
 			CleanUp.resetSimulationClock();	

@@ -19,8 +19,7 @@ public class SequenceFlowListener  implements ExecutionListener {
 	private Boolean condition;
 
 	public void notify(DelegateExecution execution) throws Exception {			
-				LOGGER.info(this.getClass().getName() + " " + execution.getCurrentActivityId());
-		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), ControlParametersWrapper.class);
+		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getCurrentTransitionId(), ControlParametersWrapper.class);
 		
 		// element not defined
 		if (controlParameters == null) return;

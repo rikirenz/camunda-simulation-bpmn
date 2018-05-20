@@ -96,6 +96,23 @@ public class TimeParametersWrapper extends ParametersWrapper implements ITimePar
 
 	public void setProcessingTime(ParameterValue currProcessingTime) {
 		this.processingTime = currProcessingTime;
-	} 
+	}
+	
+	public String toString() {
+		try {
+			return 	"duration: " + TypeBrain.returnLong(duration) + ", lagTime: " + TypeBrain.returnLong(lagTime)  + ", waitTime: " + TypeBrain.returnLong(waitTime)  + 
+					", queueTime: " + TypeBrain.returnLong(queueTime)  + ", setUpTime: " + TypeBrain.returnLong(setUpTime)  + 
+					", reworkTime: " + TypeBrain.returnLong(reworkTime)  + ", elapsedTime: " + TypeBrain.returnLong(elapsedTime)  + 
+					", transferTime: " + TypeBrain.returnLong(transferTime)  + ", validationTime: " + TypeBrain.returnLong(validationTime)  + 
+					", processingTime: " + TypeBrain.returnLong(processingTime);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	
 }
 	

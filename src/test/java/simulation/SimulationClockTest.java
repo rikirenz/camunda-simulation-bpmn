@@ -9,7 +9,7 @@ public class SimulationClockTest extends TestCase {
 		try {
 			SimulationClock simClock = new SimulationClock();
 			simClock.setCurrentTime(10);
-			int simulationTime = simClock.getCurrentTime();		
+			long simulationTime = simClock.getCurrentTime();		
 	        assertEquals(10, simulationTime);
 		} finally {
 			CleanUp.resetSimulationClock();	

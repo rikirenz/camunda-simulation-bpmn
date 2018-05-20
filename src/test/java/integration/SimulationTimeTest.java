@@ -24,7 +24,7 @@ public class SimulationTimeTest extends TestCase{
 			app.startApp();
 
 			SimulationClock simClock =  new SimulationClock();
-			int currTime = simClock.getCurrentTime();
+			long currTime = simClock.getCurrentTime();
 
 			assertEquals(20, currTime);
 
@@ -46,7 +46,7 @@ public class SimulationTimeTest extends TestCase{
 			app.startApp();
 			
 			SimulationClock simClock =  new SimulationClock();
-			int currTime = simClock.getCurrentTime();
+			long currTime = simClock.getCurrentTime();
 
 			assertEquals(10, currTime);
 
@@ -68,7 +68,7 @@ public class SimulationTimeTest extends TestCase{
 			app.startApp();
 			
 			SimulationClock simClock =  new SimulationClock();
-			int currTime = simClock.getCurrentTime();
+			long currTime = simClock.getCurrentTime();
 
 			assertEquals(100, currTime);
 
@@ -90,7 +90,7 @@ public class SimulationTimeTest extends TestCase{
 			app.startApp();
 			
 			SimulationClock simClock =  new SimulationClock();
-			int currTime = simClock.getCurrentTime();
+			long currTime = simClock.getCurrentTime();
 
 			assertEquals(26, currTime);
 

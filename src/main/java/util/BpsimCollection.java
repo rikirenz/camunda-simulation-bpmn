@@ -138,22 +138,18 @@ public class BpsimCollection {
 	private HashMap createTaskObjectsHashMap() {
 		try {
 			if (bpsimData == null) throw new NullPointerException("The bpsim object cannot be null");
-			taskObjects = new HashMap<String, ArrayList<Object>>();
-
+			taskObjects = new HashMap<String, ArrayList<Object>>();			
 			for(Scenario currScenario : bpsimData.getScenario()) {
-				//for(ElementParameters currElement : currScenario.getElementParameters()) {
 				for(ElementParameters currElement : currScenario.getElementParameters()) {
+					taskObjects.put(currElement.getElementRef().toString(), new ArrayList());
 					// creates the TimeParameters object
 					TimeParametersWrapper currTimeParametersWrapper =  new TimeParametersWrapper(); 
-					TimeParameters timeParam = currElement.getTimeParameters();
-					
-					taskObjects.put(currElement.getElementRef().toString(), new ArrayList());
-					
-					if (timeParam != null) {						
+					TimeParameters timeParam = currElement.getTimeParameters();					
+					if (timeParam != null) {
 						// use the wrapper
 						if (timeParam.getDuration() != null) currTimeParametersWrapper.setDuration(timeParam.getDuration().getParameterValue().get(0).getValue());
 						if (timeParam.getLagTime() != null) currTimeParametersWrapper.setLagTime(timeParam.getLagTime().getParameterValue().get(0).getValue());
-						if (timeParam.getWaitTime() != null) currTimeParametersWrapper.setWaitTime(timeParam.getWaitTime().getParameterValue().get(0).getValue());
+						if (timeParam.getWaitTime() != null) currTimeParametersWrapper.setWaitTime(timeParam.getWaitTime().getParameterValue().get(0).getValue());				
 						if (timeParam.getQueueTime() != null) currTimeParametersWrapper.setQueueTime(timeParam.getQueueTime().getParameterValue().get(0).getValue());
 						if (timeParam.getSetUpTime() != null) currTimeParametersWrapper.setSetupTime(timeParam.getSetUpTime().getParameterValue().get(0).getValue());
 						if (timeParam.getReworkTime() != null) currTimeParametersWrapper.setReworkTime(timeParam.getReworkTime().getParameterValue().get(0).getValue());
@@ -166,18 +162,14 @@ public class BpsimCollection {
 					}
 
 					// creates the ControlParameters object
-					ControlParametersWrapper currControlParametersWrapper =  new ControlParametersWrapper(); 
+					ControlParametersWrapper currControlParametersWrapper = new ControlParametersWrapper(); 
 					ControlParameters controlParam = currElement.getControlParameters();
 
 					if (controlParam != null) {
 						if (controlParam.getInterTriggerTimer() != null) currControlParametersWrapper.setInterTriggerTimer(controlParam.getInterTriggerTimer().getParameterValue().get(0).getValue());
 						if (controlParam.getProbability() != null) currControlParametersWrapper.setProbability( controlParam.getProbability().getParameterValue().get(0).getValue());
 						if (controlParam.getTriggerCount() != null) currControlParametersWrapper.setTriggerCount( controlParam.getTriggerCount().getParameterValue().get(0).getValue());
-						if (controlParam.getCondition() != null) {
-							currControlParametersWrapper.setCondition( controlParam.getCondition().getParameterValue().get(0).getValue());
-						}
-
-						
+						if (controlParam.getCondition() != null) currControlParametersWrapper.setCondition( controlParam.getCondition().getParameterValue().get(0).getValue());
 						// add it to the list
 						updateHashMap(currElement.getElementRef().toString(), currControlParametersWrapper);
 					}
@@ -209,13 +201,9 @@ public class BpsimCollection {
 						// add it to the list
 						updateHashMap(currElement.getElementRef().toString(), currPriorityParametersWrapper);
 					}
-					
-					LOGGER.info("ID: "  + currElement.getElementRef().toString());
-					LOGGER.info("COUNTER ARRAY LIST: "  + taskObjects.get(currElement.getElementRef().toString()).size());
 				}
 			} 
 
-			
 			return taskObjects;
 		} catch (Exception e) {
 			//e.printStackTrace();
@@ -239,9 +227,10 @@ public class BpsimCollection {
 	        
 	        ((Element) nl.item(0)).setAttribute("xmlns:bpsim","http://www.bpsim.org/schemas/2.0");
 			String fileString = toString(nl.item(0));
-			InputSource fileSource = new InputSource(new StringReader(fileString));			
+			InputSource fileSource = new InputSource(new StringReader(fileString));
 			return (BPSimData) unmarshaller.unmarshal(fileSource);
 		} catch (Exception e) {
+			LOGGER.info("Could not Load the bpsim tag");
 			e.printStackTrace();
 			return null;
 		}

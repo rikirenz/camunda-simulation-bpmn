@@ -15,18 +15,21 @@ public class EventListener implements ExecutionListener {
 	private EventsHandler eventsHandler = EventsHandler.getInstance();
 	
 	private Double interTriggerTimer;
+	private Long triggerCount;
 	private Double probability;	
 	private Boolean condition;
 	
 	private ControlParametersWrapper controlParameters;
 
-	public void notify(DelegateExecution execution) throws Exception {			
-		LOGGER.info(this.getClass().getName() + " " + execution.getCurrentActivityId());
-		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), ControlParametersWrapper.class);
+	public void notify(DelegateExecution execution) throws Exception {
+		LOGGER.info("Event Name:" + execution.getEventName());
+		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getEventName(), ControlParametersWrapper.class);
 		// element not defined
 		if (controlParameters == null) return;
 		interTriggerTimer = controlParameters.getInterTriggerTimer();
 		probability = controlParameters.getProbability();
-		condition = controlParameters.getCondition();
+		condition = controlParameters.getCondition();		
+		
+		eventsHandler.addTaskEvent(execution.getEventName(), 0, execution.getProcessInstanceId());
 	}	
 }

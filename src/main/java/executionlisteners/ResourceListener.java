@@ -25,7 +25,7 @@ public class ResourceListener implements ExecutionListener {
 	private Double unitCost;
 	
 	public void notify(DelegateExecution execution) throws Exception {		
-				LOGGER.info(this.getClass().getName() + " " + execution.getCurrentActivityId());
+				
 		resourceParameters = (ResourceParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), ResourceParametersWrapper.class);
 		costParameters = (CostParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), CostParametersWrapper.class);
 		// element not defined

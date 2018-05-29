@@ -84,18 +84,14 @@ public class BpsimCollection {
 		try {
 			this.xmlFilePath = xmlFilePath;
 			this.bpsimData = loadBpsimAnnotations();
-			createScenarioObjectsHashMap();			
+			scenarioObject = loadScenario();
 			createTaskObjectsHashMap();
-			// I do not think are necessary
-			// createGatewayObjectsHashMap();
-			// createEventObjectsHashMap();	
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private HashMap createScenarioObjectsHashMap() {
+	private ScenarioWrapper loadScenario() {
 		try {
 			if (bpsimData == null) throw new NullPointerException("The bpsim object cannot be null");
 	
@@ -119,9 +115,7 @@ public class BpsimCollection {
 				if (scenarioParameters.getWarmup() != null) currScenarioWrapper.setWarmup(scenarioParameters.getWarmup().getParameterValue().get(0).getValue());
 				if (scenarioParameters.getStart() != null)  currScenarioWrapper.setStart(scenarioParameters.getStart().getParameterValue().get(0).getValue());
 			}
-			// add the element to the hashMap
-			scenarioObject = currScenarioWrapper;
-			return taskObjects;
+			return currScenarioWrapper;
 		} catch (Exception e) {
 			//e.printStackTrace();
 			return null;
@@ -135,7 +129,7 @@ public class BpsimCollection {
 		taskObjects.put(id, currArrayList);
 	}
 	
-	private HashMap createTaskObjectsHashMap() {
+	private void createTaskObjectsHashMap() {
 		try {
 			if (bpsimData == null) throw new NullPointerException("The bpsim object cannot be null");
 			taskObjects = new HashMap<String, ArrayList<Object>>();			
@@ -203,11 +197,8 @@ public class BpsimCollection {
 					}
 				}
 			} 
-
-			return taskObjects;
 		} catch (Exception e) {
 			//e.printStackTrace();
-			return null;
 		}	
 	}
 	

@@ -43,6 +43,8 @@ public class EventSubProcessListener  implements ExecutionListener {
 
 	public void notify(DelegateExecution execution) throws Exception {
 		
+		LOGGER.info("EventSubProcessListener, id:" + execution.getCurrentActivityName());
+		
 		costParameters = (CostParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), CostParametersWrapper.class);
 		timeParameters = (TimeParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), TimeParametersWrapper.class);
 		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), ControlParametersWrapper.class);

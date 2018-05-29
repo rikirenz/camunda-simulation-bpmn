@@ -20,7 +20,7 @@ public class StartEventListener implements ExecutionListener {
 	private Boolean condition;
 
 	public void notify(DelegateExecution execution) throws Exception {
-		
+		LOGGER.info("StartEventListener, id:" + execution.getCurrentActivityName());
 		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), ControlParametersWrapper.class);
 
 		// element not defined

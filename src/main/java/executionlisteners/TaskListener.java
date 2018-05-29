@@ -41,9 +41,7 @@ public class TaskListener implements ExecutionListener {
 
 	
 	public void notify(DelegateExecution execution) throws Exception {
-		
-		LOGGER.info("TASK: " + execution.getCurrentActivityName());
-		
+		LOGGER.info("Task Listener, id: " + execution.getCurrentActivityName());
 		costParameters = (CostParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), CostParametersWrapper.class);
 		timeParameters = (TimeParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), TimeParametersWrapper.class);
 		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), ControlParametersWrapper.class);
@@ -54,19 +52,14 @@ public class TaskListener implements ExecutionListener {
 			throw new Exception("The Parameters for the task:" + execution.getCurrentActivityId() + " are not well defined.");
 		}
 		
-
 		Long totalTime = calculateTaskTime(timeParameters);
 		Double totalCost = calculateTaskCost(costParameters);
-		
-				
-		interTriggerTimer = controlParameters.getInterTriggerTimer(); // ?
-		triggerCount = controlParameters.getTriggerCount(); // ?
+						
+		interTriggerTimer = controlParameters.getInterTriggerTimer();
+		triggerCount = controlParameters.getTriggerCount();
 				
 		interruptible = priorityParameters.getInterruptible();
 		priority = priorityParameters.getPriority();
-				
-		
-		LOGGER.info("TASK: " + execution.getCurrentActivityName() + " TOTAL TIME: " + totalTime);
 		
 		eventsHandler.addTaskEvent(execution.getCurrentActivityName(), totalTime, execution.getProcessInstanceId());
 	}
@@ -90,5 +83,5 @@ public class TaskListener implements ExecutionListener {
 
 		return unitCost +  fixedCost;
 	}
-
+	
 }

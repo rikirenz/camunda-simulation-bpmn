@@ -15,14 +15,13 @@ public class EventListener implements ExecutionListener {
 	private EventsHandler eventsHandler = EventsHandler.getInstance();
 	
 	private Double interTriggerTimer;
-	private Long triggerCount;
 	private Double probability;	
 	private Boolean condition;
 	
 	private ControlParametersWrapper controlParameters;
 
 	public void notify(DelegateExecution execution) throws Exception {
-		LOGGER.info("Event Name:" + execution.getEventName());
+		LOGGER.info("EventListener, id:" + execution.getCurrentActivityName());
 		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getEventName(), ControlParametersWrapper.class);
 		// element not defined
 		if (controlParameters == null) return;

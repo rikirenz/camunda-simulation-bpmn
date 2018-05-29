@@ -3,21 +3,21 @@ package simulation;
 public abstract class SimulationEvent implements Comparable<SimulationEvent> {
 
 	protected String name;
-	protected long endTime;
+	protected long startTime;
 	
 	public SimulationEvent() {}
 	
 	public SimulationEvent(String name, int endTime) {
 		this.name = name;
-		this.endTime = endTime;
+		this.startTime = endTime;
 	}
 	
 	public String getName() {
 		return name;
 	}
 	
-	public long getEndTime() {
-		return endTime;
+	public long getStartTime() {
+		return startTime;
 	}
 	
 	public int compareTo(SimulationEvent se) {
@@ -25,6 +25,6 @@ public abstract class SimulationEvent implements Comparable<SimulationEvent> {
 	}
 	
 	public String toString() {
-		return "name: "+ name + " EndTime" + endTime;
+		return "name: "+ name + " EndTime" + startTime;
 	}
 }

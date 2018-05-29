@@ -18,7 +18,8 @@ public class SequenceFlowListener  implements ExecutionListener {
 	private Double probability;	
 	private Boolean condition;
 
-	public void notify(DelegateExecution execution) throws Exception {			
+	public void notify(DelegateExecution execution) throws Exception {
+		LOGGER.info("SequenceFlowListener, id:" + execution.getCurrentActivityName());
 		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getCurrentTransitionId(), ControlParametersWrapper.class);
 		
 		// element not defined

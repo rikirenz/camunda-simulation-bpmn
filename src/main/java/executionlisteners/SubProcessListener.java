@@ -37,8 +37,8 @@ public class SubProcessListener  implements ExecutionListener {
 	private Boolean interruptible;
 	private Long priority;	
 	
-	public void notify(DelegateExecution execution) throws Exception {			
-				
+	public void notify(DelegateExecution execution) throws Exception {
+		LOGGER.info("SubProcessListener, id:" + execution.getCurrentActivityName());
 		costParameters = (CostParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), CostParametersWrapper.class);
 		timeParameters = (TimeParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), TimeParametersWrapper.class);
 		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), ControlParametersWrapper.class);

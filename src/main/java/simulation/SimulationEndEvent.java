@@ -21,7 +21,7 @@ public class SimulationEndEvent extends SimulationEvent {
 	}
 		
 	public String toString() {
-		return "name: "+ name +", time:" + time +", endTime:" + endTime + ", processId:" + processId;
+		return "name: "+ name +", time:" + time +", endTime:" + startTime + ", processId:" + processId;
 	}
 }
 	

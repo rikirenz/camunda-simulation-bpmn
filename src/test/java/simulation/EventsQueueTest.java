@@ -60,8 +60,6 @@ public class EventsQueueTest extends TestCase{
 			eq.add(new SimulationStartEvent("test3", 20));
 			eq.add(new SimulationTaskEvent("test4", 15, "processId"));
 			eq.add(new SimulationTaskEvent("test6", 25, "processId"));
-			eq.add(new SimulationCatchEvent("test7", 23, "processId", 23));
-			eq.add(new SimulationCatchEvent("test8", 24, "processId", 24));
 			
 			SimulationEvent se = (SimulationEvent) eq.remove();			
 			assertEquals("test1", se.getName());

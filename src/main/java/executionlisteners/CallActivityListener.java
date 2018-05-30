@@ -38,7 +38,7 @@ public class CallActivityListener  implements ExecutionListener {
 	private Long priority;
 	
 	public void notify(DelegateExecution execution) throws Exception {			
-				
+		LOGGER.info("CallActivityListener, id: " + execution.getCurrentActivityName());
 	
 		costParameters = (CostParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), CostParametersWrapper.class);
 		timeParameters = (TimeParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), TimeParametersWrapper.class);

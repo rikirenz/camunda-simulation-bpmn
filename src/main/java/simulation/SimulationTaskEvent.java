@@ -9,7 +9,7 @@ public class SimulationTaskEvent extends SimulationEvent {
 	public SimulationTaskEvent(String name, long time, String processId) {
 		this.name = name;
 		this.time = time;
-		this.endTime = simClock.getCurrentTime() + time;
+		this.startTime = simClock.getCurrentTime() + time;
 		this.processId = processId;
 	}
 	
@@ -22,7 +22,7 @@ public class SimulationTaskEvent extends SimulationEvent {
 	}
 	
 	public String toString() {
-		return "name: "+ name +", time:" + time +", endTime:" + endTime + ", processId:" + processId;
+		return "name: "+ name +", time:" + time +", endTime:" + startTime + ", processId:" + processId;
 	}
 }
 

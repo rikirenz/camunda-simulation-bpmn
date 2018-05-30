@@ -19,9 +19,10 @@ public class GatewayListener  implements ExecutionListener {
 	private Long triggerCount;
 	
 	public void notify(DelegateExecution execution) throws Exception {			
-				
+		LOGGER.info("GatewayListener, id:" + execution.getCurrentActivityName());
+			
 		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), ControlParametersWrapper.class);
-		
+		//LOGGER.info("varaible x:" + execution.getVariable("x"));
 		// element not defined
 		if (controlParameters == null) return;
 	

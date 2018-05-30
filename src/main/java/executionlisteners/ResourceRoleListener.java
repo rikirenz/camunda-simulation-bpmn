@@ -18,7 +18,7 @@ public class ResourceRoleListener implements ExecutionListener {
 	private String selection;
 	
 	public void notify(DelegateExecution execution) throws Exception {			
-				
+		LOGGER.info("ResourceRoleListener, id:" + execution.getCurrentActivityName());
 		resourceParameters = (ResourceParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), ResourceParametersWrapper.class);
 		
 		// element not defined

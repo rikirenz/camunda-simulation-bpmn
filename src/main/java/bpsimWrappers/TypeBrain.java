@@ -138,11 +138,13 @@ public class TypeBrain {
 			GammaDistribution dp = (GammaDistribution) currParamValue;
 		}
 
-		// to do implement all the distribution		 
-		if (returnType == double.class) return randomGenerator.nextDouble();
-		if (returnType == long.class) return randomGenerator.nextLong();
-		return null;
-		
+		// to do implement all the distribution
+		// if (returnType == double.class) return randomGenerator.nextDouble();
+		// if (returnType == long.class) return randomGenerator.nextLong();
+		if (returnType == double.class) return 15.0;
+		if (returnType == long.class) return new Long(15);
+
+		return null;	
 	}	
 	
 }

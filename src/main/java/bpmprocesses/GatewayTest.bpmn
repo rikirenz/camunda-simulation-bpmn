@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" id="_1364754643385" name="Definitions_1" targetNamespace="http://www.trisotech.com/definitions/_1364754643385" exporter="Camunda Modeler" exporterVersion="1.11.3">
+  <semantic:process id="gatewayTest" isExecutable="true">
+    <semantic:extensionElements>
+      <camunda:executionListener expression="${execution.setVariable(&#39;x&#39;, &#39;1&#39;)}" event="start" />
+    </semantic:extensionElements>
+    <semantic:startEvent id="StartEvent_16xee7k">
+      <semantic:outgoing>SequenceFlow_1r0xh80</semantic:outgoing>
+    </semantic:startEvent>
+    <semantic:userTask id="receivePayment" name="receive payment">
+      <semantic:extensionElements>
+        <camunda:executionListener class="executionlisteners.ExecutionListenerMaster" event="start" />
+      </semantic:extensionElements>
+      <semantic:incoming>paymentFlow</semantic:incoming>
+      <semantic:outgoing>SequenceFlow_05qyj29</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:endEvent id="end">
+      <semantic:extensionElements>
+        <camunda:executionListener class="executionlisteners.TerminateEventListener" event="start" />
+      </semantic:extensionElements>
+      <semantic:incoming>SequenceFlow_0kcc8f8</semantic:incoming>
+    </semantic:endEvent>
+    <semantic:userTask id="shipOrder" name="Ship Order">
+      <semantic:extensionElements>
+        <camunda:executionListener class="executionlisteners.ExecutionListenerMaster" event="start" />
+      </semantic:extensionElements>
+      <semantic:incoming>shipFlow</semantic:incoming>
+      <semantic:outgoing>SequenceFlow_19hdffs</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:sequenceFlow id="SequenceFlow_1r0xh80" sourceRef="StartEvent_16xee7k" targetRef="ParallelGatewayStart" />
+    <semantic:sequenceFlow id="shipFlow" sourceRef="ParallelGatewayStart" targetRef="shipOrder">
+      <semantic:conditionExpression xsi:type="semantic:tFormalExpression">${EnsoFlowVariable == 1}</semantic:conditionExpression>
+    </semantic:sequenceFlow>
+    <semantic:sequenceFlow id="paymentFlow" sourceRef="ParallelGatewayStart" targetRef="receivePayment" />
+    <semantic:exclusiveGateway id="ParallelGatewayStart" default="paymentFlow">
+      <semantic:extensionElements>
+        <camunda:executionListener class="executionlisteners.GatewayListener" event="start" />
+      </semantic:extensionElements>
+      <semantic:incoming>SequenceFlow_1r0xh80</semantic:incoming>
+      <semantic:outgoing>shipFlow</semantic:outgoing>
+      <semantic:outgoing>paymentFlow</semantic:outgoing>
+    </semantic:exclusiveGateway>
+    <semantic:exclusiveGateway id="ExclusiveGateway_08mitgt">
+      <semantic:incoming>SequenceFlow_05qyj29</semantic:incoming>
+      <semantic:incoming>SequenceFlow_19hdffs</semantic:incoming>
+      <semantic:outgoing>SequenceFlow_0kcc8f8</semantic:outgoing>
+    </semantic:exclusiveGateway>
+    <semantic:sequenceFlow id="SequenceFlow_05qyj29" sourceRef="receivePayment" targetRef="ExclusiveGateway_08mitgt" />
+    <semantic:sequenceFlow id="SequenceFlow_19hdffs" sourceRef="shipOrder" targetRef="ExclusiveGateway_08mitgt" />
+    <semantic:sequenceFlow id="SequenceFlow_0kcc8f8" sourceRef="ExclusiveGateway_08mitgt" targetRef="end" />
+  </semantic:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="gatewayTest">
+      <bpmndi:BPMNShape id="StartEvent_16xee7k_di" bpmnElement="StartEvent_16xee7k">
+        <dc:Bounds x="304" y="248" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="232" y="284" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1ccws4v_di" bpmnElement="receivePayment">
+        <dc:Bounds x="480" y="131" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0lyr0x9_di" bpmnElement="end">
+        <dc:Bounds x="699" y="248" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="627" y="288" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_17yr449_di" bpmnElement="shipOrder">
+        <dc:Bounds x="480" y="318" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1r0xh80_di" bpmnElement="SequenceFlow_1r0xh80">
+        <di:waypoint xsi:type="dc:Point" x="340" y="266" />
+        <di:waypoint xsi:type="dc:Point" x="358" y="266" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="304" y="245" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0rcno4b_di" bpmnElement="shipFlow">
+        <di:waypoint xsi:type="dc:Point" x="383" y="291" />
+        <di:waypoint xsi:type="dc:Point" x="383" y="358" />
+        <di:waypoint xsi:type="dc:Point" x="480" y="358" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="353" y="318.5" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0i62xan_di" bpmnElement="paymentFlow">
+        <di:waypoint xsi:type="dc:Point" x="383" y="241" />
+        <di:waypoint xsi:type="dc:Point" x="383" y="171" />
+        <di:waypoint xsi:type="dc:Point" x="480" y="171" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="353" y="200" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0hgvarz_di" bpmnElement="ParallelGatewayStart" isMarkerVisible="true">
+        <dc:Bounds x="358" y="241" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="293" y="295" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_08mitgt_di" bpmnElement="ExclusiveGateway_08mitgt" isMarkerVisible="true">
+        <dc:Bounds x="607" y="241" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="632" y="295" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_05qyj29_di" bpmnElement="SequenceFlow_05qyj29">
+        <di:waypoint xsi:type="dc:Point" x="580" y="171" />
+        <di:waypoint xsi:type="dc:Point" x="632" y="171" />
+        <di:waypoint xsi:type="dc:Point" x="632" y="241" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="606" y="150" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_19hdffs_di" bpmnElement="SequenceFlow_19hdffs">
+        <di:waypoint xsi:type="dc:Point" x="580" y="358" />
+        <di:waypoint xsi:type="dc:Point" x="632" y="358" />
+        <di:waypoint xsi:type="dc:Point" x="632" y="291" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="606" y="337" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0kcc8f8_di" bpmnElement="SequenceFlow_0kcc8f8">
+        <di:waypoint xsi:type="dc:Point" x="657" y="266" />
+        <di:waypoint xsi:type="dc:Point" x="699" y="266" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="678" y="245" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <semantic:relationship type="BPSimData">
+    <semantic:extensionElements>
+      <bpsim:BPSimData>
+        <bpsim:Scenario author="Tim Stephenson" id="default" name="Scenario 1">
+          <bpsim:ScenarioParameters baseTimeUnit="min" replication="3" />
+          <bpsim:ElementParameters elementRef="ParallelGatewayStart">
+          </bpsim:ElementParameters>
+        </bpsim:Scenario>
+      </bpsim:BPSimData>
+    </semantic:extensionElements>
+    <semantic:source>_1364754643385</semantic:source>
+    <semantic:target>_1364754643385</semantic:target>
+  </semantic:relationship>
+</semantic:definitions>

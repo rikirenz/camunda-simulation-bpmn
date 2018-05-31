@@ -4,7 +4,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import org.camunda.bpm.engine.ProcessEngine;
@@ -13,13 +12,14 @@ import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.repository.DeploymentBuilder;
+import org.camunda.bpm.engine.runtime.EventSubscription;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.bpmn.instance.EventDefinition;
+import org.camunda.bpm.model.bpmn.instance.IntermediateCatchEvent;
 import org.camunda.bpm.model.bpmn.instance.IntermediateThrowEvent;
-import org.camunda.bpm.model.bpmn.instance.MessageEventDefinition;
+import org.camunda.bpm.model.bpmn.instance.StartEvent;
 import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 import org.camunda.bpm.model.xml.type.ModelElementType;
 
@@ -27,7 +27,6 @@ import bpsimWrappers.ControlParametersWrapper;
 import simulation.EventsQueue;
 import simulation.SimulationCatchEvent;
 import simulation.SimulationClock;
-import simulation.SimulationEndEvent;
 import simulation.SimulationEvent;
 import simulation.SimulationStartEvent;
 import simulation.SimulationTaskEvent;
@@ -91,18 +90,19 @@ public class EnsoApp {
 		}
 				
 
-		// indipendent events creation
-		// get all the intermediate events in the simulation		
-		// retrive just the indipendent ones
+		// Get all the IntermediateThrowEvent events
+		// start
 		ArrayList<SimulationCatchEvent> indipendentIntermediateThrowEvents = new ArrayList<SimulationCatchEvent>();
-		
-		ModelElementType IntermediateThrowEventType = modelInstance.getModel().getType(IntermediateThrowEvent.class);
+		ModelElementType IntermediateThrowEventType = modelInstance.getModel().getType(StartEvent.class);
 		Collection<ModelElementInstance> taskInstances = modelInstance.getModelElementsByType(IntermediateThrowEventType);
 		for (ModelElementInstance currentElement : taskInstances) {
-			IntermediateThrowEvent currIntermediateThrowEvent = (IntermediateThrowEvent) currentElement;
+			StartEvent currIntermediateCatchEvent = (StartEvent) currentElement;
+		// end
 
-			ArrayList<Object> eventParameters = BpsimCollection.taskObjects.get(currIntermediateThrowEvent.getId());
-			// if there are no parameter means it's not indipendent
+			// Get the BPSim information about the current event
+			ArrayList<Object> eventParameters = BpsimCollection.taskObjects.get(currIntermediateCatchEvent.getId());
+
+			// verify if there are parameters
 			if (eventParameters == null) continue;
 
 			for (Object currParameter : eventParameters) {
@@ -110,42 +110,45 @@ public class EnsoApp {
 					ControlParametersWrapper currCtrlWrapper = (ControlParametersWrapper) currParameter;
 					try {
 						SimulationCatchEvent currSimCatchEvent = new SimulationCatchEvent(
-							currIntermediateThrowEvent.getId(), 
-							currCtrlWrapper.getInterTriggerTimer().longValue(), 
+							currIntermediateCatchEvent.getId(),
+							currCtrlWrapper.getInterTriggerTimer().longValue(),
 							"", 
-							currCtrlWrapper.getInterTriggerTimer().longValue()
+							currCtrlWrapper.getInterTriggerTimer().longValue(),
+							currCtrlWrapper.getTriggerCount().longValue()
 						);
 						indipendentIntermediateThrowEvents.add(currSimCatchEvent);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			}
 		}
-		
+	
 		
 		while (!eventsQueue.isEmpty()) {
 			SimulationEvent currEvent = eventsQueue.remove();
 			if (currEvent instanceof SimulationTaskEvent) {
 				LOGGER.info("task event");
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
-				if (currTaskEvent.getEndTime() > simClock.getCurrentTime())
-					simClock.setCurrentTime(currTaskEvent.getEndTime());
+				if (currTaskEvent.getStartTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currTaskEvent.getStartTime());
 				// move on with the simulation
 				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).taskName(currTaskEvent.getName()).singleResult();
 				taskService.complete(currTask.getId());
-			} else if (currEvent instanceof SimulationCatchEvent) {				
+			} else if (currEvent instanceof SimulationCatchEvent) {
 				LOGGER.info("catch event");
 				SimulationCatchEvent currCatchEvent = (SimulationCatchEvent) currEvent;
-				if (currCatchEvent.getEndTime() > simClock.getCurrentTime())
-					simClock.setCurrentTime(currCatchEvent.getEndTime());									
+				if (currCatchEvent.getStartTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currCatchEvent.getStartTime());
 				// Put the event again in the queue with the time updated
-				currCatchEvent.setEndTime(simClock.getCurrentTime() + currCatchEvent.getInterTriggerTime());
-				eventsQueue.add(currCatchEvent);
-			} else if (currEvent instanceof SimulationEndEvent) {
-				eventsQueue.removeEventsByProcessId(((SimulationEndEvent) currEvent).getProcessId());
-		    } else {
+				eventsQueue.add(currCatchEvent.getNextEvent());
+
+				// trigger the event in the process
+				EventSubscription subscription = runtimeService.createEventSubscriptionQuery().
+						processInstanceId(currCatchEvent.getProcessId()).singleResult();
+				runtimeService.messageEventReceived(subscription.getEventName(), subscription.getExecutionId());
+
+			} else {
 				LOGGER.info("Start event");
 				ProcessInstance instance = runtimeService.startProcessInstanceByKey(processBpmnId);
 				// add catchEvent to the new instance of the process

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
+  <bpmn:message id="testMessage" name="testMessage" />
   <bpmn:process id="dinner-with-friends" isExecutable="true">
     <bpmn:startEvent id="StartEventDinnerWithFriends" name="startEvent">
       <bpmn:extensionElements>
@@ -160,8 +161,28 @@
       <bpmn:outgoing>SequenceFlow_1bpg9bf</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="SequenceFlow_1bpg9bf" sourceRef="TaskCleanTable" targetRef="ExclusiveGatewayClean" />
-    <bpmn:intermediateThrowEvent id="IntermediateCatchEventIndipendent" />
+    <bpmn:subProcess id="SubProcess_1t3b3yt" triggeredByEvent="true">
+      <bpmn:userTask id="taskIndipendentEvent" name="taskIndipendentEvent">
+        <bpmn:extensionElements>
+          <camunda:executionListener class="executionlisteners.ExecutionListenerFixedTime" event="start" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_0ynguv5</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_1jr9j0p</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:endEvent id="EndEvent_0z8qcau">
+        <bpmn:incoming>SequenceFlow_1jr9j0p</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_0ynguv5" sourceRef="IntermediateCatchEventIndipendent" targetRef="taskIndipendentEvent" />
+      <bpmn:sequenceFlow id="SequenceFlow_1jr9j0p" sourceRef="taskIndipendentEvent" targetRef="EndEvent_0z8qcau" />
+      <bpmn:startEvent id="IntermediateCatchEventIndipendent" name="IntermediateCatchEventIndipendent" isInterrupting="false">
+        <bpmn:outgoing>SequenceFlow_0ynguv5</bpmn:outgoing>
+        <bpmn:messageEventDefinition messageRef="testMessage" />
+      </bpmn:startEvent>
+    </bpmn:subProcess>
   </bpmn:process>
+  <bpmn:signal id="Signal_0lzgxyy" name="IntermediateCatchEventIndipendent" />
+  <bpmn:message id="Message_0nle43k" name="Message_08rblt3" />
+  <bpmn:message id="Message_09ywdb9" name="Message_2goee58" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="dinner-with-friends">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEventDinnerWithFriends">
@@ -416,10 +437,36 @@
           <dc:Bounds x="575" y="192" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="IntermediateThrowEvent_1a1y68s_di" bpmnElement="IntermediateCatchEventIndipendent">
-        <dc:Bounds x="45" y="453" width="36" height="36" />
+      <bpmndi:BPMNShape id="UserTask_0dxizr2_di" bpmnElement="taskIndipendentEvent">
+        <dc:Bounds x="-98" y="550" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0z8qcau_di" bpmnElement="EndEvent_0z8qcau">
+        <dc:Bounds x="49.676000000000045" y="572.456" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="18" y="493" width="0" height="12" />
+          <dc:Bounds x="67.67600000000004" y="612.456" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_03ipkai_di" bpmnElement="SubProcess_1t3b3yt" isExpanded="true">
+        <dc:Bounds x="-200" y="492" width="306" height="208" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ynguv5_di" bpmnElement="SequenceFlow_0ynguv5">
+        <di:waypoint xsi:type="dc:Point" x="-131" y="590" />
+        <di:waypoint xsi:type="dc:Point" x="-98" y="590" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-114.5" y="569" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1jr9j0p_di" bpmnElement="SequenceFlow_1jr9j0p">
+        <di:waypoint xsi:type="dc:Point" x="2" y="590" />
+        <di:waypoint xsi:type="dc:Point" x="50" y="590" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="26" y="569" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_022pkl3_di" bpmnElement="IntermediateCatchEventIndipendent">
+        <dc:Bounds x="-167" y="572" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-193" y="611" width="89" height="36" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
@@ -785,18 +832,20 @@
               </bpsim:Priority>
             </bpsim:PriorityParameters>
           </bpsim:ElementParameters>
-					<bpsim:ElementParameters elementRef="IntermediateCatchEventIndipendent">
+          <bpsim:ElementParameters elementRef="IntermediateCatchEventIndipendent">
             <bpsim:ControlParameters>
               <bpsim:InterTriggerTimer>
-                <bpsim:NumericParameter value="10" />
+                <bpsim:NumericParameter value="20" />
               </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="2" />
+              </bpsim:TriggerCount>
             </bpsim:ControlParameters>
           </bpsim:ElementParameters>
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </bpmn:extensionElements>
-    <bpmn:source>_1364754643385</bpmn:source>
-    <bpmn:target>_1364754643385</bpmn:target>
+    <bpmn:source>Definitions_1</bpmn:source>
+    <bpmn:target>Definitions_1</bpmn:target>
   </bpmn:relationship>
-  
 </bpmn:definitions>

@@ -3,24 +3,36 @@ package simulation;
 public class SimulationCatchEvent extends SimulationEvent {
 
 	private long interTriggerTime;
+	private long triggerCount;
 	private long time;
 	private String processId;
 	private SimulationClock simClock =  new SimulationClock();
 
-	public SimulationCatchEvent(String name, long time, String processId, long interTriggerTime) {
+	public SimulationCatchEvent(String name, long time, String processId, long interTriggerTime, long triggerCount) {
 		this.name = name;
 		this.time = time;
+		this.triggerCount = triggerCount;
 		this.interTriggerTime = interTriggerTime;
-		this.endTime = simClock.getCurrentTime() + time;
+		this.startTime = simClock.getCurrentTime() + time;
 		this.processId = processId;
 	}
 	
+	public SimulationCatchEvent(String name, long time, long startTime, String processId, long interTriggerTime, long triggerCount) {
+		this.name = name;
+		this.time = time;
+		this.startTime = startTime;
+		this.triggerCount = triggerCount;
+		this.interTriggerTime = interTriggerTime;
+		this.startTime = simClock.getCurrentTime() + time;
+		this.processId = processId;
+	}
+
 	public long getTime() {
 		return time;
 	}
 
 	public void setEndTime(long endTime) {
-		this.endTime = endTime;
+		this.startTime = endTime;
 	}
 
 	
@@ -38,9 +50,32 @@ public class SimulationCatchEvent extends SimulationEvent {
 	}
 		
 	public String toString() {
-		return "name: "+ name +", time:" + time +", endTime:" + endTime + ", processId:" + processId + 
-				", interTriggerTime: " + interTriggerTime;
+		return "name: "+ name +", time:" + time +", startTime:" + startTime + ", processId:" + processId + 
+				", interTriggerTime: " + interTriggerTime + ", TriggerCount: " + triggerCount;
 	}
+
+	public long getTriggerCount() {
+		return triggerCount;
+	}
+
+	public void setTriggerCount(long triggerCount) {
+		this.triggerCount = triggerCount;
+	}
+	
+	public SimulationCatchEvent getNextEvent() {
+		triggerCount--;
+		if (triggerCount == 0) return null;
+		
+		return new SimulationCatchEvent(
+			name,
+			time,
+			startTime + interTriggerTime, 
+			processId, 
+			interTriggerTime, 
+			triggerCount
+		);	
+	}
+
 }
 	
 

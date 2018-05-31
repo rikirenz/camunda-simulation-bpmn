@@ -20,7 +20,8 @@ public class EventsQueue {
 	   return instance;
 	}
 	
-	public void add(SimulationEvent currentEvent) {		
+	public void add(SimulationEvent currentEvent) {
+		if (currentEvent == null) return;
 		eventsQueue.add(currentEvent);
 	}
 
@@ -34,25 +35,5 @@ public class EventsQueue {
 	
 	public int size() {
 		return eventsQueue.size();
-	}
-	
-	public void removeEventsByProcessId(String processId) {
-		for (SimulationEvent currEvent : eventsQueue) {
-			if (currEvent instanceof SimulationTaskEvent) {
-				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
-				if (currTaskEvent.getProcessId().equals(processId)) eventsQueue.remove(currTaskEvent);
-			} else if (currEvent instanceof SimulationCatchEvent) {				
-				SimulationCatchEvent currCatchEvent = (SimulationCatchEvent) currEvent;
-				if (currCatchEvent.getProcessId().equals(processId)) {
-					LOGGER.info("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX I am here XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-					eventsQueue.remove(currCatchEvent);
-				} 
-			} else if (currEvent instanceof SimulationEndEvent) {
-				SimulationEndEvent currEndEvent = (SimulationEndEvent) currEvent;
-				if (currEndEvent.getProcessId().equals(processId)) eventsQueue.remove(currEndEvent);
-			}else {
-				// start event 				
-			}
-		} 
 	}
 }

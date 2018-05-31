@@ -1,4 +1,4 @@
-package util;
+	package util;
 
 import java.io.File;
 import java.io.StringReader;
@@ -223,6 +223,7 @@ public class BpsimCollection {
 	        XPath xpath = xPathfactory.newXPath();
 	        XPathExpression expr = xpath.compile("//*[local-name()='BPSimData']");	        
 	        NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+
 	        if (nl.getLength() < 1) return null;
 	        
 	        ((Element) nl.item(0)).setAttribute("xmlns:bpsim","http://www.bpsim.org/schemas/2.0");

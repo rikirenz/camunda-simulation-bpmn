@@ -9,6 +9,7 @@ import bpsimWrappers.ControlParametersWrapper;
 import bpsimWrappers.CostParametersWrapper;
 import bpsimWrappers.PriorityParametersWrapper;
 import bpsimWrappers.TimeParametersWrapper;
+import enso.EnsoApp;
 import simulation.EventsHandler;
 import util.Util;
 
@@ -67,6 +68,7 @@ public class TaskListener implements ExecutionListener {
 				
 		
 		LOGGER.info("TASK: " + execution.getCurrentActivityName() + " TOTAL TIME: " + totalTime);
+	
 		
 		eventsHandler.addTaskEvent(execution.getCurrentActivityName(), totalTime, execution.getProcessInstanceId());
 	}

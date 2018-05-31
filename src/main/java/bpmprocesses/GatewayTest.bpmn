@@ -15,9 +15,6 @@
       <semantic:outgoing>SequenceFlow_05qyj29</semantic:outgoing>
     </semantic:userTask>
     <semantic:endEvent id="end">
-      <semantic:extensionElements>
-        <camunda:executionListener class="executionlisteners.TerminateEventListener" event="start" />
-      </semantic:extensionElements>
       <semantic:incoming>SequenceFlow_0kcc8f8</semantic:incoming>
     </semantic:endEvent>
     <semantic:userTask id="shipOrder" name="Ship Order">
@@ -29,7 +26,9 @@
     </semantic:userTask>
     <semantic:sequenceFlow id="SequenceFlow_1r0xh80" sourceRef="StartEvent_16xee7k" targetRef="ParallelGatewayStart" />
     <semantic:sequenceFlow id="shipFlow" sourceRef="ParallelGatewayStart" targetRef="shipOrder">
-      <semantic:conditionExpression xsi:type="semantic:tFormalExpression">${EnsoFlowVariable == 1}</semantic:conditionExpression>
+      <semantic:conditionExpression xsi:type="semantic:tFormalExpression" language="groovy"><![CDATA[import util.Util
+
+Util.booleanValueFlow("shipFlow");]]></semantic:conditionExpression>
     </semantic:sequenceFlow>
     <semantic:sequenceFlow id="paymentFlow" sourceRef="ParallelGatewayStart" targetRef="receivePayment" />
     <semantic:exclusiveGateway id="ParallelGatewayStart" default="paymentFlow">
@@ -81,7 +80,7 @@
         <di:waypoint xsi:type="dc:Point" x="383" y="358" />
         <di:waypoint xsi:type="dc:Point" x="480" y="358" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="353" y="318.5" width="90" height="12" />
+          <dc:Bounds x="353" y="319" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0i62xan_di" bpmnElement="paymentFlow">
@@ -134,8 +133,19 @@
       <bpsim:BPSimData>
         <bpsim:Scenario author="Tim Stephenson" id="default" name="Scenario 1">
           <bpsim:ScenarioParameters baseTimeUnit="min" replication="3" />
-          <bpsim:ElementParameters elementRef="ParallelGatewayStart">
+          <bpsim:ElementParameters elementRef="ParallelGatewayStart" />
+
+          <bpsim:ElementParameters elementRef="shipFlow">
+            <bpsim:ControlParameters>
+              <bpsim:Condition>
+                <bpsim:BooleanParameter value="false" />
+              </bpsim:Condition>
+              <bpsim:Probability>
+                <bpsim:NumericParameter value="2" />
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
           </bpsim:ElementParameters>
+
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </semantic:extensionElements>

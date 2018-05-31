@@ -1,10 +1,19 @@
 package enso;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
@@ -22,6 +31,9 @@ import org.camunda.bpm.model.bpmn.instance.IntermediateThrowEvent;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 import org.camunda.bpm.model.xml.type.ModelElementType;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import bpsimWrappers.ControlParametersWrapper;
 import simulation.EventsQueue;
@@ -66,8 +78,26 @@ public class EnsoApp {
 
 	public void startApp() {
 		// load the bpsim data in the xml
+		preprocessingBpmn(processBpmnPath);
 		new BpsimCollection(processBpmnPath);
 		startSimulation();
+	}
+		
+	private void preprocessingBpmn(Path processBpmnPath) {
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder builder = factory.newDocumentBuilder();
+	        Document doc = builder.parse(new File(this.processBpmnPath.toString()));
+
+	        XPathFactory xPathfactory = XPathFactory.newInstance();
+	        XPath xpath = xPathfactory.newXPath();
+	        XPathExpression expr = xpath.compile("//*[local-name()='BPSimData']");	        
+	        NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void startSimulation() {

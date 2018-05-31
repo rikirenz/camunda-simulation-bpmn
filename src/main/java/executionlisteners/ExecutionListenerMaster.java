@@ -14,7 +14,7 @@ public class ExecutionListenerMaster implements ExecutionListener {
 	private EventsHandler eventsHandler = EventsHandler.getInstance();
 	
 	public void notify(DelegateExecution execution) throws Exception {
-				
+		LOGGER.info(execution.getCurrentActivityName());
 		Random randomGenerator = new Random();
 		int randomTime = randomGenerator.nextInt(100);
 		eventsHandler.addTaskEvent(execution.getCurrentActivityName(), randomTime, execution.getProcessInstanceId());

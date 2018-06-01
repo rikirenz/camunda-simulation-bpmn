@@ -35,8 +35,8 @@ public class Util {
 			// if there is no object exception with distribution or boolean 
 			if (controlParameters == null ) throw new Exception("The Parameters for the out flow:" + elementId + " are not well defined.");
 			
-			if (controlParameters.getCondition() != null) return controlParameters.getCondition();
 			if (controlParameters.getProbability() != null) return random.nextBoolean();
+			if (controlParameters.getCondition() != null) return controlParameters.getCondition();
 			//if (controlParameters.getProbability() != null) return controlParameters.getProbability();
 
 			throw new Exception("The Parameters for the out-flow element:" + elementId + " are not well defined.");

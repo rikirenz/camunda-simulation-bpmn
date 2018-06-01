@@ -137,9 +137,6 @@ Util.booleanValueFlow("shipFlow");]]></semantic:conditionExpression>
 
           <bpsim:ElementParameters elementRef="shipFlow">
             <bpsim:ControlParameters>
-              <bpsim:Condition>
-                <bpsim:BooleanParameter value="false" />
-              </bpsim:Condition>
               <bpsim:Probability>
                 <bpsim:NumericParameter value="2" />
               </bpsim:Probability>

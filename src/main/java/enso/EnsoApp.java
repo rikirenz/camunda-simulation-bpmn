@@ -32,6 +32,7 @@ import org.camunda.bpm.model.bpmn.instance.StartEvent;
 import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 import org.camunda.bpm.model.xml.type.ModelElementType;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -78,25 +79,38 @@ public class EnsoApp {
 
 	public void startApp() {
 		// load the bpsim data in the xml
-		preprocessingBpmn(processBpmnPath);
-		new BpsimCollection(processBpmnPath);
+		Document bpmnDoc = preprocessingBpmn(processBpmnPath);
+		new BpsimCollection(bpmnDoc);
 		startSimulation();
 	}
 		
-	private void preprocessingBpmn(Path processBpmnPath) {
+	private Document preprocessingBpmn(Path processBpmnPath) {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder builder = factory.newDocumentBuilder();
-	        Document doc = builder.parse(new File(this.processBpmnPath.toString()));
-
+	        Document doc = builder.parse(new File(processBpmnPath.toString()));
+	        
+	        // search all the condition expression tags
 	        XPathFactory xPathfactory = XPathFactory.newInstance();
 	        XPath xpath = xPathfactory.newXPath();
-	        XPathExpression expr = xpath.compile("//*[local-name()='BPSimData']");	        
+	        
+	        
+	        
+	        
+	        XPathExpression expr = xpath.compile("//*[local-name()='conditionExpression']");
 	        NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-
+	        // if (nl.getLength() == 0) return doc;
+	        
+	        for (int i = 0; i < nl.getLength(); i++) {
+		        ((Element) nl.item(i)).setNodeValue("<![CDATA[import util.Util\r\n" + 
+		        		"\r\n" + 
+		        		"Util.booleanValueFlow(\"" + ((Element) nl.item(i).getParentNode()).getAttribute("id") + "\");]]>"
+	    		);
+			}
+	        return doc;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
 	}
 
@@ -119,7 +133,6 @@ public class EnsoApp {
 			startTime += delayBetweenInstances;
 		}
 				
-
 		// Get all the IntermediateThrowEvent events
 		// start
 		ArrayList<SimulationCatchEvent> indipendentIntermediateThrowEvents = new ArrayList<SimulationCatchEvent>();

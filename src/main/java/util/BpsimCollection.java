@@ -75,14 +75,14 @@ public class BpsimCollection {
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	
 	private BPSimData bpsimData;
-	private Path xmlFilePath;
+	private Document xmlFile;
 	
 	public static HashMap<String, ArrayList<Object>> taskObjects;
 	public static ScenarioWrapper scenarioObject;
 	
-	public BpsimCollection(Path xmlFilePath) {
+	public BpsimCollection(Document xmlFile) {
 		try {
-			this.xmlFilePath = xmlFilePath;
+			this.xmlFile = xmlFile;
 			this.bpsimData = loadBpsimAnnotations();
 			createScenarioObjectsHashMap();			
 			createTaskObjectsHashMap();
@@ -214,22 +214,17 @@ public class BpsimCollection {
 	private BPSimData loadBpsimAnnotations() {
 		try {
 			JAXBContext jc = JAXBContext.newInstance(BPSimData.class);
-	        Unmarshaller unmarshaller = jc.createUnmarshaller();
-	        
-	        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder builder = factory.newDocumentBuilder();
-	        Document doc = builder.parse(new File(this.xmlFilePath.toString()));
+	        Unmarshaller unmarshaller = jc.createUnmarshaller();	        
+	        Document doc = this.xmlFile;
 	        XPathFactory xPathfactory = XPathFactory.newInstance();
 	        XPath xpath = xPathfactory.newXPath();
 	        XPathExpression expr = xpath.compile("//*[local-name()='BPSimData']");	        
 	        NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-
 	        if (nl.getLength() < 1) return null;
-	        
 	        ((Element) nl.item(0)).setAttribute("xmlns:bpsim","http://www.bpsim.org/schemas/2.0");
-			String fileString = toString(nl.item(0));
-			InputSource fileSource = new InputSource(new StringReader(fileString));
-			return (BPSimData) unmarshaller.unmarshal(fileSource);
+	        String fileString = toString(nl.item(0));
+	        InputSource fileSource = new InputSource(new StringReader(fileString));
+	        return (BPSimData) unmarshaller.unmarshal(fileSource);
 		} catch (Exception e) {
 			LOGGER.info("Could not Load the bpsim tag");
 			e.printStackTrace();

@@ -108,16 +108,16 @@
         <bpmn:outgoing>SequenceFlow_1m774bh</bpmn:outgoing>
       </bpmn:userTask>
       <bpmn:endEvent id="EndEventFailEatMeal">
-        <bpmn:incoming>SequenceFlow_068b9g7</bpmn:incoming>
+        <bpmn:incoming>SequenceFlow_0jegbbk</bpmn:incoming>
         <bpmn:cancelEventDefinition />
       </bpmn:endEvent>
-      <bpmn:boundaryEvent id="BoundaryEvenErrorEatMeal" name="the meal is not good" attachedToRef="TaskEatFood">
-        <bpmn:outgoing>SequenceFlow_068b9g7</bpmn:outgoing>
-        <bpmn:errorEventDefinition />
-      </bpmn:boundaryEvent>
       <bpmn:sequenceFlow id="SequenceFlow_1kn2oog" sourceRef="StartEventEatMeal" targetRef="TaskEatFood" />
       <bpmn:sequenceFlow id="SequenceFlow_1m774bh" sourceRef="TaskEatFood" targetRef="EndEventEatMeal" />
-      <bpmn:sequenceFlow id="SequenceFlow_068b9g7" sourceRef="BoundaryEvenErrorEatMeal" targetRef="EndEventFailEatMeal" />
+      <bpmn:sequenceFlow id="SequenceFlow_0jegbbk" sourceRef="BoundaryEventTest" targetRef="EndEventFailEatMeal" />
+      <bpmn:boundaryEvent id="BoundaryEventTest" attachedToRef="TaskEatFood">
+        <bpmn:outgoing>SequenceFlow_0jegbbk</bpmn:outgoing>
+        <bpmn:messageEventDefinition messageRef="Message_123" />
+      </bpmn:boundaryEvent>
     </bpmn:transaction>
     <bpmn:endEvent id="EndEventDinnerCanceled" name="Dinner canceld">
       <bpmn:incoming>SequenceFlow_17li639</bpmn:incoming>
@@ -181,8 +181,8 @@
     </bpmn:subProcess>
   </bpmn:process>
   <bpmn:signal id="Signal_0lzgxyy" name="IntermediateCatchEventIndipendent" />
-  <bpmn:message id="Message_0nle43k" name="Message_08rblt3" />
-  <bpmn:message id="Message_09ywdb9" name="Message_2goee58" />
+  <bpmn:message id="Message_123" name="Message_123" />
+  <bpmn:message id="Message_1omktw9" name="Message_14dp9tg" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="dinner-with-friends">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEventDinnerWithFriends">
@@ -329,15 +329,9 @@
         <dc:Bounds x="456" y="542" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_12s631a_di" bpmnElement="EndEventFailEatMeal">
-        <dc:Bounds x="281" y="619" width="36" height="36" />
+        <dc:Bounds x="538" y="662" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="209" y="658" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BoundaryEvent_1p827lx_di" bpmnElement="BoundaryEvenErrorEatMeal">
-        <dc:Bounds x="538" y="604" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="519" y="638" width="73" height="24" />
+          <dc:Bounds x="466" y="701" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1kn2oog_di" bpmnElement="SequenceFlow_1kn2oog">
@@ -356,13 +350,6 @@
         <di:waypoint xsi:type="dc:Point" x="317" y="582" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="310" y="576" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_068b9g7_di" bpmnElement="SequenceFlow_068b9g7">
-        <di:waypoint xsi:type="dc:Point" x="546" y="637" />
-        <di:waypoint xsi:type="dc:Point" x="317" y="637" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="343" y="616" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_18yqs96_di" bpmnElement="SequenceFlow_18yqs96">
@@ -467,6 +454,20 @@
         <dc:Bounds x="-167" y="572" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="-193" y="611" width="89" height="36" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0jegbbk_di" bpmnElement="SequenceFlow_0jegbbk">
+        <di:waypoint xsi:type="dc:Point" x="504" y="640" />
+        <di:waypoint xsi:type="dc:Point" x="504" y="680" />
+        <di:waypoint xsi:type="dc:Point" x="538" y="680" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="519" y="654" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_1a7dz1o_di" bpmnElement="BoundaryEventTest">
+        <dc:Bounds x="486" y="604" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="458" y="644" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

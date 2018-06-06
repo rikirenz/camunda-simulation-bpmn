@@ -26,4 +26,9 @@ public class EventsHandler {
 		eventsQueue.add(simEvnt);
 	}
 
+	public void addBoundaryEvent(String eventName, long time, String processInstanceId) {
+		SimulationEvent simEvnt = new SimulationBoundaryEvent(eventName, time, processInstanceId);
+		eventsQueue.add(simEvnt);
+	}
+
 }

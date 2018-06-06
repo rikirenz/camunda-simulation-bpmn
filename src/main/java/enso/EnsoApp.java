@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -26,8 +28,10 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+import org.camunda.bpm.model.bpmn.impl.instance.Outgoing;
 import org.camunda.bpm.model.bpmn.instance.IntermediateCatchEvent;
 import org.camunda.bpm.model.bpmn.instance.IntermediateThrowEvent;
+import org.camunda.bpm.model.bpmn.instance.MessageEventDefinition;
 import org.camunda.bpm.model.bpmn.instance.StartEvent;
 import org.camunda.bpm.model.xml.instance.ModelElementInstance;
 import org.camunda.bpm.model.xml.type.ModelElementType;
@@ -38,6 +42,7 @@ import org.xml.sax.SAXException;
 
 import bpsimWrappers.ControlParametersWrapper;
 import simulation.EventsQueue;
+import simulation.SimulationBoundaryEvent;
 import simulation.SimulationCatchEvent;
 import simulation.SimulationClock;
 import simulation.SimulationEvent;
@@ -79,40 +84,10 @@ public class EnsoApp {
 
 	public void startApp() {
 		// load the bpsim data in the xml
-		Document bpmnDoc = preprocessingBpmn(processBpmnPath);
-		new BpsimCollection(bpmnDoc);
+		new BpsimCollection(processBpmnPath);
 		startSimulation();
 	}
 		
-	private Document preprocessingBpmn(Path processBpmnPath) {
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder builder = factory.newDocumentBuilder();
-	        Document doc = builder.parse(new File(processBpmnPath.toString()));
-	        
-	        // search all the condition expression tags
-	        XPathFactory xPathfactory = XPathFactory.newInstance();
-	        XPath xpath = xPathfactory.newXPath();
-	        
-	        
-	        
-	        
-	        XPathExpression expr = xpath.compile("//*[local-name()='conditionExpression']");
-	        NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-	        // if (nl.getLength() == 0) return doc;
-	        
-	        for (int i = 0; i < nl.getLength(); i++) {
-		        ((Element) nl.item(i)).setNodeValue("<![CDATA[import util.Util\r\n" + 
-		        		"\r\n" + 
-		        		"Util.booleanValueFlow(\"" + ((Element) nl.item(i).getParentNode()).getAttribute("id") + "\");]]>"
-	    		);
-			}
-	        return doc;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 	private void startSimulation() {
 		ProcessEngine processEngine = processEngineInit();
@@ -133,45 +108,13 @@ public class EnsoApp {
 			startTime += delayBetweenInstances;
 		}
 				
-		// Get all the IntermediateThrowEvent events
-		// start
-		ArrayList<SimulationCatchEvent> indipendentIntermediateThrowEvents = new ArrayList<SimulationCatchEvent>();
-		ModelElementType IntermediateThrowEventType = modelInstance.getModel().getType(StartEvent.class);
-		Collection<ModelElementInstance> taskInstances = modelInstance.getModelElementsByType(IntermediateThrowEventType);
-		for (ModelElementInstance currentElement : taskInstances) {
-			StartEvent currIntermediateCatchEvent = (StartEvent) currentElement;
-		// end
-
-			// Get the BPSim information about the current event
-			ArrayList<Object> eventParameters = BpsimCollection.taskObjects.get(currIntermediateCatchEvent.getId());
-
-			// verify if there are parameters
-			if (eventParameters == null) continue;
-
-			for (Object currParameter : eventParameters) {
-				if (currParameter instanceof ControlParametersWrapper) {
-					ControlParametersWrapper currCtrlWrapper = (ControlParametersWrapper) currParameter;
-					try {
-						SimulationCatchEvent currSimCatchEvent = new SimulationCatchEvent(
-							currIntermediateCatchEvent.getId(),
-							currCtrlWrapper.getInterTriggerTimer().longValue(),
-							"", 
-							currCtrlWrapper.getInterTriggerTimer().longValue(),
-							currCtrlWrapper.getTriggerCount().longValue()
-						);
-						indipendentIntermediateThrowEvents.add(currSimCatchEvent);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
 	
 		
 		while (!eventsQueue.isEmpty()) {
 			SimulationEvent currEvent = eventsQueue.remove();
 			if (currEvent instanceof SimulationTaskEvent) {
 				LOGGER.info("task event");
+				
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
 				if (currTaskEvent.getStartTime() > simClock.getCurrentTime())
 					simClock.setCurrentTime(currTaskEvent.getStartTime());
@@ -179,23 +122,37 @@ public class EnsoApp {
 				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).taskName(currTaskEvent.getName()).singleResult();
 				taskService.complete(currTask.getId());
 			} else if (currEvent instanceof SimulationCatchEvent) {
-				LOGGER.info("catch event");
+				LOGGER.info("catch event");				
 				SimulationCatchEvent currCatchEvent = (SimulationCatchEvent) currEvent;
 				if (currCatchEvent.getStartTime() > simClock.getCurrentTime())
 					simClock.setCurrentTime(currCatchEvent.getStartTime());
 				// Put the event again in the queue with the time updated
 				eventsQueue.add(currCatchEvent.getNextEvent());
 
+				
+				LOGGER.info("" + currCatchEvent.getProcessId() + " - " + currCatchEvent.getName());
 				// trigger the event in the process
 				EventSubscription subscription = runtimeService.createEventSubscriptionQuery().
-						processInstanceId(currCatchEvent.getProcessId()).singleResult();
+						processInstanceId(currCatchEvent.getProcessId()).eventName(currCatchEvent.getName()).singleResult();
 				runtimeService.messageEventReceived(subscription.getEventName(), subscription.getExecutionId());
 
+			}else if (currEvent instanceof SimulationBoundaryEvent) {
+				LOGGER.info("boundary event");				
+				SimulationBoundaryEvent currBoundaryEvent = (SimulationBoundaryEvent) currEvent;
+				if (currBoundaryEvent.getStartTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currBoundaryEvent.getStartTime());
+
+				// trigger the event in the process
+				
+				LOGGER.info(currBoundaryEvent.getName());
+				EventSubscription subscription = runtimeService.createEventSubscriptionQuery().
+						processInstanceId(currBoundaryEvent.getProcessId()).eventName(currBoundaryEvent.getName()).singleResult();
+				runtimeService.messageEventReceived(subscription.getEventName(), subscription.getExecutionId());
 			} else {
-				LOGGER.info("Start event");
+				LOGGER.info("Start event");				
 				ProcessInstance instance = runtimeService.startProcessInstanceByKey(processBpmnId);
 				// add catchEvent to the new instance of the process
-				for (SimulationCatchEvent currCatchEvent : indipendentIntermediateThrowEvents) {
+				for (SimulationCatchEvent currCatchEvent : BpsimCollection.indipendentIntermediateThrowEvents) {
 					currCatchEvent.setProcessId(instance.getProcessInstanceId());
 					eventsQueue.add(currCatchEvent);
 				}

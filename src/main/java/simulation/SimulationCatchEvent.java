@@ -1,5 +1,7 @@
 package simulation;
 
+import java.util.logging.Logger;
+
 public class SimulationCatchEvent extends SimulationEvent {
 
 	private long interTriggerTime;
@@ -62,6 +64,7 @@ public class SimulationCatchEvent extends SimulationEvent {
 		this.triggerCount = triggerCount;
 	}
 	
+
 	public SimulationCatchEvent getNextEvent() {
 		triggerCount--;
 		if (triggerCount == 0) return null;

@@ -42,7 +42,7 @@ public class TypeBrain {
 			BooleanParameter bp = (BooleanParameter) currParamValue;
 			return bp.isValue();
 		} else if (currParamValue instanceof DistributionParameter) {
-			double distributionResult = (Double) calculateDistribution(currParamValue, double.class);
+			double distributionResult = (Double) calculateDistribution(currParamValue, double.class).doubleValue();
 			return  (distributionResult % 2) == 0;
 		} else {
 			throw new Exception(
@@ -59,7 +59,7 @@ public class TypeBrain {
 			FloatingParameter np = (FloatingParameter) currParamValue;
 			return np.getValue().doubleValue();
 		} else if (currParamValue instanceof DistributionParameter) {
-			Double distributionResult = (Double) calculateDistribution(currParamValue, double.class);
+			Double distributionResult = (Double) calculateDistribution(currParamValue, double.class).doubleValue();
 			return distributionResult.doubleValue();
 		} else {
 			throw new Exception(
@@ -111,7 +111,7 @@ public class TypeBrain {
 		}
 	}
 	
-	private static Object calculateDistribution(ParameterValue currParamValue, Class<?> returnType) {
+	private static Long calculateDistribution(ParameterValue currParamValue, Class<?> returnType) {
 		if (currParamValue instanceof LogNormalDistribution) {
 			LogNormalDistribution dp = (LogNormalDistribution) currParamValue;
 	    } else if (currParamValue instanceof PoissonDistribution) {
@@ -139,9 +139,7 @@ public class TypeBrain {
 		}
 
 		// to do implement all the distribution		 
-		if (returnType == double.class) return randomGenerator.nextDouble();
-		if (returnType == long.class) return randomGenerator.nextLong();
-		return null;
+		return new Long(5);
 		
 	}	
 	

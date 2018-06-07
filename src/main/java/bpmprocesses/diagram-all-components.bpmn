@@ -38,13 +38,6 @@
           <bpmn:outgoing>SequenceFlow_00cy0lv</bpmn:outgoing>
         </bpmn:userTask>
       </bpmn:subProcess>
-      <bpmn:userTask id="TaskChooseRecipe" name="choose recipe">
-        <bpmn:extensionElements>
-          <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
-        </bpmn:extensionElements>
-        <bpmn:incoming>SequenceFlow_1re9xul</bpmn:incoming>
-        <bpmn:outgoing>SequenceFlow_06nn4o2</bpmn:outgoing>
-      </bpmn:userTask>
       <bpmn:startEvent id="StartEventPrepareMeal">
         <bpmn:extensionElements>
           <camunda:executionListener class="executionlisteners.StartEventListener" event="start" />
@@ -54,6 +47,17 @@
       <bpmn:sequenceFlow id="SequenceFlow_1re9xul" sourceRef="StartEventPrepareMeal" targetRef="TaskChooseRecipe" />
       <bpmn:sequenceFlow id="SequenceFlow_06nn4o2" sourceRef="TaskChooseRecipe" targetRef="TaskCookMeal" />
       <bpmn:sequenceFlow id="SequenceFlow_1tfv9pn" sourceRef="TaskCookMeal" targetRef="ErrorEventPrepareMeal" />
+      <bpmn:endEvent id="ErrorEventPrepareMeal">
+        <bpmn:incoming>SequenceFlow_1tfv9pn</bpmn:incoming>
+        <bpmn:errorEventDefinition errorRef="StartErrorEventProvideMeal" />
+      </bpmn:endEvent>
+      <bpmn:userTask id="TaskChooseRecipe" name="choose recipe">
+        <bpmn:extensionElements>
+          <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_1re9xul</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_06nn4o2</bpmn:outgoing>
+      </bpmn:userTask>
       <bpmn:userTask id="TaskCookMeal" name="Cook meal">
         <bpmn:extensionElements>
           <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
@@ -61,10 +65,6 @@
         <bpmn:incoming>SequenceFlow_06nn4o2</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1tfv9pn</bpmn:outgoing>
       </bpmn:userTask>
-      <bpmn:endEvent id="ErrorEventPrepareMeal">
-        <bpmn:incoming>SequenceFlow_1tfv9pn</bpmn:incoming>
-        <bpmn:errorEventDefinition errorRef="StartErrorEventProvideMeal" />
-      </bpmn:endEvent>
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="SequenceFlowInviteToPrepare" sourceRef="TaskInviteFriends" targetRef="SubProcessPreapareMeal">
       <bpmn:extensionElements>
@@ -72,13 +72,6 @@
       </bpmn:extensionElements>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_17e4g8n" sourceRef="StartEventDinnerWithFriends" targetRef="TaskInviteFriends" />
-    <bpmn:userTask id="TaskInviteFriends" name="Invite friends for dinner">
-      <bpmn:extensionElements>
-        <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_17e4g8n</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlowInviteToPrepare</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:endEvent id="EndEventDinnerWithFriends" name="EndEvent&#10;&#10;">
       <bpmn:extensionElements>
         <camunda:executionListener class="executionlisteners.EndEventListener" event="start" />
@@ -100,13 +93,6 @@
       <bpmn:endEvent id="EndEventEatMeal">
         <bpmn:incoming>SequenceFlow_1m774bh</bpmn:incoming>
       </bpmn:endEvent>
-      <bpmn:userTask id="TaskEatFood" name="Eat the food">
-        <bpmn:extensionElements>
-          <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
-        </bpmn:extensionElements>
-        <bpmn:incoming>SequenceFlow_1kn2oog</bpmn:incoming>
-        <bpmn:outgoing>SequenceFlow_1m774bh</bpmn:outgoing>
-      </bpmn:userTask>
       <bpmn:endEvent id="EndEventFailEatMeal">
         <bpmn:incoming>SequenceFlow_0jegbbk</bpmn:incoming>
         <bpmn:cancelEventDefinition />
@@ -118,6 +104,13 @@
         <bpmn:outgoing>SequenceFlow_0jegbbk</bpmn:outgoing>
         <bpmn:messageEventDefinition messageRef="Message_123" />
       </bpmn:boundaryEvent>
+      <bpmn:userTask id="TaskEatFood" name="Eat the food">
+        <bpmn:extensionElements>
+          <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_1kn2oog</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_1m774bh</bpmn:outgoing>
+      </bpmn:userTask>
     </bpmn:transaction>
     <bpmn:endEvent id="EndEventDinnerCanceled" name="Dinner canceld">
       <bpmn:incoming>SequenceFlow_17li639</bpmn:incoming>
@@ -146,29 +139,8 @@
       <bpmn:outgoing>SequenceFlow_196lxiz</bpmn:outgoing>
     </bpmn:parallelGateway>
     <bpmn:sequenceFlow id="SequenceFlow_196lxiz" sourceRef="ExclusiveGatewayClean" targetRef="EndEventDinnerWithFriends" />
-    <bpmn:userTask id="TaskCleanDishes" name="Clean Dishes">
-      <bpmn:extensionElements>
-        <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0a6jnav</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_09tk7pk</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:userTask id="TaskCleanTable" name="CleanTable">
-      <bpmn:extensionElements>
-        <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0vnyivl</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1bpg9bf</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:sequenceFlow id="SequenceFlow_1bpg9bf" sourceRef="TaskCleanTable" targetRef="ExclusiveGatewayClean" />
     <bpmn:subProcess id="SubProcess_1t3b3yt" triggeredByEvent="true">
-      <bpmn:userTask id="taskIndipendentEvent" name="taskIndipendentEvent">
-        <bpmn:extensionElements>
-          <camunda:executionListener class="executionlisteners.ExecutionListenerFixedTime" event="start" />
-        </bpmn:extensionElements>
-        <bpmn:incoming>SequenceFlow_0ynguv5</bpmn:incoming>
-        <bpmn:outgoing>SequenceFlow_1jr9j0p</bpmn:outgoing>
-      </bpmn:userTask>
       <bpmn:endEvent id="EndEvent_0z8qcau">
         <bpmn:incoming>SequenceFlow_1jr9j0p</bpmn:incoming>
       </bpmn:endEvent>
@@ -178,7 +150,35 @@
         <bpmn:outgoing>SequenceFlow_0ynguv5</bpmn:outgoing>
         <bpmn:messageEventDefinition messageRef="testMessage" />
       </bpmn:startEvent>
+      <bpmn:userTask id="taskIndipendentEvent" name="taskIndipendentEvent">
+        <bpmn:extensionElements>
+          <camunda:executionListener class="executionlisteners.ExecutionListenerFixedTime" event="start" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_0ynguv5</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_1jr9j0p</bpmn:outgoing>
+      </bpmn:userTask>
     </bpmn:subProcess>
+    <bpmn:userTask id="TaskInviteFriends" name="Invite friends for dinner">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_17e4g8n</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlowInviteToPrepare</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:task id="TaskCleanDishes" name="Clean Dishes">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0a6jnav</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_09tk7pk</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="TaskCleanTable" name="CleanTable">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0vnyivl</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1bpg9bf</bpmn:outgoing>
+    </bpmn:task>
   </bpmn:process>
   <bpmn:signal id="Signal_0lzgxyy" name="IntermediateCatchEventIndipendent" />
   <bpmn:message id="Message_123" name="Message_123" />
@@ -198,7 +198,7 @@
         <di:waypoint xsi:type="dc:Point" x="120" y="249" />
         <di:waypoint xsi:type="dc:Point" x="199" y="249" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="115" y="228" width="90" height="12" />
+          <dc:Bounds x="114.5" y="228" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="SubProcess_12aggmb_di" bpmnElement="TaskProvideMeal" isExpanded="true">
@@ -211,9 +211,6 @@
           <dc:Bounds x="-74" y="228" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="UserTask_024alrz_di" bpmnElement="TaskChooseRecipe">
-        <dc:Bounds x="348" y="130" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_1mqy82c_di" bpmnElement="StartEventPrepareMeal">
         <dc:Bounds x="222" y="152" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -238,7 +235,7 @@
         <di:waypoint xsi:type="dc:Point" x="586" y="170" />
         <di:waypoint xsi:type="dc:Point" x="647" y="170" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="572" y="149" width="90" height="12" />
+          <dc:Bounds x="571.5" y="149" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="StartEvent_09aszpc_di" bpmnElement="StartErrorEventProvideMeal">
@@ -264,18 +261,9 @@
         <di:waypoint xsi:type="dc:Point" x="500" y="313" />
         <di:waypoint xsi:type="dc:Point" x="531" y="313" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="471" y="292" width="90" height="12" />
+          <dc:Bounds x="470.5" y="292" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="UserTask_02efbq6_di" bpmnElement="TaskCookMeal">
-        <dc:Bounds x="486" y="130" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="UserTask_1t01670_di" bpmnElement="TaskInviteFriends">
-        <dc:Bounds x="20" y="209" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="UserTask_06xx8om_di" bpmnElement="TaskOrderMeal">
-        <dc:Bounds x="400" y="273" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1ce7kzv_di" bpmnElement="EndEventDinnerWithFriends">
         <dc:Bounds x="928" y="817" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -325,9 +313,6 @@
           <dc:Bounds x="209" y="604" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="UserTask_1na635r_di" bpmnElement="TaskEatFood">
-        <dc:Bounds x="456" y="542" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_12s631a_di" bpmnElement="EndEventFailEatMeal">
         <dc:Bounds x="538" y="662" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -340,7 +325,7 @@
         <di:waypoint xsi:type="dc:Point" x="641" y="582" />
         <di:waypoint xsi:type="dc:Point" x="556" y="582" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="566" y="576" width="90" height="12" />
+          <dc:Bounds x="611" y="576" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1m774bh_di" bpmnElement="SequenceFlow_1m774bh">
@@ -349,7 +334,7 @@
         <di:waypoint xsi:type="dc:Point" x="385" y="582" />
         <di:waypoint xsi:type="dc:Point" x="317" y="582" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="310" y="576" width="90" height="12" />
+          <dc:Bounds x="355" y="576" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_18yqs96_di" bpmnElement="SequenceFlow_18yqs96">
@@ -372,7 +357,7 @@
         <di:waypoint xsi:type="dc:Point" x="568" y="917" />
         <di:waypoint xsi:type="dc:Point" x="668" y="917" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="538" y="883" width="90" height="12" />
+          <dc:Bounds x="538" y="882.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0a6jnav_di" bpmnElement="SequenceFlow_0a6jnav">
@@ -380,7 +365,7 @@
         <di:waypoint xsi:type="dc:Point" x="568" y="773" />
         <di:waypoint xsi:type="dc:Point" x="668" y="773" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="538" y="786" width="90" height="12" />
+          <dc:Bounds x="538" y="785.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0h0psph_di" bpmnElement="SequenceFlow_0h0psph">
@@ -404,12 +389,6 @@
           <dc:Bounds x="856" y="814" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="UserTask_1d7rshh_di" bpmnElement="TaskCleanDishes">
-        <dc:Bounds x="668" y="733" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="UserTask_1unqs8m_di" bpmnElement="TaskCleanTable">
-        <dc:Bounds x="668" y="877" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1bpg9bf_di" bpmnElement="SequenceFlow_1bpg9bf">
         <di:waypoint xsi:type="dc:Point" x="768" y="917" />
         <di:waypoint xsi:type="dc:Point" x="848" y="917" />
@@ -424,9 +403,6 @@
           <dc:Bounds x="575" y="192" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="UserTask_0dxizr2_di" bpmnElement="taskIndipendentEvent">
-        <dc:Bounds x="-98" y="550" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0z8qcau_di" bpmnElement="EndEvent_0z8qcau">
         <dc:Bounds x="49.676000000000045" y="572.456" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -440,14 +416,14 @@
         <di:waypoint xsi:type="dc:Point" x="-131" y="590" />
         <di:waypoint xsi:type="dc:Point" x="-98" y="590" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="-114.5" y="569" width="0" height="12" />
+          <dc:Bounds x="-159.5" y="569" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1jr9j0p_di" bpmnElement="SequenceFlow_1jr9j0p">
         <di:waypoint xsi:type="dc:Point" x="2" y="590" />
         <di:waypoint xsi:type="dc:Point" x="50" y="590" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="26" y="569" width="0" height="12" />
+          <dc:Bounds x="-19" y="569" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="StartEvent_022pkl3_di" bpmnElement="IntermediateCatchEventIndipendent">
@@ -461,7 +437,7 @@
         <di:waypoint xsi:type="dc:Point" x="504" y="680" />
         <di:waypoint xsi:type="dc:Point" x="538" y="680" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="519" y="654" width="0" height="12" />
+          <dc:Bounds x="474" y="654" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="BoundaryEvent_1a7dz1o_di" bpmnElement="BoundaryEventTest">
@@ -469,6 +445,30 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="458" y="644" width="0" height="12" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0cd7s7y_di" bpmnElement="TaskInviteFriends">
+        <dc:Bounds x="20" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_05k517x_di" bpmnElement="TaskChooseRecipe">
+        <dc:Bounds x="348" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0yc3rcb_di" bpmnElement="TaskCookMeal">
+        <dc:Bounds x="486" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0kw7y4w_di" bpmnElement="TaskOrderMeal">
+        <dc:Bounds x="400" y="273" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1mkswi8_di" bpmnElement="taskIndipendentEvent">
+        <dc:Bounds x="-98" y="550" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1livdru_di" bpmnElement="TaskEatFood">
+        <dc:Bounds x="456" y="542" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_0fwe4bb_di" bpmnElement="TaskCleanDishes">
+        <dc:Bounds x="668" y="733" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_1kwwojr_di" bpmnElement="TaskCleanTable">
+        <dc:Bounds x="668" y="877" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

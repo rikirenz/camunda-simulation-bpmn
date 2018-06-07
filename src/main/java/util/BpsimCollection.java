@@ -313,10 +313,63 @@ import simulation.SimulationCatchEvent;
               XPathFactory xPathfactory = XPathFactory.newInstance();
               XPath xpath = xPathfactory.newXPath();
 
+              
+              
+              // replace all the task to user task
+              // come dovrebbe essere un task fatto come si deve secondo la nostra app
+              
+/*            <bpmn:userTask id="TaskInviteFriends" name="Invite friends for dinner">
+              <bpmn:extensionElements>
+                <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
+              </bpmn:extensionElements>
+              <bpmn:incoming>SequenceFlow_17e4g8n</bpmn:incoming>
+              <bpmn:outgoing>SequenceFlowInviteToPrepare</bpmn:outgoing>
+            </bpmn:userTask>
+              
+              
+              <bpmn:task id="TaskInviteFriends" name="Invite friends for dinner">
+              <bpmn:extensionElements>
+                <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
+              </bpmn:extensionElements>
+              <bpmn:incoming>SequenceFlow_0q8ruhf</bpmn:incoming>
+              <bpmn:outgoing>SequenceFlow_1lh4fhk</bpmn:outgoing>
+            </bpmn:task>
+*/
+              
+              
+              XPathExpression expr = xpath.compile("//*[local-name()='task']");
+              NodeList nodeTaskslist = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
+              // check if there is a node inside with a message in case put the message name in the list
+              for (int i = 0; i < nodeTaskslist.getLength(); i++) {
+            	  this.xmlFile.renameNode((Element) nodeTaskslist.item(i), "http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:userTask");
+            	  LOGGER.info("renamed");
+              }
+              
+              
+              DocumentBuilderFactory domFact = DocumentBuilderFactory.newInstance();
+              DocumentBuilder builder = domFact.newDocumentBuilder();
+              DOMSource domSource = new DOMSource(this.xmlFile);
+              StringWriter writer = new StringWriter();
+              StreamResult result = new StreamResult(writer);
+              TransformerFactory tf = TransformerFactory.newInstance();
+              Transformer transformer = tf.newTransformer();
+              transformer.transform(domSource, result);
+              System.out.println("XML IN String format is: \n" + writer.toString());
+              
+
+              
+              
+              
+              
+              // convert all events to message events
+              
+              
+              
+              
               // start events
               startCatchEvents = new ArrayList<ArrayList<String>>();
               // get all the message that are start events
-              XPathExpression expr = xpath.compile("//*[local-name()='startEvent']/*[local-name()='messageEventDefinition']");
+              expr = xpath.compile("//*[local-name()='startEvent']/*[local-name()='messageEventDefinition']");
               NodeList nodeMessageslist = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
               expr = xpath.compile("//*[local-name()='startEvent'][*[local-name()='messageEventDefinition']]");
               NodeList nodeStartEventslist = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
@@ -348,7 +401,7 @@ import simulation.SimulationCatchEvent;
 	              }
 	          }
 	
-	          // gateways 
+	          // gateways
 	          expr = xpath.compile("//*[local-name()='conditionExpression']");
 	          nl = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
 	          for (int i = 0; i < nl.getLength(); i++) {

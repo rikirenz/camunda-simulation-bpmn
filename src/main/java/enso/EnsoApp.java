@@ -119,8 +119,13 @@ public class EnsoApp {
 				if (currTaskEvent.getStartTime() > simClock.getCurrentTime())
 					simClock.setCurrentTime(currTaskEvent.getStartTime());
 				// move on with the simulation
+
 				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).taskName(currTaskEvent.getName()).singleResult();
+				
+				LOGGER.info("" + (currTask == null));
+
 				taskService.complete(currTask.getId());
+				
 			} else if (currEvent instanceof SimulationCatchEvent) {
 				LOGGER.info("catch event");				
 				SimulationCatchEvent currCatchEvent = (SimulationCatchEvent) currEvent;

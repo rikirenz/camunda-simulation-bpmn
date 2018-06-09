@@ -79,7 +79,7 @@ public class EnsoApp {
 	}
 
 	private BpmnModelInstance loadBpmnProcess(Path filePath) {
-		return Bpmn.readModelFromFile(new File(filePath.toString()));
+		return Bpmn.readModelFromStream(BpsimCollection.is);
 	}
 
 	public void startApp() {
@@ -107,8 +107,6 @@ public class EnsoApp {
 			eventsQueue.add(startProcessEvent);
 			startTime += delayBetweenInstances;
 		}
-				
-	
 		
 		while (!eventsQueue.isEmpty()) {
 			SimulationEvent currEvent = eventsQueue.remove();
@@ -118,8 +116,8 @@ public class EnsoApp {
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
 				if (currTaskEvent.getStartTime() > simClock.getCurrentTime())
 					simClock.setCurrentTime(currTaskEvent.getStartTime());
+				
 				// move on with the simulation
-
 				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).taskName(currTaskEvent.getName()).singleResult();
 				
 				LOGGER.info("" + (currTask == null));

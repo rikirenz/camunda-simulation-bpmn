@@ -1,7 +1,10 @@
   package util;
 
-  import java.io.File;
-  import java.io.StringReader;
+  import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.StringReader;
   import java.io.StringWriter;
   import java.nio.file.Path;
   import java.util.ArrayList;
@@ -16,7 +19,9 @@
   import javax.xml.parsers.DocumentBuilder;
   import javax.xml.parsers.DocumentBuilderFactory;
   import javax.xml.transform.OutputKeys;
-  import javax.xml.transform.Transformer;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
   import javax.xml.transform.TransformerException;
   import javax.xml.transform.TransformerFactory;
   import javax.xml.transform.dom.DOMSource;
@@ -76,8 +81,11 @@ import simulation.SimulationCatchEvent;
       private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 
       private BPSimData bpsimData;
-      private Document xmlFile;
 
+      private Document xmlFile;
+      
+      public static InputStream is; 
+      
       // 0 name of the starEvent - 1 name of the message
       private ArrayList<ArrayList<String>> startCatchEvents;
       public static ArrayList<SimulationCatchEvent> indipendentIntermediateThrowEvents = new ArrayList<SimulationCatchEvent>();
@@ -313,7 +321,14 @@ import simulation.SimulationCatchEvent;
               XPathFactory xPathfactory = XPathFactory.newInstance();
               XPath xpath = xPathfactory.newXPath();
 
-              
+              XPathExpression expr = xpath.compile("//*[local-name()='task']");
+              NodeList nodeTaskslist = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
+              // check if there is a node inside with a message in case put the message name in the list
+              for (int i = 0; i < nodeTaskslist.getLength(); i++) {
+            	  this.xmlFile.renameNode((Element) nodeTaskslist.item(i), "http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:userTask");
+            	  LOGGER.info("renamed");
+              }
+                            
               
               // replace all the task to user task
               // come dovrebbe essere un task fatto come si deve secondo la nostra app
@@ -334,17 +349,9 @@ import simulation.SimulationCatchEvent;
               <bpmn:incoming>SequenceFlow_0q8ruhf</bpmn:incoming>
               <bpmn:outgoing>SequenceFlow_1lh4fhk</bpmn:outgoing>
             </bpmn:task>
-*/
               
               
-              XPathExpression expr = xpath.compile("//*[local-name()='task']");
-              NodeList nodeTaskslist = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
-              // check if there is a node inside with a message in case put the message name in the list
-              for (int i = 0; i < nodeTaskslist.getLength(); i++) {
-            	  this.xmlFile.renameNode((Element) nodeTaskslist.item(i), "http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:userTask");
-            	  LOGGER.info("renamed");
-              }
-              
+
               
               DocumentBuilderFactory domFact = DocumentBuilderFactory.newInstance();
               DocumentBuilder builder = domFact.newDocumentBuilder();
@@ -356,15 +363,16 @@ import simulation.SimulationCatchEvent;
               transformer.transform(domSource, result);
               System.out.println("XML IN String format is: \n" + writer.toString());
               
-
+*/
               
-              
-              
+              TransformerFactory tf = TransformerFactory.newInstance();
+              Transformer transformer = tf.newTransformer();
+              ByteArrayOutputStream outputStream = new ByteArrayOutputStream();              
+              Result outputTarget = new StreamResult(outputStream);
+              transformer.transform(new DOMSource(xmlFile),  outputTarget);
+              is = new ByteArrayInputStream(outputStream.toByteArray());
               
               // convert all events to message events
-              
-              
-              
               
               // start events
               startCatchEvents = new ArrayList<ArrayList<String>>();

@@ -1,16 +1,21 @@
   package util;
 
-  import java.io.ByteArrayInputStream;
+  import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
   import java.io.StringWriter;
   import java.nio.file.Path;
   import java.util.ArrayList;
   import java.util.HashMap;
-  import java.util.List;
-  import java.util.logging.Logger;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
   import javax.xml.bind.JAXBContext;
   import javax.xml.bind.JAXBException;
@@ -321,59 +326,75 @@ import simulation.SimulationCatchEvent;
               XPathFactory xPathfactory = XPathFactory.newInstance();
               XPath xpath = xPathfactory.newXPath();
 
+              
+              
+              
+              // replace all the task to user task
               XPathExpression expr = xpath.compile("//*[local-name()='task']");
               NodeList nodeTaskslist = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
               // check if there is a node inside with a message in case put the message name in the list
               for (int i = 0; i < nodeTaskslist.getLength(); i++) {
             	  this.xmlFile.renameNode((Element) nodeTaskslist.item(i), "http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:userTask");
-            	  LOGGER.info("renamed");
               }
-                            
-              
-              // replace all the task to user task
-              // come dovrebbe essere un task fatto come si deve secondo la nostra app
-              
-/*            <bpmn:userTask id="TaskInviteFriends" name="Invite friends for dinner">
-              <bpmn:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
-              </bpmn:extensionElements>
-              <bpmn:incoming>SequenceFlow_17e4g8n</bpmn:incoming>
-              <bpmn:outgoing>SequenceFlowInviteToPrepare</bpmn:outgoing>
-            </bpmn:userTask>
-              
-              
-              <bpmn:task id="TaskInviteFriends" name="Invite friends for dinner">
-              <bpmn:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" />
-              </bpmn:extensionElements>
-              <bpmn:incoming>SequenceFlow_0q8ruhf</bpmn:incoming>
-              <bpmn:outgoing>SequenceFlow_1lh4fhk</bpmn:outgoing>
-            </bpmn:task>
-              
-              
 
               
-              DocumentBuilderFactory domFact = DocumentBuilderFactory.newInstance();
-              DocumentBuilder builder = domFact.newDocumentBuilder();
-              DOMSource domSource = new DOMSource(this.xmlFile);
-              StringWriter writer = new StringWriter();
-              StreamResult result = new StreamResult(writer);
-              TransformerFactory tf = TransformerFactory.newInstance();
-              Transformer transformer = tf.newTransformer();
-              transformer.transform(domSource, result);
-              System.out.println("XML IN String format is: \n" + writer.toString());
+              // convert all events to message events
+
+              // store all the task ids
+              // replace all the task to user task
+              Set<String> taskIds = new HashSet<String>();
+              expr = xpath.compile("//*[local-name()='userTask']");
+              nodeTaskslist = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
+              // check if there is a node inside with a message in case put the message name in the list
+              for (int i = 0; i < nodeTaskslist.getLength(); i++) {
+            	  taskIds.add(((Element) nodeTaskslist.item(i)).getAttribute("id"));
+              }
+
+              // estraggo tutti i boundary se l'id e' dentro l'array e' un boundary da convertire in messaggio
+              expr = xpath.compile("//*[local-name()='boundaryEvent']");
+              NodeList nodeBoundaryEventsList = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
+              // check if there is a node inside with a message in case put the message name in the list
+              for (int i = 0; i < nodeBoundaryEventsList.getLength(); i++) {
+            	  // Is the boundary element is attached to a task? 
+            	  Element currElement = (Element) nodeBoundaryEventsList.item(i);
+            	  if (! taskIds.contains(currElement.getAttribute("attachedToRef"))) continue; 
+
+            	  // aggiungo i messaggi nel dom il messaggio
+    	          // <bpmn:message id="Message_123" name="Message_123" />            	  
+            	  Element nd = this.xmlFile.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:message");
+            	  String messageId = "messageBoundaryEvent" + currElement.getAttribute("attachedToRef");
+            	  nd.setAttribute("id", messageId);
+            	  nd.setAttribute("name", messageId);
+            	  
+            	  
+            	  this.xmlFile.getFirstChild().insertBefore(nd, this.xmlFile.getFirstChild().getFirstChild());
+
+            	  
+                  // remove all elements except outgoings
+            	  NodeList childNodes = currElement.getChildNodes();
+            	  for (int j = childNodes.getLength()-1; j >= 0 ; j--) {
+            		  if (!childNodes.item(j).getNodeName().equals("bpmn:outgoing")) {  
+                		  currElement.removeChild(childNodes.item(j));            			  
+            		  }
+            	  }
+
+
+                  // add message
+                  Element messageEventDef = this.xmlFile.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:messageEventDefinition");
+            	  messageEventDef.setAttribute("messageRef", messageId);
+            	  currElement.appendChild(messageEventDef);       
+              }
               
-*/
-              
+              // @todo refactor
               TransformerFactory tf = TransformerFactory.newInstance();
               Transformer transformer = tf.newTransformer();
               ByteArrayOutputStream outputStream = new ByteArrayOutputStream();              
               Result outputTarget = new StreamResult(outputStream);
               transformer.transform(new DOMSource(xmlFile),  outputTarget);
               is = new ByteArrayInputStream(outputStream.toByteArray());
-              
-              // convert all events to message events
-              
+
+              //LOGGER.info(getStringFromInputStream(is));            
+
               // start events
               startCatchEvents = new ArrayList<ArrayList<String>>();
               // get all the message that are start events
@@ -423,5 +444,48 @@ import simulation.SimulationCatchEvent;
         	  e.printStackTrace();
           }
       }
+      
+      
+      
+      private static String getStringFromInputStream(InputStream is) {
+
+  		BufferedReader br = null;
+  		StringBuilder sb = new StringBuilder();
+
+  		String line;
+  		try {
+
+  			br = new BufferedReader(new InputStreamReader(is));
+  			while ((line = br.readLine()) != null) {
+  				sb.append(line);
+  			}
+
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		} finally {
+  			if (br != null) {
+  				try {
+  					br.close();
+  				} catch (IOException e) {
+  					e.printStackTrace();
+  				}
+  			}
+  		}
+
+  		return sb.toString();
+
+  	}
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
 }
       

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" exporterVersion="1.11.3">
+  <semantic:process id="amazon-delivery-test" isExecutable="true">
+    <semantic:startEvent id="StartEvent_1">
+      <semantic:outgoing>SequenceFlow_0vk69w6</semantic:outgoing>
+    </semantic:startEvent>
+    <semantic:endEvent id="end">
+      <semantic:incoming>SequenceFlow_1q7zg8g</semantic:incoming>
+    </semantic:endEvent>
+    <semantic:sequenceFlow id="SequenceFlow_0vk69w6" sourceRef="StartEvent_1" targetRef="shipOrder" />
+    <semantic:sequenceFlow id="SequenceFlow_1qi9zw8" sourceRef="shipOrder" targetRef="receivePayment" />
+    <semantic:sequenceFlow id="SequenceFlow_1q7zg8g" sourceRef="receivePayment" targetRef="end" />
+    <semantic:userTask id="shipOrder" name="Ship Order">
+      <semantic:extensionElements>
+        <camunda:executionListener class="executionlisteners.ExecutionListenerMaster" event="start" />
+      </semantic:extensionElements>
+      <semantic:incoming>SequenceFlow_0vk69w6</semantic:incoming>
+      <semantic:outgoing>SequenceFlow_1qi9zw8</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:userTask id="receivePayment" name="receive payment">
+      <semantic:extensionElements>
+        <camunda:executionListener class="executionlisteners.ExecutionListenerMaster" event="start" />
+      </semantic:extensionElements>
+      <semantic:incoming>SequenceFlow_1qi9zw8</semantic:incoming>
+      <semantic:outgoing>SequenceFlow_1q7zg8g</semantic:outgoing>
+    </semantic:userTask>
+  </semantic:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="amazon-delivery-test">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="177" y="298" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="150" y="334" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_173w05u_di" bpmnElement="end">
+        <dc:Bounds x="672" y="298" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="645" y="338" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0vk69w6_di" bpmnElement="SequenceFlow_0vk69w6">
+        <di:waypoint xsi:type="dc:Point" x="213" y="316" />
+        <di:waypoint xsi:type="dc:Point" x="316" y="316" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="219.5" y="295" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1qi9zw8_di" bpmnElement="SequenceFlow_1qi9zw8">
+        <di:waypoint xsi:type="dc:Point" x="416" y="316" />
+        <di:waypoint xsi:type="dc:Point" x="502" y="316" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="414" y="295" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1q7zg8g_di" bpmnElement="SequenceFlow_1q7zg8g">
+        <di:waypoint xsi:type="dc:Point" x="602" y="316" />
+        <di:waypoint xsi:type="dc:Point" x="672" y="316" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="592" y="295" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_1hd78mg_di" bpmnElement="shipOrder">
+        <dc:Bounds x="316" y="276" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_04xmee1_di" bpmnElement="receivePayment">
+        <dc:Bounds x="502" y="276" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <semantic:relationship type="BPSimData">
+    <semantic:extensionElements>
+      <bpsim:BPSimData>
+        <bpsim:Scenario author="Tim Stephenson" id="default" name="Scenario 1">
+          <bpsim:ScenarioParameters baseTimeUnit="min" replication="3">
+            <bpsim:Duration>
+              <bpsim:DurationParameter value="PT40H" />
+            </bpsim:Duration>
+          </bpsim:ScenarioParameters>
+          <bpsim:ElementParameters elementRef="_6">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:ResultRequest>min</bpsim:ResultRequest>
+                <bpsim:ResultRequest>max</bpsim:ResultRequest>
+                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:TriggerCount>
+                <bpsim:ResultRequest>count</bpsim:ResultRequest>
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_4E504F9B-2618-424F-ABAA-C4D4CC2D75E0">
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:TriangularDistribution max="30" min="10" mode="16" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:ResultRequest>count</bpsim:ResultRequest>
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:TriangularDistribution max="6" min="4" mode="5" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:TriangularDistribution max="6" min="4" mode="5" />
+              </bpsim:InterTriggerTimer>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_2017EC19-4BD5-40D7-9014-E7D337A68E01">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:ResultRequest>min</bpsim:ResultRequest>
+                <bpsim:ResultRequest>max</bpsim:ResultRequest>
+                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
+                <bpsim:TruncatedNormalDistribution max="1000" mean="20" min="0" standardDeviation="1" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_0CA1F609-5DFA-43E2-96DE-6CBD97BFAC5A">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:ResultRequest>min</bpsim:ResultRequest>
+                <bpsim:ResultRequest>max</bpsim:ResultRequest>
+                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
+                <bpsim:TruncatedNormalDistribution max="1000" mean="30" min="0" standardDeviation="4" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_4A0E10F8-6AC7-4AF0-AFD3-5E0CB00BD316">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:ResultRequest>min</bpsim:ResultRequest>
+                <bpsim:ResultRequest>max</bpsim:ResultRequest>
+                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
+                <bpsim:TruncatedNormalDistribution max="1000" mean="60" min="0" standardDeviation="2" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_ACDC390F-49FD-43A3-ACD6-1EBB8074801D">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:ResultRequest>min</bpsim:ResultRequest>
+                <bpsim:ResultRequest>max</bpsim:ResultRequest>
+                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
+                <bpsim:TruncatedNormalDistribution max="1000" mean="20" min="0" standardDeviation="2" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_C94EFA57-E605-4564-BFC4-22A84C660A6A">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:ResultRequest>min</bpsim:ResultRequest>
+                <bpsim:ResultRequest>max</bpsim:ResultRequest>
+                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
+                <bpsim:TruncatedNormalDistribution max="1000" mean="30" min="0" standardDeviation="4" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_65F6E8B9-FDD3-4770-B12B-87862F37BDF6">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:ResultRequest>min</bpsim:ResultRequest>
+                <bpsim:ResultRequest>max</bpsim:ResultRequest>
+                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
+                <bpsim:TruncatedNormalDistribution max="1000" mean="5" min="0" standardDeviation="0.25" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_F366069F-C180-4D69-B2BF-4124649EC36F">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:ResultRequest>min</bpsim:ResultRequest>
+                <bpsim:ResultRequest>max</bpsim:ResultRequest>
+                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
+                <bpsim:TruncatedNormalDistribution max="1000" mean="10" min="0" standardDeviation="0.25" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_57EE71B2-5287-46A2-9B24-83A68131714C">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:ResultRequest>min</bpsim:ResultRequest>
+                <bpsim:ResultRequest>max</bpsim:ResultRequest>
+                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
+                <bpsim:TruncatedNormalDistribution max="1000" mean="50" min="0" standardDeviation="10" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_D6383F72-7F7A-48F8-A742-A26F36A8DC10">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:DurationParameter value="PT1M" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_DA142784-0125-46E0-A3CA-004302BD5E21">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:DurationParameter value="PT1M" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_3330ACC4-BCD9-422A-ADCD-7DDF06A2042D">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:DurationParameter value="PT1M" />
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_3D6F2455-BFFB-44BB-A052-892FB15FEEB4">
+            <bpsim:ControlParameters>
+              <bpsim:Probability>
+                <bpsim:FloatingParameter value="0.27" />
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_93351D59-990B-46B0-80AB-FEEF088E9D7B">
+            <bpsim:ControlParameters>
+              <bpsim:Probability>
+                <bpsim:FloatingParameter value="0.73" />
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_6E1A332C-9187-4C4A-BD0F-27167F940786">
+            <bpsim:ControlParameters>
+              <bpsim:TriggerCount>
+                <bpsim:ResultRequest>count</bpsim:ResultRequest>
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_A2A06973-DC30-4BCF-BF0F-1FD60D68E1EB">
+            <bpsim:ControlParameters>
+              <bpsim:TriggerCount>
+                <bpsim:ResultRequest>count</bpsim:ResultRequest>
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_542AE8E6-9CEA-43E3-8177-C685A9F430FE">
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:DurationParameter value="PT60M" />
+              </bpsim:InterTriggerTimer>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
+        </bpsim:Scenario>
+      </bpsim:BPSimData>
+    </semantic:extensionElements>
+    <semantic:source>_1364754643385</semantic:source>
+    <semantic:target>_1364754643385</semantic:target>
+  </semantic:relationship>
+</semantic:definitions>

@@ -87,7 +87,7 @@ import simulation.SimulationCatchEvent;
 
       private BPSimData bpsimData;
 
-      private Document xmlFile;
+      private Document bpmnDocument;
       
       public static InputStream is; 
       
@@ -98,14 +98,18 @@ import simulation.SimulationCatchEvent;
       public static HashMap < String, ArrayList < Object >> taskObjects;
       public static ScenarioWrapper scenarioObject;
 
-      public BpsimCollection(Path processBpmnPath) {
+      public BpsimCollection(Document bpmnDocument) {
           try {
-              DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-              DocumentBuilder builder = factory.newDocumentBuilder();
-              this.xmlFile = builder.parse(new File(processBpmnPath.toString()));
-
-              preProcessingBpmn();
+        	  // this operations have to be executed in this order
+        	  
+        	  // collect all the Bpmn nodes data 
+        	  this.bpmnDocument = bpmnDocument;
+              collectBpmnData();
+              
+              // Load the Bpsim info 
               this.bpsimData = loadBpsimAnnotations();
+
+              // creates all the structures for the simulation
               createScenarioObjectsHashMap();
               createTaskObjectsHashMap();
               createIndipendentCatchEventArray();
@@ -275,7 +279,7 @@ import simulation.SimulationCatchEvent;
               XPathFactory xPathfactory = XPathFactory.newInstance();
               XPath xpath = xPathfactory.newXPath();
               XPathExpression expr = xpath.compile("//*[local-name()='BPSimData']");
-              NodeList nl = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
+              NodeList nl = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
               if (nl.getLength() < 1) return null;
               ((Element) nl.item(0)).setAttribute("xmlns:bpsim", "http://www.bpsim.org/schemas/2.0");
               String fileString = toString(nl.item(0));
@@ -319,90 +323,20 @@ import simulation.SimulationCatchEvent;
       }
 
 
-      private void preProcessingBpmn() {
+      private void collectBpmnData() {
           try {
 
               // search all the condition expression tags
               XPathFactory xPathfactory = XPathFactory.newInstance();
               XPath xpath = xPathfactory.newXPath();
 
-              
-              
-              
-              // replace all the task to user task
-              XPathExpression expr = xpath.compile("//*[local-name()='task']");
-              NodeList nodeTaskslist = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
-              // check if there is a node inside with a message in case put the message name in the list
-              for (int i = 0; i < nodeTaskslist.getLength(); i++) {
-            	  this.xmlFile.renameNode((Element) nodeTaskslist.item(i), "http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:userTask");
-              }
-
-              
-              // convert all events to message events
-
-              // store all the task ids
-              // replace all the task to user task
-              Set<String> taskIds = new HashSet<String>();
-              expr = xpath.compile("//*[local-name()='userTask']");
-              nodeTaskslist = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
-              // check if there is a node inside with a message in case put the message name in the list
-              for (int i = 0; i < nodeTaskslist.getLength(); i++) {
-            	  taskIds.add(((Element) nodeTaskslist.item(i)).getAttribute("id"));
-              }
-
-              // estraggo tutti i boundary se l'id e' dentro l'array e' un boundary da convertire in messaggio
-              expr = xpath.compile("//*[local-name()='boundaryEvent']");
-              NodeList nodeBoundaryEventsList = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
-              // check if there is a node inside with a message in case put the message name in the list
-              for (int i = 0; i < nodeBoundaryEventsList.getLength(); i++) {
-            	  // Is the boundary element is attached to a task? 
-            	  Element currElement = (Element) nodeBoundaryEventsList.item(i);
-            	  if (! taskIds.contains(currElement.getAttribute("attachedToRef"))) continue; 
-
-            	  // aggiungo i messaggi nel dom il messaggio
-    	          // <bpmn:message id="Message_123" name="Message_123" />            	  
-            	  Element nd = this.xmlFile.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:message");
-            	  String messageId = "messageBoundaryEvent" + currElement.getAttribute("attachedToRef");
-            	  nd.setAttribute("id", messageId);
-            	  nd.setAttribute("name", messageId);
-            	  
-            	  
-            	  this.xmlFile.getFirstChild().insertBefore(nd, this.xmlFile.getFirstChild().getFirstChild());
-
-            	  
-                  // remove all elements except outgoings
-            	  NodeList childNodes = currElement.getChildNodes();
-            	  for (int j = childNodes.getLength()-1; j >= 0 ; j--) {
-            		  if (!childNodes.item(j).getNodeName().equals("bpmn:outgoing")) {  
-                		  currElement.removeChild(childNodes.item(j));            			  
-            		  }
-            	  }
-
-
-                  // add message
-                  Element messageEventDef = this.xmlFile.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:messageEventDefinition");
-            	  messageEventDef.setAttribute("messageRef", messageId);
-            	  currElement.appendChild(messageEventDef);       
-              }
-              
-              // @todo refactor
-              TransformerFactory tf = TransformerFactory.newInstance();
-              Transformer transformer = tf.newTransformer();
-              ByteArrayOutputStream outputStream = new ByteArrayOutputStream();              
-              Result outputTarget = new StreamResult(outputStream);
-              transformer.transform(new DOMSource(xmlFile),  outputTarget);
-              is = new ByteArrayInputStream(outputStream.toByteArray());
-
-              //LOGGER.info(getStringFromInputStream(is));            
-
               // start events
               startCatchEvents = new ArrayList<ArrayList<String>>();
               // get all the message that are start events
-              expr = xpath.compile("//*[local-name()='startEvent']/*[local-name()='messageEventDefinition']");
-              NodeList nodeMessageslist = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
+              XPathExpression expr = xpath.compile("//*[local-name()='startEvent']/*[local-name()='messageEventDefinition']");
+              NodeList nodeMessageslist = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
               expr = xpath.compile("//*[local-name()='startEvent'][*[local-name()='messageEventDefinition']]");
-              NodeList nodeStartEventslist = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
-              
+              NodeList nodeStartEventslist = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
               
               // check if there is a node inside with a message in case put the message name in the list
               for (int i = 0; i < nodeMessageslist.getLength(); i++) {
@@ -411,12 +345,11 @@ import simulation.SimulationCatchEvent;
             	  al.add( ((Element) nodeMessageslist.item(i)).getAttribute("messageRef"));
             	  startCatchEvents.add(al);
               }
-
 	
 	          // boundary events
 	          boundaryEvents = new HashMap < String, ArrayList < String >> ();
 	          expr = xpath.compile("//*[local-name()='boundaryEvent']/*[local-name()='messageEventDefinition']");
-	          NodeList nl = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
+	          NodeList nl = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
 	          for (int i = 0; i < nl.getLength(); i++) {
 	              ArrayList < String > currBoundaryEvents = boundaryEvents.get(((Element) nl.item(i)).getAttribute("attachedToRef"));
 	              if (currBoundaryEvents == null) {
@@ -430,62 +363,10 @@ import simulation.SimulationCatchEvent;
 	              }
 	          }
 	
-	          // gateways
-	          expr = xpath.compile("//*[local-name()='conditionExpression']");
-	          nl = (NodeList) expr.evaluate(this.xmlFile, XPathConstants.NODESET);
-	          for (int i = 0; i < nl.getLength(); i++) {
-	              ((Element) nl.item(i)).setNodeValue("<![CDATA[import util.Util\r\n" +
-	                  "\r\n" +
-	                  "Util.booleanValueFlow(\"" + ((Element) nl.item(i).getParentNode()).getAttribute("id") + "\");]]>"
-	              );
-	          }
-
           } catch (Exception e) {
         	  e.printStackTrace();
           }
       }
-      
-      
-      
-      private static String getStringFromInputStream(InputStream is) {
 
-  		BufferedReader br = null;
-  		StringBuilder sb = new StringBuilder();
-
-  		String line;
-  		try {
-
-  			br = new BufferedReader(new InputStreamReader(is));
-  			while ((line = br.readLine()) != null) {
-  				sb.append(line);
-  			}
-
-  		} catch (IOException e) {
-  			e.printStackTrace();
-  		} finally {
-  			if (br != null) {
-  				try {
-  					br.close();
-  				} catch (IOException e) {
-  					e.printStackTrace();
-  				}
-  			}
-  		}
-
-  		return sb.toString();
-
-  	}
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
 }
       

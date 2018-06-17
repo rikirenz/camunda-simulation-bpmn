@@ -1,7 +1,10 @@
 package enso;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +15,12 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -48,11 +57,14 @@ import simulation.SimulationClock;
 import simulation.SimulationEvent;
 import simulation.SimulationStartEvent;
 import simulation.SimulationTaskEvent;
+import util.BpmnPreprocesser;
 import util.BpsimCollection;
+import util.Util;
 
 public class EnsoApp {
 
 	private Path processBpmnPath;
+	private Document bpmnDocument;
 	private String processBpmnId;
 
 	private int instancesNumber;
@@ -78,13 +90,21 @@ public class EnsoApp {
 				.buildProcessEngine();
 	}
 
-	private BpmnModelInstance loadBpmnProcess(Path filePath) {
-		return Bpmn.readModelFromStream(BpsimCollection.is);
-	}
 
-	public void startApp() {
+
+	public void startApp() {		
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder builder = factory.newDocumentBuilder();	        	
+	        BpmnPreprocesser bpmnPreprocesser = new BpmnPreprocesser(builder.parse(new File(processBpmnPath.toString())));
+	        bpmnDocument = bpmnPreprocesser.getProcessedBpmn();
+		} catch (Exception ex) {
+			
+			
+		}
+		
 		// load the bpsim data in the xml
-		new BpsimCollection(processBpmnPath);
+		BpsimCollection bpsimCollection = new BpsimCollection(bpmnDocument);
 		startSimulation();
 	}
 		
@@ -92,7 +112,9 @@ public class EnsoApp {
 	private void startSimulation() {
 		ProcessEngine processEngine = processEngineInit();
 		RepositoryService repositoryService = processEngine.getRepositoryService();
-		BpmnModelInstance modelInstance = loadBpmnProcess(processBpmnPath);
+
+		BpmnModelInstance modelInstance = Util.loadBpmnProcess(bpmnDocument);
+		
 		DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(processBpmnId);
 		deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", modelInstance);
 		deploymentBuilder.deploy();

@@ -1,9 +1,22 @@
 package util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.camunda.bpm.model.bpmn.Bpmn;
+import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+
+import org.w3c.dom.Document;
 import bpsimWrappers.ControlParametersWrapper;
 import bpsimWrappers.CostParametersWrapper;
 import bpsimWrappers.ParametersWrapper;
@@ -43,6 +56,28 @@ public class Util {
 			e.printStackTrace();
 		}	return false;
 	}
+	
+	 
+	
+	public static BpmnModelInstance loadBpmnProcess(Document bpmnDocument) {
+		try {
+	        // @todo refactor
+	        TransformerFactory tf = TransformerFactory.newInstance();
+	        Transformer transformer = tf.newTransformer();
+	        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();              
+	        Result outputTarget = new StreamResult(outputStream);
+	        transformer.transform(new DOMSource(bpmnDocument),  outputTarget);
+	        InputStream is = new ByteArrayInputStream(outputStream.toByteArray());
+			
+			return Bpmn.readModelFromStream(is);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	
 }
 
 

@@ -56,8 +56,16 @@ public class BpmnPreprocesser {
 	        NodeList nodeTaskslist = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
 	        // check if there is a node inside with a message in case put the message name in the list
 	        for (int i = 0; i < nodeTaskslist.getLength(); i++) {
-	      	  this.bpmnDocument.renameNode((Element) nodeTaskslist.item(i), "http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:userTask");
-	        }			
+	        	// add listener
+	        	Element ndWrapper = this.bpmnDocument.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "semantic:extensionElements");
+				Element ndExecutionListeners = this.bpmnDocument.createElementNS("http://camunda.org/schema/1.0/bpmn", "camunda:executionListener");
+				ndExecutionListeners.setAttribute("class", "executionlisteners.TaskListener");
+				ndExecutionListeners.setAttribute("event", "start");
+				ndWrapper.appendChild(ndExecutionListeners);			
+				nodeTaskslist.item(i).insertBefore(ndWrapper, nodeTaskslist.item(i).getFirstChild());				
+				// convert the node type
+	        	this.bpmnDocument.renameNode((Element) nodeTaskslist.item(i), "http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:userTask");
+	        }
 		} catch (Exception ex) {
 			
 		}
@@ -123,10 +131,12 @@ public class BpmnPreprocesser {
 		try {
 	        XPathExpression expr = xpath.compile("//*[local-name()='conditionExpression']");
 	        NodeList nl = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
-	        for (int i = 0; i < nl.getLength(); i++) {
-	            ((Element) nl.item(i)).setNodeValue("<![CDATA[import util.Util\r\n\r\n" +
-	                "Util.booleanValueFlow(\"" + ((Element) nl.item(i).getParentNode()).getAttribute("id") + "\");]]>"
-	            );
+	        for (int i = 0; i < nl.getLength(); i++) {	        
+	        	((Element) nl.item(i)).setAttribute("language", "groovy");
+	        	nl.item(i).setTextContent("import util.Util\r\n\r\n" +
+	                "Util.booleanValueFlow(\"" + ((Element) nl.item(i).getParentNode()).getAttribute("id") + "\");"
+	            );	            
+	            
 	        }			
 		} catch (Exception ex) {
 			

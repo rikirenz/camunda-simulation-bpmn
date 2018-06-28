@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -20,6 +23,7 @@ import org.w3c.dom.Document;
 import bpsimWrappers.ControlParametersWrapper;
 import bpsimWrappers.CostParametersWrapper;
 import bpsimWrappers.ParametersWrapper;
+
 
 public class Util {
 
@@ -43,18 +47,20 @@ public class Util {
 	}
 
 	public static boolean booleanValueFlow(String elementId) {
-		try {
+		/*try {
+			 
 			ControlParametersWrapper controlParameters = (ControlParametersWrapper) retriveParamaterType(elementId, ControlParametersWrapper.class);
+			 
 			// if there is no object exception with distribution or boolean 
 			if (controlParameters == null ) throw new Exception("The Parameters for the out flow:" + elementId + " are not well defined.");
-			
 			if (controlParameters.getProbability() != null) return random.nextBoolean();
 			
 			throw new Exception("The Parameters for the out-flow element:" + elementId + " are not well defined.");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	return false;
+		}	*/
+		return false;
 	}
 	
 	 
@@ -75,6 +81,26 @@ public class Util {
 			return null;
 		}
 	}
+	
+	public static String convertDocumnetToString(Document doc) {
+		try {
+			java.io.StringWriter sw = new java.io.StringWriter();
+			TransformerFactory tf = TransformerFactory.newInstance();
+			Transformer transformer;
+			transformer = tf.newTransformer();
+	        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+	        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+	        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");	
+	        transformer.transform(new DOMSource(doc), new StreamResult(sw));
+			
+	        return sw.toString();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}		
+	}
+	
 	
 	
 	

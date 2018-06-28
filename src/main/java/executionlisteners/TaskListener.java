@@ -40,11 +40,15 @@ public class TaskListener implements ExecutionListener {
 
 	private Boolean interruptible;
 	private Long priority;
+	
+	private Long totalTime = (long) 0;
+	private Double totalCost = 0.0;
 
 	public void notify(DelegateExecution execution) throws Exception {
-
 		LOGGER.info("TASK: " + execution.getCurrentActivityName());
 
+		
+		// load parameters
 		costParameters = (CostParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(),
 				CostParametersWrapper.class);
 		timeParameters = (TimeParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(),
@@ -54,34 +58,25 @@ public class TaskListener implements ExecutionListener {
 		priorityParameters = (PriorityParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(),
 				PriorityParametersWrapper.class);
 
-		// element not defined
-		if (costParameters == null || timeParameters == null || controlParameters == null
-				|| priorityParameters == null) {
-			throw new Exception(
-					"The Parameters for the task:" + execution.getCurrentActivityId() + " are not well defined.");
+
+		// do calcutions using the parameters
+		if (timeParameters != null) totalTime = calculateTaskTime(timeParameters);
+		if (costParameters != null) totalCost = calculateTaskCost(costParameters);
+		if (controlParameters != null) {
+			interTriggerTimer = controlParameters.getInterTriggerTimer();
+			triggerCount = controlParameters.getTriggerCount(); 
+			interruptible = priorityParameters.getInterruptible();
+			priority = priorityParameters.getPriority();			
 		}
-
-		Long totalTime = calculateTaskTime(timeParameters);
-		Double totalCost = calculateTaskCost(costParameters);
-
-		interTriggerTimer = controlParameters.getInterTriggerTimer(); // ?
-		triggerCount = controlParameters.getTriggerCount(); // ?
-
-		interruptible = priorityParameters.getInterruptible();
-		priority = priorityParameters.getPriority();
-
-		LOGGER.info("TASK: " + execution.getCurrentActivityName() + " TOTAL TIME: " + totalTime);
 
 		// boundary event section
 		if (BpsimCollection.boundaryEvents.get(execution.getCurrentActivityId()) != null) {
 			// find the boundary events
 			LOGGER.info("Boundary Events:"
 					+ BpsimCollection.boundaryEvents.get(execution.getCurrentActivityId()).toString());
-			// get the bpsim information
 
 			for (String currBoundary : BpsimCollection.boundaryEvents.get(execution.getCurrentActivityId())) {
-				ControlParametersWrapper boundaryControlParameters = (ControlParametersWrapper) Util
-						.retriveParamaterType(currBoundary, ControlParametersWrapper.class);
+				ControlParametersWrapper boundaryControlParameters = (ControlParametersWrapper) Util.retriveParamaterType(currBoundary, ControlParametersWrapper.class);
 				// get the probabilities
 				// boundaryControlParameters.getCondition();
 				// boundaryControlParameters.getProbability();

@@ -74,6 +74,10 @@ public class EnsoApp {
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	private SimulationClock simClock = new SimulationClock();
 
+	private RuntimeService runtimeService;
+	private TaskService taskService;
+
+	
 	public EnsoApp(Path processBpmnPath, String processBpmnId, int instancesNumber, int delayBetweenInstances) {
 		this.processBpmnPath = processBpmnPath;
 		this.processBpmnId = processBpmnId;
@@ -106,21 +110,22 @@ public class EnsoApp {
 		// load the bpsim data in the xml
 		BpsimCollection bpsimCollection = new BpsimCollection(bpmnDocument);
 		startSimulation();
+		runSimulation();
 	}
 		
-
+	
 	private void startSimulation() {
 		ProcessEngine processEngine = processEngineInit();
 		RepositoryService repositoryService = processEngine.getRepositoryService();
-
 		BpmnModelInstance modelInstance = Util.loadBpmnProcess(bpmnDocument);
+				
+		LOGGER.info(Util.convertDocumnetToString(bpmnDocument));
 		
 		DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(processBpmnId);
 		deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", modelInstance);
 		deploymentBuilder.deploy();
-
-		RuntimeService runtimeService = processEngine.getRuntimeService();
-		TaskService taskService = processEngine.getTaskService();
+		runtimeService = processEngine.getRuntimeService();
+		taskService = processEngine.getTaskService();
 		
 		// start events creation
 		int startTime = delayBetweenInstances;
@@ -129,7 +134,9 @@ public class EnsoApp {
 			eventsQueue.add(startProcessEvent);
 			startTime += delayBetweenInstances;
 		}
-		
+	}
+
+	private void runSimulation() {
 		while (!eventsQueue.isEmpty()) {
 			SimulationEvent currEvent = eventsQueue.remove();
 			if (currEvent instanceof SimulationTaskEvent) {
@@ -138,12 +145,8 @@ public class EnsoApp {
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
 				if (currTaskEvent.getStartTime() > simClock.getCurrentTime())
 					simClock.setCurrentTime(currTaskEvent.getStartTime());
-				
 				// move on with the simulation
 				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).taskName(currTaskEvent.getName()).singleResult();
-				
-				LOGGER.info("" + (currTask == null));
-
 				taskService.complete(currTask.getId());
 				
 			} else if (currEvent instanceof SimulationCatchEvent) {
@@ -153,7 +156,6 @@ public class EnsoApp {
 					simClock.setCurrentTime(currCatchEvent.getStartTime());
 				// Put the event again in the queue with the time updated
 				eventsQueue.add(currCatchEvent.getNextEvent());
-
 				
 				LOGGER.info("" + currCatchEvent.getProcessId() + " - " + currCatchEvent.getName());
 				// trigger the event in the process
@@ -174,7 +176,7 @@ public class EnsoApp {
 						processInstanceId(currBoundaryEvent.getProcessId()).eventName(currBoundaryEvent.getName()).singleResult();
 				runtimeService.messageEventReceived(subscription.getEventName(), subscription.getExecutionId());
 			} else {
-				LOGGER.info("Start event");				
+				LOGGER.info("Start event");
 				ProcessInstance instance = runtimeService.startProcessInstanceByKey(processBpmnId);
 				// add catchEvent to the new instance of the process
 				for (SimulationCatchEvent currCatchEvent : BpsimCollection.indipendentIntermediateThrowEvents) {

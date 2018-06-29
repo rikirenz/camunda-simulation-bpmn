@@ -13,6 +13,8 @@
   <properties>
     <skipTests>true</skipTests>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
   </properties>
 
   <dependencyManagement>
@@ -36,7 +38,7 @@
       <artifactId>groovy-all</artifactId>
       <version>3.0.0-alpha-2</version>
       <type>pom</type>
-	</dependency> 
+	  </dependency> 
     
     <dependency>
       <groupId>junit</groupId>
@@ -64,6 +66,27 @@
       <groupId>net.sourceforge.jdistlib</groupId>
       <artifactId>jdistlib</artifactId>
       <version>0.4.5</version>
-	</dependency>
+	  </dependency>
+
+    <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-runtime</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>javax.activation</groupId>
+        <artifactId>activation</artifactId>
+        <version>1.1.1</version>
+    </dependency>
   </dependencies>
 </project>

@@ -22,7 +22,7 @@ public class EventListener implements ExecutionListener {
 	private ControlParametersWrapper controlParameters;
 
 	public void notify(DelegateExecution execution) throws Exception {
-		LOGGER.info("Event Name:" + execution.getEventName());
+		LOGGER.info("Event Name:" + execution.getCurrentActivityName());
 		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getEventName(), ControlParametersWrapper.class);
 		// element not defined
 		if (controlParameters == null) return;

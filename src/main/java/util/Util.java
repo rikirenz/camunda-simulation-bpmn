@@ -2,7 +2,9 @@ package util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -100,6 +102,20 @@ public class Util {
 			return null;
 		}		
 	}
+	
+	
+	public static void writeStringToFile(String content, String filename) {
+		try {
+			PrintWriter out = new PrintWriter(filename);
+			out.println(content);
+		    out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
+	
 	
 	
 	

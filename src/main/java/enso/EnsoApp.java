@@ -119,7 +119,9 @@ public class EnsoApp {
 		RepositoryService repositoryService = processEngine.getRepositoryService();
 		BpmnModelInstance modelInstance = Util.loadBpmnProcess(bpmnDocument);
 				
-		LOGGER.info(Util.convertDocumnetToString(bpmnDocument));
+		//LOGGER.info(Util.convertDocumnetToString(bpmnDocument));
+				
+		Util.writeStringToFile(Util.convertDocumnetToString(bpmnDocument), "preProcessedDoc.bpmn");
 		
 		DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(processBpmnId);
 		deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", modelInstance);
@@ -146,6 +148,7 @@ public class EnsoApp {
 				if (currTaskEvent.getStartTime() > simClock.getCurrentTime())
 					simClock.setCurrentTime(currTaskEvent.getStartTime());
 				// move on with the simulation
+				LOGGER.info(currTaskEvent.getName());
 				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).taskName(currTaskEvent.getName()).singleResult();
 				taskService.complete(currTask.getId());
 				

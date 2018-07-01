@@ -20,7 +20,7 @@ public class SequenceFlowListener  implements ExecutionListener {
 
 	public void notify(DelegateExecution execution) throws Exception {			
 		
-		LOGGER.info("===================== Sequence flow  1 =====================");
+		LOGGER.info("===================== Sequence flow =====================");
 		
 		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getCurrentTransitionId(), ControlParametersWrapper.class);
 		

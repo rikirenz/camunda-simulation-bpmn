@@ -38,9 +38,11 @@ public class BpmnPreprocesser {
 	 */
 	public Document getProcessedBpmn () {
 		// process the document
+		addListenerTointermediateEvents();
 		addClassToUserTaskAlreadyPresent();
 		convertTaskToUserTask();
 		convertBoundaryEventsToMessageBoundaryEvents();
+		convertStartSubPorcessEventsToMessageStartEvents();
 		convertConditionExpressionWithCustomCode();
 
 		return bpmnDocument;
@@ -147,7 +149,6 @@ public class BpmnPreprocesser {
 			
 		}
 	}
-
 	
 	/**
 	 * Convert all the ConditionExpression elements in the bpmnDocument replacing them with custom code
@@ -159,13 +160,106 @@ public class BpmnPreprocesser {
 	        for (int i = 0; i < nl.getLength(); i++) {	        
 	        	((Element) nl.item(i)).setAttribute("language", "groovy");
 	        	nl.item(i).setTextContent("import util.Util\r\n\r\n" +
-	                "Util.booleanValueFlow(\"" + ((Element) nl.item(i).getParentNode()).getAttribute("id") + "\");"
+						"Util.booleanValueFlow(\"" + ((Element) nl.item(i).getParentNode()).getAttribute("id") + "\");"
 	            );	            
-	            
 	        }			
 		} catch (Exception ex) {
 			
 		}
 	}
+	
+	/**
+	 * Add listener to intermediate catch and throw events
+	 */	
+	private void addListenerTointermediateEvents() {
+		try {
+			// add listeners to intermediateThrowEvent nodes
+	        XPathExpression expr = xpath.compile("//*[local-name()='intermediateThrowEvent']");
+	        NodeList nl = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
+	        for (int i = 0; i < nl.getLength(); i++) {	        
+	        	Element ndWrapper = this.bpmnDocument.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "semantic:extensionElements");
+				Element ndExecutionListeners = this.bpmnDocument.createElementNS("http://camunda.org/schema/1.0/bpmn", "camunda:executionListener");
+				ndExecutionListeners.setAttribute("class", "executionlisteners.EventListener");
+				ndExecutionListeners.setAttribute("event", "start");
+				ndWrapper.appendChild(ndExecutionListeners);			
+				nl.item(i).insertBefore(ndWrapper, nl.item(i).getFirstChild());          
+	        }
 
-}
+	        // add listeners to intermediateCatchEvent nodes
+	        expr = xpath.compile("//*[local-name()='intermediateCatchEvent']");
+	        nl = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
+	        for (int i = 0; i < nl.getLength(); i++) {	        
+	        	Element ndWrapper = this.bpmnDocument.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "semantic:extensionElements");
+				Element ndExecutionListeners = this.bpmnDocument.createElementNS("http://camunda.org/schema/1.0/bpmn", "camunda:executionListener");
+				ndExecutionListeners.setAttribute("class", "executionlisteners.EventListener");
+				ndExecutionListeners.setAttribute("event", "start");
+				ndWrapper.appendChild(ndExecutionListeners);			
+				nl.item(i).insertBefore(ndWrapper, nl.item(i).getFirstChild());          
+	        }	        
+		} catch (Exception ex) {
+			
+		}
+	}
+	
+	
+	/**
+	 * Convert all the start event in the sub process to start message events 
+	 */	
+	private void convertStartSubPorcessEventsToMessageStartEvents() {
+		try {
+			// get all the subprocess nodes
+	        XPathExpression expr = xpath.compile("//*[local-name()='subProcess']//*[local-name()='subProcess']//*[local-name()='startEvent']");
+	        NodeList starEventsNodeList = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
+
+        	for (int j = 0; j < starEventsNodeList.getLength(); j++) {
+        		// verify if the start event is already a message event	        	
+        		Element currElement = (Element) starEventsNodeList.item(j);
+        		NodeList startEventChildNodes = currElement.getChildNodes();
+        		boolean isAMessageEvent = false;
+        		for (int k = 0; k < startEventChildNodes.getLength(); k++) {
+        			
+        			if (startEventChildNodes.item(k).getNodeName().equals("messageEventDefinition")) {
+        				isAMessageEvent = true;
+        				break;
+        			}
+        		}
+
+        		if (isAMessageEvent) continue; 	        		
+        		// yes continue
+        	
+        		// no convert it to message start event
+        		
+            	// create a message node
+    	        // <bpmn:message id="Message_123" name="Message_123" />             	  
+            	Element nd = this.bpmnDocument.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:message");
+            	String messageId = "messageStartEvent" + currElement.getAttribute("id") + j;
+            	nd.setAttribute("id", messageId);
+            	nd.setAttribute("name", messageId);
+            	this.bpmnDocument.getFirstChild().insertBefore(nd, this.bpmnDocument.getFirstChild().getFirstChild());
+            	    
+        		
+        		// remove all elements except outgoings
+				for (int k = startEventChildNodes.getLength()-1; k >= 0 ; k--) {
+					if (!startEventChildNodes.item(k).getNodeName().equals("bpmn:outgoing")) {  
+						currElement.removeChild(startEventChildNodes.item(k));            			  
+					}
+				}
+		        
+				
+				/* 
+		        <bpmn:startEvent id="IntermediateCatchEventIndipendent" name="IntermediateCatchEventIndipendent" isInterrupting="false">
+		          <bpmn:outgoing>SequenceFlow_0ynguv5</bpmn:outgoing>
+		          <bpmn:messageEventDefinition messageRef="testMessage" />
+		        </bpmn:startEvent>
+		        */
+        	
+	          	// add message
+	            Element messageEventDef = this.bpmnDocument.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:messageEventDefinition");
+	          	messageEventDef.setAttribute("messageRef", messageId);
+	          	currElement.appendChild(messageEventDef);
+        		
+        	}	        	
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}}

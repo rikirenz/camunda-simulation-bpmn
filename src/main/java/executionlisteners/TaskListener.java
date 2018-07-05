@@ -58,7 +58,6 @@ public class TaskListener implements ExecutionListener {
 		priorityParameters = (PriorityParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(),
 				PriorityParametersWrapper.class);
 
-
 		// do calcutions using the parameters
 		if (timeParameters != null) totalTime = calculateTaskTime(timeParameters);
 		if (costParameters != null) totalCost = calculateTaskCost(costParameters);
@@ -87,7 +86,7 @@ public class TaskListener implements ExecutionListener {
 		}
 
 		// add event to the queue
-		eventsHandler.addTaskEvent(execution.getCurrentActivityName(), totalTime, execution.getProcessInstanceId());
+		eventsHandler.addTaskEvent(execution.getActivityInstanceId(), execution.getCurrentActivityName(), totalTime, execution.getProcessInstanceId());
 	}
 
 	public Long calculateTaskTime(TimeParametersWrapper currTimeParameters) throws Exception {

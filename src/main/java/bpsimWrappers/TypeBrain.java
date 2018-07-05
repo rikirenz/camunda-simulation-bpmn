@@ -63,7 +63,7 @@ public class TypeBrain {
 			return distributionResult.doubleValue();
 		} else {
 			throw new Exception(
-				"The ParameterValue type is null or is not supported by the method returnDouble!"
+				"The ParameterValue type is null or is not supported by the method returnDouble! " + (currParamValue== null)
 			);
 		}
 	}

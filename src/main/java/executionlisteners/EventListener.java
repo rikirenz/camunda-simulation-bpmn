@@ -22,14 +22,14 @@ public class EventListener implements ExecutionListener {
 	private ControlParametersWrapper controlParameters;
 
 	public void notify(DelegateExecution execution) throws Exception {
-		LOGGER.info("Event Name:" + execution.getCurrentActivityName());
-		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getEventName(), ControlParametersWrapper.class);
+		LOGGER.info("Event Name:" + execution.getCurrentActivityId());
+		controlParameters = (ControlParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(), ControlParametersWrapper.class);
 		// element not defined
 		if (controlParameters == null) return;
-		interTriggerTimer = controlParameters.getInterTriggerTimer();
+		//interTriggerTimer = controlParameters.getInterTriggerTimer();
 		probability = controlParameters.getProbability();
-		condition = controlParameters.getCondition();		
+		//condition = controlParameters.getCondition();		
 		
-		eventsHandler.addTaskEvent(execution.getEventName(), 0, execution.getProcessInstanceId());
+		eventsHandler.addIntermediateEvent(execution.getEventName(), 0, execution.getProcessInstanceId());
 	}	
 }

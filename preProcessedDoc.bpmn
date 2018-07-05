@@ -21,8 +21,8 @@
 <semantic:flowNodeRef>_D6383F72-7F7A-48F8-A742-A26F36A8DC10</semantic:flowNodeRef>
 <semantic:flowNodeRef>_F366069F-C180-4D69-B2BF-4124649EC36F</semantic:flowNodeRef>
 <semantic:flowNodeRef>_4E504F9B-2618-424F-ABAA-C4D4CC2D75E0</semantic:flowNodeRef>
-<semantic:flowNodeRef>_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE</semantic:flowNodeRef>
 <semantic:flowNodeRef>_8576B2C5-068B-4A21-A035-A3F55CA7AA70</semantic:flowNodeRef>
+<semantic:flowNodeRef>_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE</semantic:flowNodeRef>
 <semantic:flowNodeRef>_C77E51FD-9C1B-40F7-9273-100E47069B11</semantic:flowNodeRef>
 </semantic:lane>
 <semantic:lane id="_B634801B-C2C5-4C55-A4AD-17882B1E87F2" name="Title Researcher">
@@ -48,7 +48,7 @@
 <camunda:executionListener class="executionlisteners.TaskListener" event="start"/>
 </semantic:extensionElements>
 <semantic:incoming>_B9562572-75E4-4143-BC81-4D79CEDB65D6</semantic:incoming>
-<semantic:incoming>SequenceFlow_0l1cxz5</semantic:incoming>
+<semantic:incoming>SequenceFlow_092woaq</semantic:incoming>
 <semantic:outgoing>_A80D6FF4-D222-4AAF-9161-8FB83F91AEED</semantic:outgoing>
 </semantic:userTask>
 <semantic:parallelGateway id="_D94158CC-F5C2-46A2-96A2-CD8B02AF14B4" name="">
@@ -202,27 +202,33 @@ Util.booleanValueFlow("_3D6F2455-BFFB-44BB-A052-892FB15FEEB4");</semantic:condit
 </semantic:outputSet>
 <semantic:messageEventDefinition messageRef="_1364754643401"/>
 </semantic:startEvent>
-<semantic:intermediateCatchEvent id="_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE" name="Receive  Credit  Report">
-<semantic:incoming>SequenceFlow_151opwd</semantic:incoming>
-<semantic:outgoing>SequenceFlow_0l1cxz5</semantic:outgoing>
-<semantic:messageEventDefinition messageRef="_1364754643422"/>
-</semantic:intermediateCatchEvent>
 <semantic:intermediateThrowEvent id="_8576B2C5-068B-4A21-A035-A3F55CA7AA70" name="Request Credit Report">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.EventListener" event="start"/>
+</semantic:extensionElements>
 <semantic:incoming>SequenceFlow_1av3yuz</semantic:incoming>
 <semantic:outgoing>SequenceFlow_151opwd</semantic:outgoing>
 <semantic:messageEventDefinition messageRef="_1364754643403"/>
 </semantic:intermediateThrowEvent>
 <semantic:sequenceFlow id="SequenceFlow_1av3yuz" sourceRef="_D94158CC-F5C2-46A2-96A2-CD8B02AF14B4" targetRef="_8576B2C5-068B-4A21-A035-A3F55CA7AA70"/>
 <semantic:sequenceFlow id="SequenceFlow_151opwd" sourceRef="_8576B2C5-068B-4A21-A035-A3F55CA7AA70" targetRef="_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE"/>
+<semantic:intermediateCatchEvent id="_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE" name="Receive  Credit  Report">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.EventListener" event="start"/>
+</semantic:extensionElements>
+<semantic:incoming>SequenceFlow_151opwd</semantic:incoming>
+<semantic:outgoing>SequenceFlow_092woaq</semantic:outgoing>
+<semantic:messageEventDefinition messageRef="_1364754643422"/>
+</semantic:intermediateCatchEvent>
 <semantic:parallelGateway id="_C77E51FD-9C1B-40F7-9273-100E47069B11" name="">
-<semantic:incoming>_78F951B5-7470-4538-AA6C-CD08E4D422C6</semantic:incoming>
 <semantic:incoming>_8663B922-4BE9-4192-8BC8-0578B127A8F1</semantic:incoming>
+<semantic:incoming>_78F951B5-7470-4538-AA6C-CD08E4D422C6</semantic:incoming>
 <semantic:outgoing>_B9562572-75E4-4143-BC81-4D79CEDB65D6</semantic:outgoing>
 </semantic:parallelGateway>
 <semantic:sequenceFlow id="_B9562572-75E4-4143-BC81-4D79CEDB65D6" name="" sourceRef="_C77E51FD-9C1B-40F7-9273-100E47069B11" targetRef="_C94EFA57-E605-4564-BFC4-22A84C660A6A"/>
-<semantic:sequenceFlow id="SequenceFlow_0l1cxz5" sourceRef="_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE" targetRef="_C94EFA57-E605-4564-BFC4-22A84C660A6A"/>
-<semantic:sequenceFlow id="_78F951B5-7470-4538-AA6C-CD08E4D422C6" name="" sourceRef="_ACDC390F-49FD-43A3-ACD6-1EBB8074801D" targetRef="_C77E51FD-9C1B-40F7-9273-100E47069B11"/>
 <semantic:sequenceFlow id="_8663B922-4BE9-4192-8BC8-0578B127A8F1" name="" sourceRef="_0CA1F609-5DFA-43E2-96DE-6CBD97BFAC5A" targetRef="_C77E51FD-9C1B-40F7-9273-100E47069B11"/>
+<semantic:sequenceFlow id="_78F951B5-7470-4538-AA6C-CD08E4D422C6" name="" sourceRef="_ACDC390F-49FD-43A3-ACD6-1EBB8074801D" targetRef="_C77E51FD-9C1B-40F7-9273-100E47069B11"/>
+<semantic:sequenceFlow id="SequenceFlow_092woaq" sourceRef="_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE" targetRef="_C94EFA57-E605-4564-BFC4-22A84C660A6A"/>
 </semantic:process>
 <bpmndi:BPMNDiagram documentation="" id="Trisotech_Visio-_6" name="Loan Origination" resolution="96.00000267028808">
 <bpmndi:BPMNPlane bpmnElement="LoanRequestBpsim">
@@ -439,12 +445,6 @@ Util.booleanValueFlow("_3D6F2455-BFFB-44BB-A052-892FB15FEEB4");</semantic:condit
 <dc:Bounds height="30" width="30" x="470" y="315"/>
 <bpmndi:BPMNLabel/>
 </bpmndi:BPMNShape>
-<bpmndi:BPMNShape bpmnElement="_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE" id="IntermediateCatchEvent_00z0ixh_di">
-<dc:Bounds height="36" width="36" x="933" y="312"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="0" x="951" y="352"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNShape>
 <bpmndi:BPMNShape bpmnElement="_8576B2C5-068B-4A21-A035-A3F55CA7AA70" id="IntermediateThrowEvent_13b1064_di">
 <dc:Bounds height="36" width="36" x="797" y="312"/>
 <bpmndi:BPMNLabel>
@@ -465,6 +465,12 @@ Util.booleanValueFlow("_3D6F2455-BFFB-44BB-A052-892FB15FEEB4");</semantic:condit
 <dc:Bounds height="12" width="0" x="883" y="309"/>
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
+<bpmndi:BPMNShape bpmnElement="_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE" id="IntermediateCatchEvent_00z0ixh_di">
+<dc:Bounds height="36" width="36" x="933" y="312"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds height="12" width="0" x="951" y="352"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
 <bpmndi:BPMNShape bpmnElement="_C77E51FD-9C1B-40F7-9273-100E47069B11" id="S1364754643574__C77E51FD-9C1B-40F7-9273-100E47069B11">
 <dc:Bounds height="42" width="42" x="1044" y="309"/>
 <bpmndi:BPMNLabel/>
@@ -475,12 +481,11 @@ Util.booleanValueFlow("_3D6F2455-BFFB-44BB-A052-892FB15FEEB4");</semantic:condit
 <di:waypoint x="1137" xsi:type="dc:Point" y="330"/>
 <bpmndi:BPMNLabel/>
 </bpmndi:BPMNEdge>
-<bpmndi:BPMNEdge bpmnElement="SequenceFlow_0l1cxz5" id="SequenceFlow_0l1cxz5_di">
-<di:waypoint x="969" xsi:type="dc:Point" y="329"/>
-<di:waypoint x="1137" xsi:type="dc:Point" y="316"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="0" x="1006.5" y="309"/>
-</bpmndi:BPMNLabel>
+<bpmndi:BPMNEdge bpmnElement="_8663B922-4BE9-4192-8BC8-0578B127A8F1" id="E1364754643594__8663B922-4BE9-4192-8BC8-0578B127A8F1">
+<di:waypoint x="935" xsi:type="dc:Point" y="205"/>
+<di:waypoint x="1065" xsi:type="dc:Point" y="205"/>
+<di:waypoint x="1065" xsi:type="dc:Point" y="309"/>
+<bpmndi:BPMNLabel/>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge bpmnElement="_78F951B5-7470-4538-AA6C-CD08E4D422C6" id="E1364754643611__78F951B5-7470-4538-AA6C-CD08E4D422C6">
 <di:waypoint x="1035" xsi:type="dc:Point" y="673"/>
@@ -488,11 +493,13 @@ Util.booleanValueFlow("_3D6F2455-BFFB-44BB-A052-892FB15FEEB4");</semantic:condit
 <di:waypoint x="1065" xsi:type="dc:Point" y="351"/>
 <bpmndi:BPMNLabel/>
 </bpmndi:BPMNEdge>
-<bpmndi:BPMNEdge bpmnElement="_8663B922-4BE9-4192-8BC8-0578B127A8F1" id="E1364754643594__8663B922-4BE9-4192-8BC8-0578B127A8F1">
-<di:waypoint x="935" xsi:type="dc:Point" y="205"/>
-<di:waypoint x="1065" xsi:type="dc:Point" y="205"/>
-<di:waypoint x="1065" xsi:type="dc:Point" y="309"/>
-<bpmndi:BPMNLabel/>
+<bpmndi:BPMNEdge bpmnElement="SequenceFlow_092woaq" id="SequenceFlow_092woaq_di">
+<di:waypoint x="951" xsi:type="dc:Point" y="312"/>
+<di:waypoint x="951" xsi:type="dc:Point" y="236"/>
+<di:waypoint x="1137" xsi:type="dc:Point" y="309"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds height="12" width="0" x="1053" y="309"/>
+</bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 </bpmndi:BPMNPlane>
 </bpmndi:BPMNDiagram>
@@ -505,177 +512,581 @@ Util.booleanValueFlow("_3D6F2455-BFFB-44BB-A052-892FB15FEEB4");</semantic:condit
 <bpsim:DurationParameter value="PT40H"/>
 </bpsim:Duration>
 </bpsim:ScenarioParameters>
-<bpsim:ElementParameters elementRef="_6">
-<bpsim:TimeParameters>
-<bpsim:ProcessingTime>
-<bpsim:ResultRequest>min</bpsim:ResultRequest>
-<bpsim:ResultRequest>max</bpsim:ResultRequest>
-<bpsim:ResultRequest>mean</bpsim:ResultRequest>
-</bpsim:ProcessingTime>
-</bpsim:TimeParameters>
-<bpsim:ControlParameters>
-<bpsim:TriggerCount>
-<bpsim:ResultRequest>count</bpsim:ResultRequest>
-</bpsim:TriggerCount>
-</bpsim:ControlParameters>
-</bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="_4E504F9B-2618-424F-ABAA-C4D4CC2D75E0">
-<bpsim:ControlParameters>
-<bpsim:InterTriggerTimer>
-<bpsim:TriangularDistribution max="30" min="10" mode="16"/>
-</bpsim:InterTriggerTimer>
-<bpsim:TriggerCount>
-<bpsim:ResultRequest>count</bpsim:ResultRequest>
-</bpsim:TriggerCount>
-</bpsim:ControlParameters>
-</bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE">
-<bpsim:TimeParameters>
-<bpsim:ProcessingTime>
-<bpsim:TriangularDistribution max="6" min="4" mode="5"/>
-</bpsim:ProcessingTime>
-</bpsim:TimeParameters>
-<bpsim:ControlParameters>
-<bpsim:InterTriggerTimer>
-<bpsim:TriangularDistribution max="6" min="4" mode="5"/>
-</bpsim:InterTriggerTimer>
-</bpsim:ControlParameters>
-</bpsim:ElementParameters>
 <bpsim:ElementParameters elementRef="_2017EC19-4BD5-40D7-9014-E7D337A68E01">
 <bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
 <bpsim:ProcessingTime>
-<bpsim:ResultRequest>min</bpsim:ResultRequest>
-<bpsim:ResultRequest>max</bpsim:ResultRequest>
-<bpsim:ResultRequest>mean</bpsim:ResultRequest>
-<bpsim:TruncatedNormalDistribution max="1000" mean="20" min="0" standardDeviation="1"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
 </bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
 </bpsim:ElementParameters>
 <bpsim:ElementParameters elementRef="_0CA1F609-5DFA-43E2-96DE-6CBD97BFAC5A">
 <bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
 <bpsim:ProcessingTime>
-<bpsim:ResultRequest>min</bpsim:ResultRequest>
-<bpsim:ResultRequest>max</bpsim:ResultRequest>
-<bpsim:ResultRequest>mean</bpsim:ResultRequest>
-<bpsim:TruncatedNormalDistribution max="1000" mean="30" min="0" standardDeviation="4"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
 </bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
 </bpsim:ElementParameters>
 <bpsim:ElementParameters elementRef="_4A0E10F8-6AC7-4AF0-AFD3-5E0CB00BD316">
 <bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
 <bpsim:ProcessingTime>
-<bpsim:ResultRequest>min</bpsim:ResultRequest>
-<bpsim:ResultRequest>max</bpsim:ResultRequest>
-<bpsim:ResultRequest>mean</bpsim:ResultRequest>
-<bpsim:TruncatedNormalDistribution max="1000" mean="60" min="0" standardDeviation="2"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
 </bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
 </bpsim:ElementParameters>
 <bpsim:ElementParameters elementRef="_ACDC390F-49FD-43A3-ACD6-1EBB8074801D">
 <bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
 <bpsim:ProcessingTime>
-<bpsim:ResultRequest>min</bpsim:ResultRequest>
-<bpsim:ResultRequest>max</bpsim:ResultRequest>
-<bpsim:ResultRequest>mean</bpsim:ResultRequest>
-<bpsim:TruncatedNormalDistribution max="1000" mean="20" min="0" standardDeviation="2"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
 </bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
 </bpsim:ElementParameters>
 <bpsim:ElementParameters elementRef="_C94EFA57-E605-4564-BFC4-22A84C660A6A">
 <bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
 <bpsim:ProcessingTime>
-<bpsim:ResultRequest>min</bpsim:ResultRequest>
-<bpsim:ResultRequest>max</bpsim:ResultRequest>
-<bpsim:ResultRequest>mean</bpsim:ResultRequest>
-<bpsim:TruncatedNormalDistribution max="1000" mean="30" min="0" standardDeviation="4"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
 </bpsim:TimeParameters>
-</bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="_65F6E8B9-FDD3-4770-B12B-87862F37BDF6">
-<bpsim:TimeParameters>
-<bpsim:ProcessingTime>
-<bpsim:ResultRequest>min</bpsim:ResultRequest>
-<bpsim:ResultRequest>max</bpsim:ResultRequest>
-<bpsim:ResultRequest>mean</bpsim:ResultRequest>
-<bpsim:TruncatedNormalDistribution max="1000" mean="5" min="0" standardDeviation="0.25"/>
-</bpsim:ProcessingTime>
-</bpsim:TimeParameters>
-</bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="_F366069F-C180-4D69-B2BF-4124649EC36F">
-<bpsim:TimeParameters>
-<bpsim:ProcessingTime>
-<bpsim:ResultRequest>min</bpsim:ResultRequest>
-<bpsim:ResultRequest>max</bpsim:ResultRequest>
-<bpsim:ResultRequest>mean</bpsim:ResultRequest>
-<bpsim:TruncatedNormalDistribution max="1000" mean="10" min="0" standardDeviation="0.25"/>
-</bpsim:ProcessingTime>
-</bpsim:TimeParameters>
-</bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="_57EE71B2-5287-46A2-9B24-83A68131714C">
-<bpsim:TimeParameters>
-<bpsim:ProcessingTime>
-<bpsim:ResultRequest>min</bpsim:ResultRequest>
-<bpsim:ResultRequest>max</bpsim:ResultRequest>
-<bpsim:ResultRequest>mean</bpsim:ResultRequest>
-<bpsim:TruncatedNormalDistribution max="1000" mean="50" min="0" standardDeviation="10"/>
-</bpsim:ProcessingTime>
-</bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
 </bpsim:ElementParameters>
 <bpsim:ElementParameters elementRef="_D6383F72-7F7A-48F8-A742-A26F36A8DC10">
 <bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
 <bpsim:ProcessingTime>
-<bpsim:DurationParameter value="PT1M"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
 </bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
 </bpsim:ElementParameters>
 <bpsim:ElementParameters elementRef="_DA142784-0125-46E0-A3CA-004302BD5E21">
 <bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
 <bpsim:ProcessingTime>
-<bpsim:DurationParameter value="PT1M"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
 </bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_57EE71B2-5287-46A2-9B24-83A68131714C">
+<bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
+<bpsim:ProcessingTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
+</bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
 </bpsim:ElementParameters>
 <bpsim:ElementParameters elementRef="_3330ACC4-BCD9-422A-ADCD-7DDF06A2042D">
 <bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
 <bpsim:ProcessingTime>
-<bpsim:DurationParameter value="PT1M"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
 </bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_65F6E8B9-FDD3-4770-B12B-87862F37BDF6">
+<bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
+<bpsim:ProcessingTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
+</bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_F366069F-C180-4D69-B2BF-4124649EC36F">
+<bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
+<bpsim:ProcessingTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
+</bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_8576B2C5-068B-4A21-A035-A3F55CA7AA70">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:NumericParameter value="1"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_BAE2D4BB-902F-4C3C-AF76-A0CABBA9A7AE">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:NumericParameter value="1"/>
+</bpsim:Probability>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+</bpsim:ControlParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+</bpsim:PriorityParameters>
 </bpsim:ElementParameters>
 <bpsim:ElementParameters elementRef="_3D6F2455-BFFB-44BB-A052-892FB15FEEB4">
 <bpsim:ControlParameters>
 <bpsim:Probability>
-<bpsim:FloatingParameter value="0.27"/>
+<bpsim:NumericParameter value="1"/>
 </bpsim:Probability>
-</bpsim:ControlParameters>
-</bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="_93351D59-990B-46B0-80AB-FEEF088E9D7B">
-<bpsim:ControlParameters>
-<bpsim:Probability>
-<bpsim:FloatingParameter value="0.73"/>
-</bpsim:Probability>
-</bpsim:ControlParameters>
-</bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="_6E1A332C-9187-4C4A-BD0F-27167F940786">
-<bpsim:ControlParameters>
-<bpsim:TriggerCount>
-<bpsim:ResultRequest>count</bpsim:ResultRequest>
-</bpsim:TriggerCount>
-</bpsim:ControlParameters>
-</bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="_A2A06973-DC30-4BCF-BF0F-1FD60D68E1EB">
-<bpsim:ControlParameters>
-<bpsim:TriggerCount>
-<bpsim:ResultRequest>count</bpsim:ResultRequest>
-</bpsim:TriggerCount>
-</bpsim:ControlParameters>
-</bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="_542AE8E6-9CEA-43E3-8177-C685A9F430FE">
-<bpsim:ControlParameters>
 <bpsim:InterTriggerTimer>
-<bpsim:DurationParameter value="PT60M"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:InterTriggerTimer>
 </bpsim:ControlParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+</bpsim:PriorityParameters>
 </bpsim:ElementParameters>
 </bpsim:Scenario>
 </bpsim:BPSimData>

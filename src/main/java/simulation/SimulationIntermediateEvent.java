@@ -1,14 +1,12 @@
 package simulation;
 
-public class SimulationTaskEvent extends SimulationEvent {
+public class SimulationIntermediateEvent extends SimulationEvent {
 
 	private long time;
-	private String id;
 	private String processId;
 	private SimulationClock simClock =  new SimulationClock();
 
-	public SimulationTaskEvent(String id, String name, long time, String processId) {
-		this.id = id;
+	public SimulationIntermediateEvent(String name, long time, String processId) {
 		this.name = name;
 		this.time = time;
 		this.startTime = simClock.getCurrentTime() + time;
@@ -23,12 +21,8 @@ public class SimulationTaskEvent extends SimulationEvent {
 		return processId;
 	}
 	
-	public String getId() {
-		return id;
-	}
-	
 	public String toString() {
-		return "id:" + id + ", name: "+ name +", time:" + time +", endTime:" + startTime + ", processId:" + processId;
+		return "name: "+ name +", time:" + time +", endTime:" + startTime + ", processId:" + processId;
 	}
 }
 

@@ -16,11 +16,17 @@ public class EventsHandler {
 	   return instance;
 	}
 	
-	public void addTaskEvent(String taskName, long time, String processInstanceId) {
-		SimulationEvent simEvnt = new SimulationTaskEvent(taskName, time, processInstanceId);
+	public void addTaskEvent(String taskId, String taskName, long time, String processInstanceId) {
+		SimulationEvent simEvnt = new SimulationTaskEvent(taskId, taskName, time, processInstanceId);
 		eventsQueue.add(simEvnt);
 	}
 
+	public void addIntermediateEvent(String eventName, long time, String processInstanceId) {
+		SimulationEvent simEvnt = new SimulationIntermediateEvent(eventName, time, processInstanceId);
+		eventsQueue.add(simEvnt);
+		
+	}
+	
 	public void addStartEvent(String taskName, long startTime) {
 		SimulationEvent simEvnt = new SimulationStartEvent(taskName, startTime);
 		eventsQueue.add(simEvnt);

@@ -257,7 +257,7 @@ import simulation.SimulationCatchEvent;
                       PriorityParameters priorityParam = currElement.getPriorityParameters();
                       if (priorityParam != null) {
                           if (priorityParam.getInterruptible() != null) currPriorityParametersWrapper.setInterruptible(priorityParam.getInterruptible().getParameterValue().get(0).getValue());
-                          if (priorityParam.getPriority() != null) currPriorityParametersWrapper.setPriority(priorityParam.getPriority().getParameterValue().get(0).getValue());
+                          if (priorityParam.getPriority() != null) currPriorityParametersWrapper.setPriority(priorityParam.getPriority().getParameterValue().get(0).getValue());                          
                           // add it to the list
                           updateHashMap(currElement.getElementRef().toString(), currPriorityParametersWrapper);
                       }

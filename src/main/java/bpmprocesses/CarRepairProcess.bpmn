@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<semantic:definitions xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" id="_1364754596385" name="Car Repair Process v2.0.0" targetNamespace="http://www.trisotech.com/definitions/_1364754596385" exporter="Camunda Modeler" exporterVersion="1.14.0">
+<semantic:definitions xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" id="_1364754596385" name="Car Repair Process v2.0.0" targetNamespace="http://www.trisotech.com/definitions/_1364754596385" exporter="Camunda Modeler" exporterVersion="1.11.3">
   <semantic:process id="CarRepairProcess" isExecutable="true">
     <semantic:dataObject id="DF1364754596566" />
     <semantic:startEvent id="_51BDA265-2FF5-40CB-B68D-1FBF9DAAA74C" name="Customer Arrives">
@@ -49,14 +49,16 @@
     </semantic:exclusiveGateway>
     <semantic:endEvent id="_87E52808-857B-45B0-93E8-F6D7AC0B4B3E" name="Initial Estimate Not Accepted">
       <semantic:extensionElements>
-        <camunda:executionListener class="executionlisteners.EndEventyListener" event="start" />
+        <camunda:executionListener class="executionlisteners.EndEventListener" event="start" />
       </semantic:extensionElements>
       <semantic:incoming>_3654E294-536A-4CD2-9950-11F02657EE60</semantic:incoming>
     </semantic:endEvent>
     <semantic:subProcess id="_EBE375AE-E49A-47F7-8E04-DA6A1532ECC2" name="Repair Car">
       <semantic:incoming>_3B161ED4-4C10-4349-9A2D-B4E002D5EC0E</semantic:incoming>
       <semantic:outgoing>_0884CEBC-44CE-4BE2-958F-8941946BDA64</semantic:outgoing>
-      <semantic:startEvent id="_FA77D7D8-9C02-4006-942A-B003AEDA5E3C" name="Start Repairs" />
+      <semantic:startEvent id="_FA77D7D8-9C02-4006-942A-B003AEDA5E3C" name="Start Repairs">
+        <semantic:outgoing>SequenceFlow_0metlqp</semantic:outgoing>
+      </semantic:startEvent>
       <semantic:subProcess id="_AF4F8D5E-E399-4ED8-992F-9AA653C17D6E" name="" triggeredByEvent="true">
         <semantic:startEvent id="_25E36E2C-9196-4170-8BA3-52DDF55D177E" name="Customer Requests Additional  Repairs" isInterrupting="false">
           <semantic:outgoing>_62BD6E5E-B5C0-4719-86CE-D5E30A1D128F</semantic:outgoing>
@@ -88,6 +90,7 @@
       </semantic:subProcess>
       <semantic:task id="_91C1F9A1-0EB9-4FD4-A2A7-99C2E8C34854" name="Take Apart for Issue">
         <semantic:incoming>_9C46FDB0-2EBD-4B2F-A72A-0189A4D76A73</semantic:incoming>
+        <semantic:incoming>SequenceFlow_0metlqp</semantic:incoming>
         <semantic:outgoing>_F165F4A8-69B1-4B19-A1A4-470BDE12FA77</semantic:outgoing>
       </semantic:task>
       <semantic:task id="_A9E2794B-4C41-429B-9C04-46C5B8741DDC" name="Inspect for Issue">
@@ -184,6 +187,7 @@
       </semantic:sequenceFlow>
       <semantic:dataObject id="DF1364754596565" />
       <semantic:sequenceFlow id="_F165F4A8-69B1-4B19-A1A4-470BDE12FA77" name="" sourceRef="_91C1F9A1-0EB9-4FD4-A2A7-99C2E8C34854" targetRef="_A9E2794B-4C41-429B-9C04-46C5B8741DDC" />
+      <semantic:sequenceFlow id="SequenceFlow_0metlqp" sourceRef="_FA77D7D8-9C02-4006-942A-B003AEDA5E3C" targetRef="_91C1F9A1-0EB9-4FD4-A2A7-99C2E8C34854" />
     </semantic:subProcess>
     <semantic:task id="_956694A6-DFD0-4422-800E-A7DF51A627C0" name="Prepare Invoice">
       <semantic:incoming>_0884CEBC-44CE-4BE2-958F-8941946BDA64</semantic:incoming>
@@ -353,174 +357,181 @@
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="E1364754596631__79CF3D66-DDC0-4E70-A721-206B98C9106D" bpmnElement="_79CF3D66-DDC0-4E70-A721-206B98C9106D">
-        <di:waypoint x="2101" y="284" />
-        <di:waypoint x="2134" y="284" />
+        <di:waypoint xsi:type="dc:Point" x="2101" y="284" />
+        <di:waypoint xsi:type="dc:Point" x="2134" y="284" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596632__7BCC27D0-D619-4895-92F5-4516D9583479" bpmnElement="_7BCC27D0-D619-4895-92F5-4516D9583479">
-        <di:waypoint x="1439" y="277" />
-        <di:waypoint x="1453" y="277" />
-        <di:waypoint x="1486" y="277" />
+        <di:waypoint xsi:type="dc:Point" x="1439" y="277" />
+        <di:waypoint xsi:type="dc:Point" x="1453" y="277" />
+        <di:waypoint xsi:type="dc:Point" x="1486" y="277" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596634__24A3FEEC-8DE6-42DC-9B85-D076EB8909A4" bpmnElement="_24A3FEEC-8DE6-42DC-9B85-D076EB8909A4">
-        <di:waypoint x="1018" y="623" />
-        <di:waypoint x="1032" y="623" />
-        <di:waypoint x="1112" y="623" />
+        <di:waypoint xsi:type="dc:Point" x="1018" y="623" />
+        <di:waypoint xsi:type="dc:Point" x="1032" y="623" />
+        <di:waypoint xsi:type="dc:Point" x="1112" y="623" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596636__D5635CA0-2E65-458D-A25B-B7EAC7E888E2" bpmnElement="_D5635CA0-2E65-458D-A25B-B7EAC7E888E2" sourceElement="S1364754596589__BA2B78BE-06A0-46C8-9BA2-D9EC923FDEAA">
-        <di:waypoint x="209" y="475" />
-        <di:waypoint x="209" y="564" />
-        <di:waypoint x="254" y="564" />
+        <di:waypoint xsi:type="dc:Point" x="209" y="475" />
+        <di:waypoint xsi:type="dc:Point" x="209" y="564" />
+        <di:waypoint xsi:type="dc:Point" x="254" y="564" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596637__FE1BBBD3-1730-4BC0-895D-76106317615D" bpmnElement="_FE1BBBD3-1730-4BC0-895D-76106317615D">
-        <di:waypoint x="1010" y="289" />
-        <di:waypoint x="1205" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1010" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1205" y="289" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596638__1F31B20E-FE41-440D-9D44-E7437D1639C6" bpmnElement="_1F31B20E-FE41-440D-9D44-E7437D1639C6">
-        <di:waypoint x="371" y="441" />
-        <di:waypoint x="385" y="441" />
-        <di:waypoint x="407" y="441" />
+        <di:waypoint xsi:type="dc:Point" x="371" y="441" />
+        <di:waypoint xsi:type="dc:Point" x="385" y="441" />
+        <di:waypoint xsi:type="dc:Point" x="407" y="441" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596639__896FB358-BF3A-4609-8E83-8405D72DEA9B" bpmnElement="_896FB358-BF3A-4609-8E83-8405D72DEA9B">
-        <di:waypoint x="131" y="441" />
-        <di:waypoint x="145" y="441" />
-        <di:waypoint x="167" y="441" />
+        <di:waypoint xsi:type="dc:Point" x="131" y="441" />
+        <di:waypoint xsi:type="dc:Point" x="145" y="441" />
+        <di:waypoint xsi:type="dc:Point" x="167" y="441" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596640__222A5787-C138-497B-8638-02121C5E0477" bpmnElement="_222A5787-C138-497B-8638-02121C5E0477">
-        <di:waypoint x="251" y="441" />
-        <di:waypoint x="287" y="441" />
+        <di:waypoint xsi:type="dc:Point" x="251" y="441" />
+        <di:waypoint xsi:type="dc:Point" x="287" y="441" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596641__0884CEBC-44CE-4BE2-958F-8941946BDA64" bpmnElement="_0884CEBC-44CE-4BE2-958F-8941946BDA64">
-        <di:waypoint x="1951" y="288" />
-        <di:waypoint x="1985" y="288" />
-        <di:waypoint x="1985" y="285" />
-        <di:waypoint x="2018" y="285" />
+        <di:waypoint xsi:type="dc:Point" x="1951" y="288" />
+        <di:waypoint xsi:type="dc:Point" x="1985" y="288" />
+        <di:waypoint xsi:type="dc:Point" x="1985" y="285" />
+        <di:waypoint xsi:type="dc:Point" x="2018" y="285" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596642__7586D519-92CA-4824-93B9-59E925689D65" bpmnElement="_7586D519-92CA-4824-93B9-59E925689D65" targetElement="S1364754596614__2A752317-508C-4BB1-9AE7-49FBC7391B2B">
-        <di:waypoint x="1516" y="168" />
-        <di:waypoint x="1541" y="168" />
-        <di:waypoint x="1541" y="255" />
+        <di:waypoint xsi:type="dc:Point" x="1516" y="168" />
+        <di:waypoint xsi:type="dc:Point" x="1541" y="168" />
+        <di:waypoint xsi:type="dc:Point" x="1541" y="255" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596643__751A4C0A-FC0F-441E-A587-4016BE8101B3" bpmnElement="_751A4C0A-FC0F-441E-A587-4016BE8101B3">
-        <di:waypoint x="1246" y="289" />
-        <di:waypoint x="1356" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1246" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1356" y="289" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596645__F298A83E-5AD6-4BB6-95AF-E5B0A26A51FC" bpmnElement="_F298A83E-5AD6-4BB6-95AF-E5B0A26A51FC">
-        <di:waypoint x="1108" y="111" />
-        <di:waypoint x="1067" y="111" />
-        <di:waypoint x="1216" y="278" />
+        <di:waypoint xsi:type="dc:Point" x="1108" y="111" />
+        <di:waypoint xsi:type="dc:Point" x="1067" y="111" />
+        <di:waypoint xsi:type="dc:Point" x="1216" y="278" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596646__C2B6A48C-B636-4186-955B-9C73CD3FA580" bpmnElement="_C2B6A48C-B636-4186-955B-9C73CD3FA580" targetElement="S1364754596590__D4804AD8-3EE4-47F1-942C-D9EAEA2811F0">
-        <di:waypoint x="285" y="564" />
-        <di:waypoint x="329" y="564" />
-        <di:waypoint x="329" y="475" />
+        <di:waypoint xsi:type="dc:Point" x="285" y="564" />
+        <di:waypoint xsi:type="dc:Point" x="329" y="564" />
+        <di:waypoint xsi:type="dc:Point" x="329" y="475" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596647__3B161ED4-4C10-4349-9A2D-B4E002D5EC0E" bpmnElement="_3B161ED4-4C10-4349-9A2D-B4E002D5EC0E">
-        <di:waypoint x="427" y="421" />
-        <di:waypoint x="427" y="288" />
-        <di:waypoint x="624" y="288" />
+        <di:waypoint xsi:type="dc:Point" x="427" y="421" />
+        <di:waypoint xsi:type="dc:Point" x="427" y="288" />
+        <di:waypoint xsi:type="dc:Point" x="624" y="288" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596649__9EB2F46F-FA87-4DB3-9EA5-4CBA7FC355B2" bpmnElement="_9EB2F46F-FA87-4DB3-9EA5-4CBA7FC355B2" targetElement="S1364754596589__BA2B78BE-06A0-46C8-9BA2-D9EC923FDEAA">
-        <di:waypoint x="174" y="339" />
-        <di:waypoint x="209" y="339" />
-        <di:waypoint x="209" y="407" />
+        <di:waypoint xsi:type="dc:Point" x="174" y="339" />
+        <di:waypoint xsi:type="dc:Point" x="209" y="339" />
+        <di:waypoint xsi:type="dc:Point" x="209" y="407" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596650__9DBCFE15-F025-4A3B-A3F7-41BFCFA182D1" bpmnElement="_9DBCFE15-F025-4A3B-A3F7-41BFCFA182D1" sourceElement="S1364754596609__52CCF00D-C0E3-4931-8D4E-6C989E317A07">
-        <di:waypoint x="1487" y="588" />
-        <di:waypoint x="1487" y="511" />
-        <di:waypoint x="1543" y="511" />
+        <di:waypoint xsi:type="dc:Point" x="1487" y="588" />
+        <di:waypoint xsi:type="dc:Point" x="1487" y="511" />
+        <di:waypoint xsi:type="dc:Point" x="1543" y="511" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596651__56B35746-D946-481B-95EF-27D2CB8F4D29" bpmnElement="_56B35746-D946-481B-95EF-27D2CB8F4D29">
-        <di:waypoint x="1824" y="289" />
-        <di:waypoint x="1838" y="289" />
-        <di:waypoint x="1877" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1824" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1838" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1877" y="289" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596652__CB71865E-954A-4D3D-874F-8DB33A5B391B" bpmnElement="_CB71865E-954A-4D3D-874F-8DB33A5B391B">
-        <di:waypoint x="2217" y="284" />
-        <di:waypoint x="2241" y="284" />
+        <di:waypoint xsi:type="dc:Point" x="2217" y="284" />
+        <di:waypoint xsi:type="dc:Point" x="2241" y="284" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596653__4799D2B0-A204-4A08-94ED-796C25D9AE57" bpmnElement="_4799D2B0-A204-4A08-94ED-796C25D9AE57">
-        <di:waypoint x="1658" y="289" />
-        <di:waypoint x="1672" y="289" />
-        <di:waypoint x="1741" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1658" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1672" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1741" y="289" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596655__62BD6E5E-B5C0-4719-86CE-D5E30A1D128F" bpmnElement="_62BD6E5E-B5C0-4719-86CE-D5E30A1D128F">
-        <di:waypoint x="870" y="623" />
-        <di:waypoint x="884" y="623" />
-        <di:waypoint x="935" y="623" />
+        <di:waypoint xsi:type="dc:Point" x="870" y="623" />
+        <di:waypoint xsi:type="dc:Point" x="884" y="623" />
+        <di:waypoint xsi:type="dc:Point" x="935" y="623" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596657__94CD5662-8EB9-4B23-A486-8B6970314AD7" bpmnElement="_94CD5662-8EB9-4B23-A486-8B6970314AD7" sourceElement="S1364754596598__D226B9E0-0194-481E-AAEC-32473D45FEEF">
-        <di:waypoint x="951" y="589" />
-        <di:waypoint x="951" y="514" />
-        <di:waypoint x="1015" y="513" />
+        <di:waypoint xsi:type="dc:Point" x="951" y="589" />
+        <di:waypoint xsi:type="dc:Point" x="951" y="514" />
+        <di:waypoint xsi:type="dc:Point" x="1015" y="513" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596658__8C74C362-DDEF-48B9-AED2-E4034E917A40" bpmnElement="_8C74C362-DDEF-48B9-AED2-E4034E917A40">
-        <di:waypoint x="1569" y="289" />
-        <di:waypoint x="1583" y="289" />
-        <di:waypoint x="1617" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1569" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1583" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="1617" y="289" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596659__CF5A1710-35F8-48B6-85FD-A90C99FEC5B3" bpmnElement="_CF5A1710-35F8-48B6-85FD-A90C99FEC5B3">
-        <di:waypoint x="1423" y="622" />
-        <di:waypoint x="1437" y="622" />
-        <di:waypoint x="1471" y="622" />
+        <di:waypoint xsi:type="dc:Point" x="1423" y="622" />
+        <di:waypoint xsi:type="dc:Point" x="1437" y="622" />
+        <di:waypoint xsi:type="dc:Point" x="1471" y="622" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596660__9088D441-44C5-462B-8695-47D60A7BC451" bpmnElement="_9088D441-44C5-462B-8695-47D60A7BC451">
-        <di:waypoint x="2324" y="284" />
-        <di:waypoint x="2338" y="284" />
-        <di:waypoint x="2368" y="284" />
+        <di:waypoint xsi:type="dc:Point" x="2324" y="284" />
+        <di:waypoint xsi:type="dc:Point" x="2338" y="284" />
+        <di:waypoint xsi:type="dc:Point" x="2368" y="284" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596661__19517CEB-6A0E-4B88-8911-FEEEFE3B55CE" bpmnElement="_19517CEB-6A0E-4B88-8911-FEEEFE3B55CE">
-        <di:waypoint x="1554" y="622" />
-        <di:waypoint x="1568" y="622" />
-        <di:waypoint x="1684" y="622" />
+        <di:waypoint xsi:type="dc:Point" x="1554" y="622" />
+        <di:waypoint xsi:type="dc:Point" x="1568" y="622" />
+        <di:waypoint xsi:type="dc:Point" x="1684" y="622" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596644__9C46FDB0-2EBD-4B2F-A72A-0189A4D76A73" bpmnElement="_9C46FDB0-2EBD-4B2F-A72A-0189A4D76A73">
-        <di:waypoint x="1637" y="309" />
-        <di:waypoint x="1637" y="370" />
-        <di:waypoint x="850" y="370" />
-        <di:waypoint x="850" y="323" />
+        <di:waypoint xsi:type="dc:Point" x="1637" y="309" />
+        <di:waypoint xsi:type="dc:Point" x="1637" y="370" />
+        <di:waypoint xsi:type="dc:Point" x="850" y="370" />
+        <di:waypoint xsi:type="dc:Point" x="850" y="323" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596635__BEFA7BF4-D1C2-47CB-B0CD-EF87E541B1BC" bpmnElement="_BEFA7BF4-D1C2-47CB-B0CD-EF87E541B1BC">
-        <di:waypoint x="1226" y="268" />
-        <di:waypoint x="1226" y="111" />
-        <di:waypoint x="1191" y="111" />
+        <di:waypoint xsi:type="dc:Point" x="1226" y="268" />
+        <di:waypoint xsi:type="dc:Point" x="1226" y="111" />
+        <di:waypoint xsi:type="dc:Point" x="1191" y="111" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596648__3654E294-536A-4CD2-9950-11F02657EE60" bpmnElement="_3654E294-536A-4CD2-9950-11F02657EE60">
-        <di:waypoint x="427" y="462" />
-        <di:waypoint x="427" y="564" />
-        <di:waypoint x="462" y="564" />
+        <di:waypoint xsi:type="dc:Point" x="427" y="462" />
+        <di:waypoint xsi:type="dc:Point" x="427" y="564" />
+        <di:waypoint xsi:type="dc:Point" x="462" y="564" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1364754596633__F165F4A8-69B1-4B19-A1A4-470BDE12FA77" bpmnElement="_F165F4A8-69B1-4B19-A1A4-470BDE12FA77">
-        <di:waypoint x="891" y="289" />
-        <di:waypoint x="927" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="891" y="289" />
+        <di:waypoint xsi:type="dc:Point" x="927" y="289" />
         <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0metlqp_di" bpmnElement="SequenceFlow_0metlqp">
+        <di:waypoint xsi:type="dc:Point" x="693" y="288" />
+        <di:waypoint xsi:type="dc:Point" x="808" y="289" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="750.5" y="267.5" width="0" height="12" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
@@ -533,138 +544,564 @@
               <bpsim:DurationParameter value="PT60H" />
             </bpsim:Duration>
           </bpsim:ScenarioParameters>
-          <bpsim:ElementParameters elementRef="_6">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_51BDA265-2FF5-40CB-B68D-1FBF9DAAA74C">
+          <bpsim:ElementParameters elementRef="_BA2B78BE-06A0-46C8-9BA2-D9EC923FDEAA">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
             <bpsim:ControlParameters>
               <bpsim:InterTriggerTimer>
-                <bpsim:DurationParameter value="PT24M" />
+                <bpsim:FloatingParameter value="60" />
               </bpsim:InterTriggerTimer>
               <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
+                <bpsim:NumericParameter value="10" />
               </bpsim:TriggerCount>
             </bpsim:ControlParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:Property name="noOfIssues" type="int">
-                <bpsim:TruncatedNormalDistribution max="1000" mean="2" min="1" standardDeviation="1" />
-              </bpsim:Property>
-            </bpsim:PropertyParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
           </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_071B5D0A-5225-4E55-9105-8D15169DAC96">
+          <bpsim:ElementParameters elementRef="_D4804AD8-3EE4-47F1-942C-D9EAEA2811F0">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
             <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
               <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
+                <bpsim:NumericParameter value="10" />
               </bpsim:TriggerCount>
             </bpsim:ControlParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:Property name="noOfIssues">
-                <bpsim:ExpressionParameter value="getProperty(&#39;noOfIssues&#39;) - 1" />
-              </bpsim:Property>
-            </bpsim:PropertyParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_91C1F9A1-0EB9-4FD4-A2A7-99C2E8C34854">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_A9E2794B-4C41-429B-9C04-46C5B8741DDC">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_D226B9E0-0194-481E-AAEC-32473D45FEEF">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_A9E2794B-4C41-429B-9C04-46C5B8741DDC">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_8040CF1A-3CAA-4A98-8E94-DD405EF233E9">
-            <bpsim:PropertyParameters>
-              <bpsim:Property name="noOfIssues">
-                <bpsim:ExpressionParameter value="getProperty(&#39;noOfIssues&#39;) + 1" />
-              </bpsim:Property>
-            </bpsim:PropertyParameters>
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_071B5D0A-5225-4E55-9105-8D15169DAC96">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_2A752317-508C-4BB1-9AE7-49FBC7391B2B">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_52CCF00D-C0E3-4931-8D4E-6C989E317A07">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_DFFBC045-8147-468B-BC85-DAF1134E19CF">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_3654E294-536A-4CD2-9950-11F02657EE60">
+            <bpsim:ControlParameters>
+              <bpsim:Probability>
+                <bpsim:NumericParameter value="1" />
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_9C46FDB0-2EBD-4B2F-A72A-0189A4D76A73">
             <bpsim:ControlParameters>
-              <bpsim:Condition>
-                <bpsim:ExpressionParameter value="getProperty(&#39;noOfIssues&#39;) &#62; 0" />
-              </bpsim:Condition>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_4799D2B0-A204-4A08-94ED-796C25D9AE57">
-            <bpsim:ControlParameters>
-              <bpsim:Condition>
-                <bpsim:ExpressionParameter value="getProperty(&#39;noOfIssues&#39;) = 0" />
-              </bpsim:Condition>
+              <bpsim:Probability>
+                <bpsim:NumericParameter value="1" />
+              </bpsim:Probability>
             </bpsim:ControlParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_BEFA7BF4-D1C2-47CB-B0CD-EF87E541B1BC">
             <bpsim:ControlParameters>
               <bpsim:Probability>
-                <bpsim:FloatingParameter value="0.25" />
-              </bpsim:Probability>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_751A4C0A-FC0F-441E-A587-4016BE8101B3">
-            <bpsim:ControlParameters>
-              <bpsim:Probability>
-                <bpsim:FloatingParameter value="0.75" />
-              </bpsim:Probability>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_3B161ED4-4C10-4349-9A2D-B4E002D5EC0E">
-            <bpsim:ControlParameters>
-              <bpsim:Probability>
-                <bpsim:FloatingParameter value="0.66" />
-              </bpsim:Probability>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_3654E294-536A-4CD2-9950-11F02657EE60">
-            <bpsim:ControlParameters>
-              <bpsim:Probability>
-                <bpsim:FloatingParameter value="0.33" />
-              </bpsim:Probability>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_87E52808-857B-45B0-93E8-F6D7AC0B4B3E">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_FA77D7D8-9C02-4006-942A-B003AEDA5E3C">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_B67579E4-E038-4D9D-AA46-A3F9628CADA1">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_4CFC937C-2E42-4671-859E-42E710931963">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-        </bpsim:Scenario>
-        <bpsim:Scenario id="S2" inherits="S1" name="Scenario 2: Main and Secondary paths">
-          <bpsim:ElementParameters elementRef="_2BBAB508-4026-40F7-8FC3-23E68E77EE46">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_F9A272EE-D325-44CF-AFFC-4A615D2C9971">
-            <bpsim:ControlParameters>
-              <bpsim:Probability>
-                <bpsim:FloatingParameter value="0.05" />
-              </bpsim:Probability>
-              <bpsim:InterTriggerTimer>
-                <bpsim:DurationParameter value="PT0M" />
-              </bpsim:InterTriggerTimer>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
                 <bpsim:NumericParameter value="1" />
-              </bpsim:TriggerCount>
+              </bpsim:Probability>
             </bpsim:ControlParameters>
           </bpsim:ElementParameters>
         </bpsim:Scenario>

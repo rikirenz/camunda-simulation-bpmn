@@ -55,6 +55,7 @@ import simulation.SimulationBoundaryEvent;
 import simulation.SimulationCatchEvent;
 import simulation.SimulationClock;
 import simulation.SimulationEvent;
+import simulation.SimulationIntermediateEvent;
 import simulation.SimulationStartEvent;
 import simulation.SimulationTaskEvent;
 import util.BpmnPreprocesser;
@@ -94,8 +95,6 @@ public class EnsoApp {
 				.buildProcessEngine();
 	}
 
-
-
 	public void startApp() {		
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -108,7 +107,7 @@ public class EnsoApp {
 		}
 		
 		// load the bpsim data in the xml
-		BpsimCollection bpsimCollection = new BpsimCollection(bpmnDocument);
+		BpsimCollection bpsimCollection = new BpsimCollection(bpmnDocument);	
 		startSimulation();
 		runSimulation();
 	}
@@ -149,9 +148,16 @@ public class EnsoApp {
 					simClock.setCurrentTime(currTaskEvent.getStartTime());
 				// move on with the simulation
 				LOGGER.info(currTaskEvent.getName());
-				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).taskName(currTaskEvent.getName()).singleResult();
+				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).activityInstanceIdIn(currTaskEvent.getId()).singleResult();
 				taskService.complete(currTask.getId());
 				
+			}else if (currEvent instanceof SimulationIntermediateEvent ) {
+				LOGGER.info("Intermediate event");
+				SimulationIntermediateEvent currCatchEvent = (SimulationIntermediateEvent) currEvent;
+				if (currCatchEvent.getStartTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currCatchEvent.getStartTime());
+				LOGGER.info("SimulationIntermediateEvent: " + currCatchEvent.getProcessId() + " - " + currCatchEvent.getName());
+
 			} else if (currEvent instanceof SimulationCatchEvent) {
 				LOGGER.info("catch event");				
 				SimulationCatchEvent currCatchEvent = (SimulationCatchEvent) currEvent;

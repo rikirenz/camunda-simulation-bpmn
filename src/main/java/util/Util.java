@@ -54,13 +54,12 @@ public class Util {
 
 			// if there is no object exception with distribution or boolean 
 			if (controlParameters == null ) throw new Exception("The Parameters for the out flow:" + elementId + " are not well defined.");
-			if (controlParameters.getProbability() != null) return random.nextBoolean();
-			
+			if (controlParameters.getProbability() != null) return random.nextBoolean();			
 			throw new Exception("The Parameters for the out-flow element:" + elementId + " are not well defined.");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+			// e.printStackTrace();
+			return true;
 		}
 		
 	}
@@ -113,13 +112,7 @@ public class Util {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-	}
-	
-	
-	
-	
-	
-	
+	}	
 }
 
 

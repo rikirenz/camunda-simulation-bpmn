@@ -41,6 +41,7 @@ public class BpmnPreprocesser {
 		addListenerTointermediateEvents();
 		addClassToUserTaskAlreadyPresent();
 		convertTaskToUserTask();
+		convertManualTaskToUserTask();
 		convertBoundaryEventsToMessageBoundaryEvents();
 		convertStartSubPorcessEventsToMessageStartEvents();
 		convertConditionExpressionWithCustomCode();
@@ -98,6 +99,29 @@ public class BpmnPreprocesser {
 		}
 	}
 	
+	/**
+	 * Convert all the task elements in the bpmnDocument to user tasks
+	 */
+	private void convertManualTaskToUserTask() {
+		try {
+			XPathExpression expr = xpath.compile("//*[local-name()='manualTask']");
+	        NodeList nodeTaskslist = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
+	        // check if there is a node inside with a message in case put the message name in the list
+	        for (int i = 0; i < nodeTaskslist.getLength(); i++) {
+	        	// add listener
+	        	Element ndWrapper = this.bpmnDocument.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "semantic:extensionElements");
+				Element ndExecutionListeners = this.bpmnDocument.createElementNS("http://camunda.org/schema/1.0/bpmn", "camunda:executionListener");
+				ndExecutionListeners.setAttribute("class", "executionlisteners.TaskListener");
+				ndExecutionListeners.setAttribute("event", "start");
+				ndWrapper.appendChild(ndExecutionListeners);			
+				nodeTaskslist.item(i).insertBefore(ndWrapper, nodeTaskslist.item(i).getFirstChild());				
+				// convert the node type
+	        	this.bpmnDocument.renameNode((Element) nodeTaskslist.item(i), "http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:userTask");
+	        }
+		} catch (Exception ex) {
+			
+		}
+	}
 
 	/**
 	 * Convert all the boundary events elements in the bpmnDocument to message boundary events

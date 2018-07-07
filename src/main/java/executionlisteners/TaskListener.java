@@ -8,10 +8,12 @@ import org.camunda.bpm.engine.delegate.ExecutionListener;
 import bpsimWrappers.ControlParametersWrapper;
 import bpsimWrappers.CostParametersWrapper;
 import bpsimWrappers.PriorityParametersWrapper;
+import bpsimWrappers.ResourceParametersWrapper;
 import bpsimWrappers.TimeParametersWrapper;
 import enso.EnsoApp;
 import simulation.EventsHandler;
 import util.BpsimCollection;
+import util.Resource;
 import util.Util;
 
 public class TaskListener implements ExecutionListener {
@@ -23,6 +25,7 @@ public class TaskListener implements ExecutionListener {
 	private CostParametersWrapper costParameters;
 	private PriorityParametersWrapper priorityParameters;
 	private TimeParametersWrapper timeParameters;
+	private ResourceParametersWrapper resourceParameters;
 
 	private Long waitTime;
 	private Long setupTime;
@@ -46,8 +49,7 @@ public class TaskListener implements ExecutionListener {
 
 	public void notify(DelegateExecution execution) throws Exception {
 		LOGGER.info("TASK: " + execution.getCurrentActivityName());
-
-		
+				
 		// load parameters
 		costParameters = (CostParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(),
 				CostParametersWrapper.class);
@@ -57,7 +59,12 @@ public class TaskListener implements ExecutionListener {
 				ControlParametersWrapper.class);
 		priorityParameters = (PriorityParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(),
 				PriorityParametersWrapper.class);
-
+		resourceParameters = (ResourceParametersWrapper) Util.retriveParamaterType(execution.getCurrentActivityId(),
+				ResourceParametersWrapper.class);
+		
+		String resourceId = "";
+		if (resourceParameters != null) resourceId = resourceParameters.getSelection();
+		
 		// do calcutions using the parameters
 		if (timeParameters != null) totalTime = calculateTaskTime(timeParameters);
 		if (costParameters != null) totalCost = calculateTaskCost(costParameters);
@@ -86,7 +93,7 @@ public class TaskListener implements ExecutionListener {
 		}
 
 		// add event to the queue
-		eventsHandler.addTaskEvent(execution.getActivityInstanceId(), execution.getCurrentActivityName(), totalTime, execution.getProcessInstanceId());
+		eventsHandler.addTaskEvent(execution.getActivityInstanceId(), execution.getCurrentActivityName(), totalTime, execution.getProcessInstanceId(), resourceId);
 	}
 
 	public Long calculateTaskTime(TimeParametersWrapper currTimeParameters) throws Exception {

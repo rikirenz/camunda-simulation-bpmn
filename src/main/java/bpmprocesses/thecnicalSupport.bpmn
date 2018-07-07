@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<semantic:definitions xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:trisofeed="http://trisotech.com/feed" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" xmlns:rss="http://purl.org/rss/2.0/" id="_1399929387037" name="Technical Support Process v2.0.0" targetNamespace="http://www.trisotech.com/definitions/_1399929387037" exporter="Camunda Modeler" exporterVersion="1.14.0">
+<semantic:definitions xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:trisofeed="http://trisotech.com/feed" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" xmlns:rss="http://purl.org/rss/2.0/" id="_1399929387037" name="Technical Support Process v2.0.0" targetNamespace="http://www.trisotech.com/definitions/_1399929387037" exporter="Camunda Modeler" exporterVersion="1.11.3">
   <semantic:resource id="resource_Front_Office" name="Front Office" />
   <semantic:process id="WFP-40005-1" isExecutable="true">
     <semantic:manualTask id="_10-235" name="Request 1st level support">
       <semantic:incoming>_10-971</semantic:incoming>
-      <semantic:outgoing>_10-450</semantic:outgoing>
       <semantic:performer>
         <semantic:resourceRef>resource_Front_Office</semantic:resourceRef>
       </semantic:performer>
     </semantic:manualTask>
-    <semantic:startEvent id="_10-42" name="Customer issue report">
-      <semantic:outgoing>_10-108</semantic:outgoing>
-      <semantic:messageEventDefinition messageRef="Message_1399929387649" />
-    </semantic:startEvent>
     <semantic:manualTask id="_10-138" name="Provide solution to customer">
       <semantic:incoming>_10-189</semantic:incoming>
       <semantic:incoming>_10-454</semantic:incoming>
@@ -40,7 +35,6 @@
       <semantic:incoming>_10-233</semantic:incoming>
     </semantic:endEvent>
     <semantic:intermediateCatchEvent id="_10-433" name="Solution received from 1st level of support">
-      <semantic:incoming>_10-450</semantic:incoming>
       <semantic:outgoing>_10-454</semantic:outgoing>
       <semantic:messageEventDefinition messageRef="Message_1399929387655" />
     </semantic:intermediateCatchEvent>
@@ -62,12 +56,14 @@
     <semantic:sequenceFlow id="_10-286" name="Unable to  provide solution" sourceRef="_10-114" targetRef="_10-920">
       <semantic:conditionExpression xsi:type="semantic:tFormalExpression">1</semantic:conditionExpression>
     </semantic:sequenceFlow>
-    <semantic:sequenceFlow id="_10-450" name="" sourceRef="_10-235" targetRef="_10-433" />
     <semantic:sequenceFlow id="_10-454" name="" sourceRef="_10-433" targetRef="_10-138" />
     <semantic:sequenceFlow id="_10-456" name="Solution is not effective" sourceRef="_10-195" targetRef="_10-57">
       <semantic:conditionExpression xsi:type="semantic:tFormalExpression">1</semantic:conditionExpression>
     </semantic:sequenceFlow>
     <semantic:sequenceFlow id="_10-971" name="" sourceRef="_10-920" targetRef="_10-235" />
+    <semantic:startEvent id="_10-42" name="Customer issue report">
+      <semantic:outgoing>_10-108</semantic:outgoing>
+    </semantic:startEvent>
   </semantic:process>
   <semantic:resource id="resource_1st_Level_Techical_Support_Agent" name="1st Level Techical Support Agent" />
   <semantic:process id="WFP-40005-2" isExecutable="false">
@@ -100,13 +96,11 @@
     </semantic:manualTask>
     <semantic:manualTask id="_10-458" name="Request 2nd level support">
       <semantic:incoming>_10-509</semantic:incoming>
-      <semantic:outgoing>_10-740</semantic:outgoing>
       <semantic:performer>
         <semantic:resourceRef>resource_1st_Level_Techical_Support_Agent</semantic:resourceRef>
       </semantic:performer>
     </semantic:manualTask>
     <semantic:intermediateCatchEvent id="_10-723" name="Solution received from 2nd level of support">
-      <semantic:incoming>_10-740</semantic:incoming>
       <semantic:outgoing>_10-744</semantic:outgoing>
       <semantic:messageEventDefinition messageRef="Message_1399929387657" />
     </semantic:intermediateCatchEvent>
@@ -117,7 +111,6 @@
       <semantic:conditionExpression xsi:type="semantic:tFormalExpression">1</semantic:conditionExpression>
     </semantic:sequenceFlow>
     <semantic:sequenceFlow id="_10-591" name="" sourceRef="_10-380" targetRef="_10-577" />
-    <semantic:sequenceFlow id="_10-740" name="" sourceRef="_10-458" targetRef="_10-723" />
     <semantic:sequenceFlow id="_10-744" name="" sourceRef="_10-723" targetRef="_10-380" />
   </semantic:process>
   <semantic:resource id="resource_Supplier" name="Supplier" />
@@ -156,7 +149,6 @@
     </semantic:exclusiveGateway>
     <semantic:manualTask id="_10-670" name="Request supplier support">
       <semantic:incoming>_10-721</semantic:incoming>
-      <semantic:outgoing>_10-777</semantic:outgoing>
       <semantic:performer>
         <semantic:resourceRef>resource_2nd_Level_Techical_Support_Agent</semantic:resourceRef>
       </semantic:performer>
@@ -170,7 +162,6 @@
       </semantic:performer>
     </semantic:manualTask>
     <semantic:intermediateCatchEvent id="_10-760" name="Solution received from supplier">
-      <semantic:incoming>_10-777</semantic:incoming>
       <semantic:outgoing>_10-779</semantic:outgoing>
       <semantic:messageEventDefinition messageRef="Message_1399929387658" />
     </semantic:intermediateCatchEvent>
@@ -193,12 +184,11 @@
     <semantic:sequenceFlow id="_10-721" name="Unable to provide 2nd level solution" sourceRef="_10-593" targetRef="_10-670">
       <semantic:conditionExpression xsi:type="semantic:tFormalExpression">1</semantic:conditionExpression>
     </semantic:sequenceFlow>
-    <semantic:sequenceFlow id="_10-777" name="" sourceRef="_10-670" targetRef="_10-760" />
     <semantic:sequenceFlow id="_10-779" name="" sourceRef="_10-760" targetRef="_10-617" />
     <semantic:sequenceFlow id="_10-975" name="" sourceRef="_10-511" targetRef="_10-526" />
     <semantic:sequenceFlow id="_10-977" name="" sourceRef="_10-617" targetRef="_10-746" />
   </semantic:process>
-  <semantic:message id="Message_1399929387649" name="1" />
+  <semantic:message id="Message_1399929387649" />
   <semantic:message id="Message_1399929387650" />
   <semantic:message id="Message_1399929387651" />
   <semantic:message id="Message_1399929387652" />
@@ -221,13 +211,13 @@
     <semantic:messageFlow id="_10-112" name="" sourceRef="_10-1" targetRef="_10-57" messageRef="Message_1399929387651" />
     <semantic:messageFlow id="_10-191" name="" sourceRef="_10-138" targetRef="_10-1" messageRef="Message_1399929387652" />
     <semantic:messageFlow id="_10-193" name="" sourceRef="_10-1" targetRef="_10-138" messageRef="Message_1399929387653" />
-    <semantic:messageFlow id="_10-301" name="" sourceRef="_10-235" targetRef="_10-288" messageRef="Message_1399929387654" />
     <semantic:messageFlow id="_10-452" name="" sourceRef="_10-380" targetRef="_10-433" messageRef="Message_1399929387655" />
-    <semantic:messageFlow id="_10-524" name="" sourceRef="_10-458" targetRef="_10-511" messageRef="Message_1399929387656" />
     <semantic:messageFlow id="_10-742" name="" sourceRef="_10-617" targetRef="_10-723" messageRef="Message_1399929387657" />
     <semantic:messageFlow id="_10-900" name="" sourceRef="_10-847" targetRef="_10-760" messageRef="Message_1399929387658" />
-    <semantic:messageFlow id="_10-918" name="" sourceRef="_10-670" targetRef="_10-781" messageRef="Message_1399929387659" />
     <semantic:messageFlow id="_10-973" name="" sourceRef="_10-920" targetRef="_10-1" messageRef="Message_1399929387660" />
+    <semantic:messageFlow id="MessageFlow_0ce9vqk" sourceRef="_10-235" targetRef="_10-288" />
+    <semantic:messageFlow id="MessageFlow_0qyitip" sourceRef="_10-458" targetRef="_10-511" />
+    <semantic:messageFlow id="MessageFlow_02jo835" sourceRef="_10-670" targetRef="_10-781" />
   </semantic:collaboration>
   <bpmndi:BPMNDiagram id="_40005" name="Scenario 1" documentation="" resolution="96.00000267028808">
     <bpmndi:BPMNPlane bpmnElement="C1399929387648">
@@ -265,12 +255,6 @@
         <dc:Bounds x="759" y="476" width="83" height="68" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616">
           <dc:Bounds x="764.3333333333334" y="490.79767324218744" width="72.33333333333334" height="38.404653515625" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="S1399929387622__10-42" bpmnElement="_10-42">
-        <dc:Bounds x="345" y="495" width="30" height="30" />
-        <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-          <dc:Bounds x="312.5333333333333" y="530.3333333333334" width="94.93333333333335" height="25.604702343750013" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="S1399929387623__10-138" bpmnElement="_10-138">
@@ -416,237 +400,229 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="E1399929387661__10-779" bpmnElement="_10-779">
-        <di:waypoint x="894" y="1126" />
-        <di:waypoint x="894" y="1080" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="1126" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="1080" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387662__10-615" bpmnElement="_10-615">
-        <di:waypoint x="486" y="1046" />
-        <di:waypoint x="519" y="1046" />
+        <di:waypoint xsi:type="dc:Point" x="486" y="1046" />
+        <di:waypoint xsi:type="dc:Point" x="519" y="1046" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387663__10-916" bpmnElement="_10-916">
-        <di:waypoint x="936" y="1344" />
-        <di:waypoint x="1149" y="1344" />
-        <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="E1399929387664__10-777" bpmnElement="_10-777">
-        <di:waypoint x="723" y="1142" />
-        <di:waypoint x="878" y="1142" />
+        <di:waypoint xsi:type="dc:Point" x="936" y="1344" />
+        <di:waypoint xsi:type="dc:Point" x="1149" y="1344" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387665__10-452" bpmnElement="_10-452">
-        <di:waypoint x="894" y="710" />
-        <di:waypoint x="894" y="526" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="710" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="526" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387666__10-191" bpmnElement="_10-191">
-        <di:waypoint x="880" y="306" />
-        <di:waypoint x="880" y="288" />
-        <di:waypoint x="882" y="288" />
-        <di:waypoint x="882" y="216" />
+        <di:waypoint xsi:type="dc:Point" x="880" y="306" />
+        <di:waypoint xsi:type="dc:Point" x="880" y="288" />
+        <di:waypoint xsi:type="dc:Point" x="882" y="288" />
+        <di:waypoint xsi:type="dc:Point" x="882" y="216" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387667__10-108" bpmnElement="_10-108">
-        <di:waypoint x="375" y="510" />
-        <di:waypoint x="411" y="510" />
-        <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="E1399929387668__10-301" bpmnElement="_10-301">
-        <di:waypoint x="800" y="544" />
-        <di:waypoint x="800" y="574" />
-        <di:waypoint x="360" y="574" />
-        <di:waypoint x="360" y="729" />
-        <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="E1399929387669__10-450" bpmnElement="_10-450">
-        <di:waypoint x="842" y="510" />
-        <di:waypoint x="878" y="510" />
+        <di:waypoint xsi:type="dc:Point" x="378" y="510" />
+        <di:waypoint xsi:type="dc:Point" x="411" y="510" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387670__10-431" bpmnElement="_10-431">
-        <di:waypoint x="560" y="744" />
-        <di:waypoint x="853" y="744" />
+        <di:waypoint xsi:type="dc:Point" x="560" y="744" />
+        <di:waypoint xsi:type="dc:Point" x="853" y="744" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616">
           <dc:Bounds x="665.5333333333334" y="731.197648828125" width="94.93333333333335" height="25.604702343750013" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387671__10-456" bpmnElement="_10-456">
-        <di:waypoint x="1016" y="361" />
-        <di:waypoint x="1016" y="562" />
-        <di:waypoint x="898" y="562" />
-        <di:waypoint x="804" y="562" />
-        <di:waypoint x="452" y="562" />
-        <di:waypoint x="452" y="544" />
+        <di:waypoint xsi:type="dc:Point" x="1016" y="361" />
+        <di:waypoint xsi:type="dc:Point" x="1016" y="562" />
+        <di:waypoint xsi:type="dc:Point" x="898" y="562" />
+        <di:waypoint xsi:type="dc:Point" x="804" y="562" />
+        <di:waypoint xsi:type="dc:Point" x="452" y="562" />
+        <di:waypoint xsi:type="dc:Point" x="452" y="544" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616">
           <dc:Bounds x="801.0588277374833" y="549.197648828125" width="94.93333333333335" height="25.604702343750013" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387672__10-193" bpmnElement="_10-193">
-        <di:waypoint x="910" y="216" />
-        <di:waypoint x="910" y="234" />
-        <di:waypoint x="908" y="234" />
-        <di:waypoint x="908" y="306" />
+        <di:waypoint xsi:type="dc:Point" x="910" y="216" />
+        <di:waypoint xsi:type="dc:Point" x="910" y="234" />
+        <di:waypoint xsi:type="dc:Point" x="908" y="234" />
+        <di:waypoint xsi:type="dc:Point" x="908" y="306" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387673__10-454" bpmnElement="_10-454">
-        <di:waypoint x="894" y="494" />
-        <di:waypoint x="894" y="374" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="494" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="374" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387674__10-973" bpmnElement="_10-973">
-        <di:waypoint x="681" y="476" />
-        <di:waypoint x="681" y="216" />
+        <di:waypoint xsi:type="dc:Point" x="681" y="476" />
+        <di:waypoint xsi:type="dc:Point" x="681" y="216" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387675__10-189" bpmnElement="_10-189">
-        <di:waypoint x="540" y="489" />
-        <di:waypoint x="540" y="340" />
-        <di:waypoint x="677" y="340" />
-        <di:waypoint x="853" y="340" />
+        <di:waypoint xsi:type="dc:Point" x="540" y="489" />
+        <di:waypoint xsi:type="dc:Point" x="540" y="340" />
+        <di:waypoint xsi:type="dc:Point" x="677" y="340" />
+        <di:waypoint xsi:type="dc:Point" x="853" y="340" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616">
           <dc:Bounds x="562.0652958982554" y="327.1976488281252" width="94.93333333333335" height="25.604702343750013" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="E1399929387676__10-524" bpmnElement="_10-524">
-        <di:waypoint x="681" y="874" />
-        <di:waypoint x="681" y="892" />
-        <di:waypoint x="360" y="892" />
-        <di:waypoint x="360" y="1031" />
-        <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387677__10-971" bpmnElement="_10-971">
-        <di:waypoint x="723" y="510" />
-        <di:waypoint x="759" y="510" />
+        <di:waypoint xsi:type="dc:Point" x="723" y="510" />
+        <di:waypoint xsi:type="dc:Point" x="759" y="510" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387678__10-217" bpmnElement="_10-217">
-        <di:waypoint x="936" y="340" />
-        <di:waypoint x="996" y="340" />
+        <di:waypoint xsi:type="dc:Point" x="936" y="340" />
+        <di:waypoint xsi:type="dc:Point" x="996" y="340" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387679__10-233" bpmnElement="_10-233">
-        <di:waypoint x="1037" y="340" />
-        <di:waypoint x="1149" y="340" />
+        <di:waypoint xsi:type="dc:Point" x="1037" y="340" />
+        <di:waypoint xsi:type="dc:Point" x="1149" y="340" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616">
           <dc:Bounds x="1045.533333333333" y="333.59762441406247" width="94.93333333333335" height="12.804751171875008" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387680__10-55" bpmnElement="_10-55">
-        <di:waypoint x="358" y="216" />
-        <di:waypoint x="358" y="234" />
-        <di:waypoint x="360" y="234" />
-        <di:waypoint x="360" y="495" />
+        <di:waypoint xsi:type="dc:Point" x="358" y="216" />
+        <di:waypoint xsi:type="dc:Point" x="358" y="234" />
+        <di:waypoint xsi:type="dc:Point" x="360" y="234" />
+        <di:waypoint xsi:type="dc:Point" x="360" y="492" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387681__10-509" bpmnElement="_10-509">
-        <di:waypoint x="540" y="765" />
-        <di:waypoint x="540" y="840" />
-        <di:waypoint x="640" y="840" />
+        <di:waypoint xsi:type="dc:Point" x="540" y="765" />
+        <di:waypoint xsi:type="dc:Point" x="540" y="840" />
+        <di:waypoint xsi:type="dc:Point" x="640" y="840" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616">
           <dc:Bounds x="548" y="827" width="85" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="E1399929387682__10-918" bpmnElement="_10-918">
-        <di:waypoint x="681" y="1176" />
-        <di:waypoint x="681" y="1194" />
-        <di:waypoint x="363" y="1194" />
-        <di:waypoint x="363" y="1329" />
-        <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387683__10-977" bpmnElement="_10-977">
-        <di:waypoint x="936" y="1046" />
-        <di:waypoint x="1149" y="1046" />
+        <di:waypoint xsi:type="dc:Point" x="936" y="1046" />
+        <di:waypoint xsi:type="dc:Point" x="1149" y="1046" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387684__10-354" bpmnElement="_10-354">
-        <di:waypoint x="375" y="744" />
-        <di:waypoint x="403" y="744" />
+        <di:waypoint xsi:type="dc:Point" x="375" y="744" />
+        <di:waypoint xsi:type="dc:Point" x="403" y="744" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387685__10-975" bpmnElement="_10-975">
-        <di:waypoint x="375" y="1046" />
-        <di:waypoint x="403" y="1046" />
+        <di:waypoint xsi:type="dc:Point" x="375" y="1046" />
+        <di:waypoint xsi:type="dc:Point" x="403" y="1046" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387686__10-378" bpmnElement="_10-378">
-        <di:waypoint x="486" y="744" />
-        <di:waypoint x="519" y="744" />
+        <di:waypoint xsi:type="dc:Point" x="486" y="744" />
+        <di:waypoint xsi:type="dc:Point" x="519" y="744" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387687__10-898" bpmnElement="_10-898">
-        <di:waypoint x="629" y="1344" />
-        <di:waypoint x="853" y="1344" />
-        <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="E1399929387688__10-740" bpmnElement="_10-740">
-        <di:waypoint x="723" y="840" />
-        <di:waypoint x="878" y="840" />
+        <di:waypoint xsi:type="dc:Point" x="629" y="1344" />
+        <di:waypoint xsi:type="dc:Point" x="853" y="1344" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387689__10-742" bpmnElement="_10-742">
-        <di:waypoint x="894" y="1012" />
-        <di:waypoint x="894" y="856" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="1012" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="856" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387690__10-721" bpmnElement="_10-721">
-        <di:waypoint x="540" y="1067" />
-        <di:waypoint x="540" y="1142" />
-        <di:waypoint x="640" y="1142" />
+        <di:waypoint xsi:type="dc:Point" x="540" y="1067" />
+        <di:waypoint xsi:type="dc:Point" x="540" y="1142" />
+        <di:waypoint xsi:type="dc:Point" x="640" y="1142" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616">
           <dc:Bounds x="548" y="1130" width="85" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387691__10-900" bpmnElement="_10-900">
-        <di:waypoint x="894" y="1310" />
-        <di:waypoint x="894" y="1158" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="1310" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="1158" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387692__10-112" bpmnElement="_10-112">
-        <di:waypoint x="466" y="216" />
-        <di:waypoint x="466" y="476" />
+        <di:waypoint xsi:type="dc:Point" x="466" y="216" />
+        <di:waypoint xsi:type="dc:Point" x="466" y="476" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387693__10-744" bpmnElement="_10-744">
-        <di:waypoint x="894" y="824" />
-        <di:waypoint x="894" y="778" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="824" />
+        <di:waypoint xsi:type="dc:Point" x="894" y="778" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387694__10-668" bpmnElement="_10-668">
-        <di:waypoint x="560" y="1046" />
-        <di:waypoint x="853" y="1046" />
+        <di:waypoint xsi:type="dc:Point" x="560" y="1046" />
+        <di:waypoint xsi:type="dc:Point" x="853" y="1046" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616">
           <dc:Bounds x="665.5333333333334" y="1033.1976488281248" width="94.93333333333335" height="25.604702343750013" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387695__10-110" bpmnElement="_10-110">
-        <di:waypoint x="439" y="476" />
-        <di:waypoint x="439" y="458" />
-        <di:waypoint x="437" y="458" />
-        <di:waypoint x="437" y="216" />
+        <di:waypoint xsi:type="dc:Point" x="439" y="476" />
+        <di:waypoint xsi:type="dc:Point" x="439" y="458" />
+        <di:waypoint xsi:type="dc:Point" x="437" y="458" />
+        <di:waypoint xsi:type="dc:Point" x="437" y="216" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387696__10-286" bpmnElement="_10-286">
-        <di:waypoint x="560" y="510" />
-        <di:waypoint x="640" y="510" />
+        <di:waypoint xsi:type="dc:Point" x="560" y="510" />
+        <di:waypoint xsi:type="dc:Point" x="640" y="510" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616">
           <dc:Bounds x="569" y="497" width="76" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387697__10-136" bpmnElement="_10-136">
-        <di:waypoint x="494" y="510" />
-        <di:waypoint x="519" y="510" />
+        <di:waypoint xsi:type="dc:Point" x="494" y="510" />
+        <di:waypoint xsi:type="dc:Point" x="519" y="510" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387698__10-845" bpmnElement="_10-845">
-        <di:waypoint x="378" y="1344" />
-        <di:waypoint x="546" y="1344" />
+        <di:waypoint xsi:type="dc:Point" x="378" y="1344" />
+        <di:waypoint xsi:type="dc:Point" x="546" y="1344" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="E1399929387699__10-591" bpmnElement="_10-591">
-        <di:waypoint x="936" y="744" />
-        <di:waypoint x="1149" y="744" />
+        <di:waypoint xsi:type="dc:Point" x="936" y="744" />
+        <di:waypoint xsi:type="dc:Point" x="1149" y="744" />
         <bpmndi:BPMNLabel labelStyle="LS1399929387616" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_030ad83_di" bpmnElement="_10-42">
+        <dc:Bounds x="342" y="492" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="322" y="530" width="77" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="MessageFlow_0ce9vqk_di" bpmnElement="MessageFlow_0ce9vqk">
+        <di:waypoint xsi:type="dc:Point" x="759" y="532" />
+        <di:waypoint xsi:type="dc:Point" x="373" y="737" />
+        <di:waypoint xsi:type="dc:Point" x="367" y="731" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="566" y="613.5" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MessageFlow_0qyitip_di" bpmnElement="MessageFlow_0qyitip">
+        <di:waypoint xsi:type="dc:Point" x="642" y="866" />
+        <di:waypoint xsi:type="dc:Point" x="372" y="1038" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="507" y="931" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MessageFlow_02jo835_di" bpmnElement="MessageFlow_02jo835">
+        <di:waypoint xsi:type="dc:Point" x="642" y="1168" />
+        <di:waypoint xsi:type="dc:Point" x="375" y="1336" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="508.5" y="1231" width="0" height="12" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
     <bpmndi:BPMNLabelStyle id="LS1399929387616">
@@ -670,9 +646,6 @@
               <bpsim:InterTriggerTimer>
                 <bpsim:TriangularDistribution max="2.5" min="0.35" mode="2" />
               </bpsim:InterTriggerTimer>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
             </bpsim:ControlParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-189">
@@ -731,55 +704,6 @@
               </bpsim:Probability>
             </bpsim:ControlParameters>
           </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_10-781">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_10-511">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_10-288">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_10-902">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_10-219">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_10-577">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_10-746">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
         </bpsim:Scenario>
         <bpsim:Scenario id="S2" inherits="S1" name="2 - Temporal perspective">
           <bpsim:ScenarioParameters>
@@ -787,15 +711,6 @@
               <bpsim:DurationParameter value="P7D" />
             </bpsim:Warmup>
           </bpsim:ScenarioParameters>
-          <bpsim:ElementParameters elementRef="WFP-40005-1">
-            <bpsim:TimeParameters>
-              <bpsim:ElapsedTime>
-                <bpsim:ResultRequest>min</bpsim:ResultRequest>
-                <bpsim:ResultRequest>max</bpsim:ResultRequest>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:ElapsedTime>
-            </bpsim:TimeParameters>
-          </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-57">
             <bpsim:TimeParameters>
               <bpsim:ProcessingTime>
@@ -880,27 +795,6 @@
               </bpsim:ProcessingTime>
             </bpsim:TimeParameters>
           </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_10-219">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_10-577">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="_10-746">
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-          </bpsim:ElementParameters>
         </bpsim:Scenario>
         <bpsim:Scenario id="S3" inherits="S2" name="3 - Resource perspective">
           <bpsim:ScenarioParameters baseResultFrequency="P1D" baseResultFrequencyCumul="false" />
@@ -919,370 +813,118 @@
             </bpsim:ControlParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="resource_Front_Office">
-            <bpsim:TimeParameters>
-              <bpsim:WaitTime>
-                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-              </bpsim:WaitTime>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
             <bpsim:ResourceParameters>
               <bpsim:Quantity>
-                <bpsim:NumericParameter value="0" />
-                <bpsim:NumericParameter validFor="C1" value="200" />
-                <bpsim:NumericParameter validFor="C2" value="90" />
-                <bpsim:NumericParameter validFor="C3" value="130" />
-                <bpsim:NumericParameter validFor="C4" value="60" />
-                <bpsim:NumericParameter validFor="C5" value="150" />
-                <bpsim:NumericParameter validFor="C6" value="100" />
-                <bpsim:NumericParameter validFor="C7" value="40" />
+                <bpsim:NumericParameter value="1" />
               </bpsim:Quantity>
             </bpsim:ResourceParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="resource_1st_Level_Techical_Support_Agent">
-            <bpsim:TimeParameters>
-              <bpsim:WaitTime>
-                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-              </bpsim:WaitTime>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
             <bpsim:ResourceParameters>
               <bpsim:Quantity>
-                <bpsim:NumericParameter value="0" />
-                <bpsim:NumericParameter validFor="C1" value="3" />
-                <bpsim:NumericParameter validFor="C2" value="3" />
-                <bpsim:NumericParameter validFor="C3" value="3" />
-                <bpsim:NumericParameter validFor="C4" value="3" />
-                <bpsim:NumericParameter validFor="C5" value="3" />
-                <bpsim:NumericParameter validFor="C6" value="3" />
+                <bpsim:NumericParameter value="1" />
               </bpsim:Quantity>
             </bpsim:ResourceParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="resource_2nd_Level_Techical_Support_Agent">
-            <bpsim:TimeParameters>
-              <bpsim:WaitTime>
-                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-              </bpsim:WaitTime>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
             <bpsim:ResourceParameters>
               <bpsim:Quantity>
-                <bpsim:NumericParameter value="0" />
-                <bpsim:NumericParameter validFor="C1" value="2" />
-                <bpsim:NumericParameter validFor="C2" value="2" />
-                <bpsim:NumericParameter validFor="C3" value="2" />
-                <bpsim:NumericParameter validFor="C4" value="2" />
-                <bpsim:NumericParameter validFor="C5" value="2" />
-                <bpsim:NumericParameter validFor="C6" value="2" />
+                <bpsim:NumericParameter value="1" />
               </bpsim:Quantity>
             </bpsim:ResourceParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="resource_Supplier">
-            <bpsim:TimeParameters>
-              <bpsim:WaitTime>
-                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-              </bpsim:WaitTime>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
             <bpsim:ResourceParameters>
               <bpsim:Quantity>
-                <bpsim:NumericParameter value="0" />
-                <bpsim:NumericParameter validFor="C8" value="1" />
+                <bpsim:NumericParameter value="1" />
               </bpsim:Quantity>
             </bpsim:ResourceParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-57">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_Front_Office&#39;, 1)" />
+                <bpsim:StringParameter value="resource_Front_Office" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-920">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_Front_Office&#39;, 1)" />
+                <bpsim:StringParameter value="resource_Front_Office" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-235">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_Front_Office&#39;, 1)" />
+                <bpsim:StringParameter value="resource_Front_Office" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-138">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_Front_Office&#39;, 1)" />
+                <bpsim:StringParameter value="resource_Front_Office" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-303">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_1st_Level_Techical_Support_Agent&#39;, 1)" />
+                <bpsim:StringParameter value="resource_1st_Level_Techical_Support_Agent" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-458">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_1st_Level_Techical_Support_Agent&#39;, 1)" />
+                <bpsim:StringParameter value="resource_1st_Level_Techical_Support_Agent" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-380">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_1st_Level_Techical_Support_Agent&#39;, 1)" />
+                <bpsim:StringParameter value="resource_1st_Level_Techical_Support_Agent" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-526">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_2nd_Level_Techical_Support_Agent&#39;, 1)" />
+                <bpsim:StringParameter value="resource_2nd_Level_Techical_Support_Agent" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-670">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_2nd_Level_Techical_Support_Agent&#39;, 1)" />
+                <bpsim:StringParameter value="resource_2nd_Level_Techical_Support_Agent" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-617">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_2nd_Level_Techical_Support_Agent&#39;, 1)" />
+                <bpsim:StringParameter value="resource_2nd_Level_Techical_Support_Agent" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-794">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_Supplier&#39;, 1)" />
+                <bpsim:StringParameter value="resource_Supplier" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="_10-847">
             <bpsim:ResourceParameters>
               <bpsim:Selection>
-                <bpsim:ExpressionParameter value="getResource(&#39;resource_Supplier&#39;, 1)" />
+                <bpsim:StringParameter value="resource_Supplier" />
               </bpsim:Selection>
             </bpsim:ResourceParameters>
-            <bpsim:PropertyParameters>
-              <bpsim:QueueLength>
-                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-              </bpsim:QueueLength>
-            </bpsim:PropertyParameters>
-            <bpsim:ControlParameters>
-              <bpsim:TriggerCount>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:TriggerCount>
-            </bpsim:ControlParameters>
-            <bpsim:TimeParameters>
-              <bpsim:ProcessingTime>
-                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-              </bpsim:ProcessingTime>
-            </bpsim:TimeParameters>
           </bpsim:ElementParameters>
-          <bpsim:Calendar id="C1" name="shift-6-9am">BEGIN:VCALENDAR
+          <bpsim:Calendar id="C1" name="shift-6-9am"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             UID:1356035064823@localhost
             DTSTART:20160101T060000
@@ -1291,8 +933,8 @@
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-          <bpsim:Calendar id="C2" name="shift-9-noon">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+          <bpsim:Calendar id="C2" name="shift-9-noon"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035100473@localhost
@@ -1302,8 +944,8 @@
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-          <bpsim:Calendar id="C3" name="shift-noon-3pm">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+          <bpsim:Calendar id="C3" name="shift-noon-3pm"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035129707@localhost
@@ -1313,8 +955,8 @@
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-          <bpsim:Calendar id="C4" name="shift-3-6pm">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+          <bpsim:Calendar id="C4" name="shift-3-6pm"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035191095@localhost
@@ -1324,8 +966,8 @@
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-          <bpsim:Calendar id="C5" name="shift-6-10pm">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+          <bpsim:Calendar id="C5" name="shift-6-10pm"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035226921@localhost
@@ -1335,8 +977,8 @@
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-          <bpsim:Calendar id="C6" name="shift-10-1am">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+          <bpsim:Calendar id="C6" name="shift-10-1am"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035246845@localhost
@@ -1346,8 +988,8 @@
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-          <bpsim:Calendar id="C7" name="shift-1-6am">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+          <bpsim:Calendar id="C7" name="shift-1-6am"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035272706@localhost
@@ -1357,8 +999,8 @@
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-          <bpsim:Calendar id="C8" name="shift-9am-10pm-weekdays">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+          <bpsim:Calendar id="C8" name="shift-9am-10pm-weekdays"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035303891@localhost
@@ -1368,7 +1010,7 @@
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
+            END:VCALENDAR]]></bpsim:Calendar>
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </semantic:extensionElements>

@@ -9,7 +9,7 @@ public class SimulationIntermediateEvent extends SimulationEvent {
 	public SimulationIntermediateEvent(String name, long time, String processId) {
 		this.name = name;
 		this.time = time;
-		this.startTime = simClock.getCurrentTime() + time;
+		this.endTime = simClock.getCurrentTime() + time;
 		this.processId = processId;
 	}
 	
@@ -22,7 +22,7 @@ public class SimulationIntermediateEvent extends SimulationEvent {
 	}
 	
 	public String toString() {
-		return "name: "+ name +", time:" + time +", endTime:" + startTime + ", processId:" + processId;
+		return "name: "+ name +", time:" + time +", endTime:" + endTime + ", processId:" + processId;
 	}
 }
 

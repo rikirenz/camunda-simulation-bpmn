@@ -13,8 +13,10 @@ import java.io.StringReader;
   import java.util.ArrayList;
   import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
   import javax.xml.bind.JAXBContext;
@@ -94,8 +96,12 @@ import simulation.SimulationCatchEvent;
       // 0 name of the starEvent - 1 name of the message
       private ArrayList<ArrayList<String>> startCatchEvents;
       public static ArrayList<SimulationCatchEvent> indipendentIntermediateThrowEvents = new ArrayList<SimulationCatchEvent>();
+      private static Set<String> resourcesElements;
       public static HashMap < String, ArrayList < String >> boundaryEvents;
       public static HashMap < String, ArrayList < Object >> taskObjects;
+      public static HashMap < String, Resource > resourcesElementsAvaliability = new HashMap<String, Resource>();
+      
+      
       public static ScenarioWrapper scenarioObject;
 
       public BpsimCollection(Document bpmnDocument) {
@@ -113,13 +119,12 @@ import simulation.SimulationCatchEvent;
               createScenarioObjectsHashMap();
               createTaskObjectsHashMap();
               createIndipendentCatchEventArray();
+              createResourcesAvaliabilityHashMap();
           } catch (Exception e) {
               e.printStackTrace();
           }
       }
-      
-      
-      
+
       
       private void createIndipendentCatchEventArray() {
 
@@ -127,7 +132,9 @@ import simulation.SimulationCatchEvent;
     		  
         	  // Get the BPSim information about the current event
         	  ArrayList<Object> eventParameters = BpsimCollection.taskObjects.get(currAl.get(0));
-        	
+
+        	  LOGGER.info(currAl.get(0));
+
         	  // verify if there are parameters
         	  if (eventParameters == null) continue;
         	
@@ -187,7 +194,6 @@ import simulation.SimulationCatchEvent;
               return null;
           }
       }
-
 
       private void updateHashMap(String id, Object element) {
           ArrayList currArrayList = taskObjects.get(id);
@@ -266,7 +272,9 @@ import simulation.SimulationCatchEvent;
 
               return taskObjects;
           } catch (Exception e) {
-              //e.printStackTrace();
+        	  
+        	  
+              e.printStackTrace();
               return null;
           }
       }
@@ -324,6 +332,12 @@ import simulation.SimulationCatchEvent;
 
 
       private void collectBpmnData() {
+    	  collectStartEvents();
+    	  collectBoundaryEvents();
+    	  collectResources();
+      }
+
+      private void collectStartEvents() {
           try {
 
               // search all the condition expression tags
@@ -346,9 +360,22 @@ import simulation.SimulationCatchEvent;
             	  startCatchEvents.add(al);
               }
 	
-	          // boundary events
+          } catch (Exception e) {
+        	  e.printStackTrace();
+          }    	  
+    	  
+      }
+      
+      private void collectBoundaryEvents() {
+          try {
+
+              // search all the condition expression tags
+              XPathFactory xPathfactory = XPathFactory.newInstance();
+              XPath xpath = xPathfactory.newXPath();
+
+              // boundary events
 	          boundaryEvents = new HashMap < String, ArrayList < String >> ();
-	          expr = xpath.compile("//*[local-name()='boundaryEvent']/*[local-name()='messageEventDefinition']");
+	          XPathExpression expr = xpath.compile("//*[local-name()='boundaryEvent']/*[local-name()='messageEventDefinition']");
 	          NodeList nl = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
 	          for (int i = 0; i < nl.getLength(); i++) {
 	              ArrayList < String > currBoundaryEvents = boundaryEvents.get(((Element) nl.item(i)).getAttribute("attachedToRef"));
@@ -365,8 +392,51 @@ import simulation.SimulationCatchEvent;
 	
           } catch (Exception e) {
         	  e.printStackTrace();
+          }  
+      }
+      
+      private void collectResources() {
+          try {
+              // search all the condition expression tags
+              XPathFactory xPathfactory = XPathFactory.newInstance();
+              XPath xpath = xPathfactory.newXPath();
+              // boundary events
+              resourcesElements = new TreeSet<String>();
+	          XPathExpression expr = xpath.compile("//*[local-name()='resource']");
+	          /* example: <semantic:resource id="resource_Front_Office" name="Front Office" /> */
+	          NodeList nl = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
+	          for (int i = 0; i < nl.getLength(); i++) { resourcesElements.add(((Element) nl.item(i)).getAttribute("id")); }
+          } catch (Exception e) {
+        	  e.printStackTrace();
           }
       }
 
+      private void createResourcesAvaliabilityHashMap() {
+    	  try {
+    		  Iterator<String> iter = resourcesElements.iterator();
+    		  while (iter.hasNext()) {
+	    		  String currResourcesId = iter.next();
+	        	  ArrayList<Object> resourcesParameters = BpsimCollection.taskObjects.get(currResourcesId);
+	        	  // verify if there are parameters
+	        	  if (resourcesParameters == null) continue;
+        		  Resource currResource = new Resource(currResourcesId);	        	  
+	        	  for (Object currParameter : resourcesParameters) {
+	        		  if (currParameter instanceof ResourceParametersWrapper) {
+	        			  ResourceParametersWrapper currResourcesWrapper = (ResourceParametersWrapper) currParameter;
+	        			  currResource.setQuantity(currResourcesWrapper.getQuantity());
+	        		  } else if (currParameter instanceof CostParametersWrapper) {
+	        			  CostParametersWrapper currCostWrapper = (CostParametersWrapper) currParameter;
+	        			  currResource.setFixedCost(currCostWrapper.getFixedCost());
+	        			  currResource.setUnitCost(currCostWrapper.getUnitCost()); 
+	        		  }
+	        	  }
+	        	  resourcesElementsAvaliability.put(currResourcesId, currResource);
+    		  }  
+    		  LOGGER.info(resourcesElementsAvaliability.toString());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+      }
 }
       

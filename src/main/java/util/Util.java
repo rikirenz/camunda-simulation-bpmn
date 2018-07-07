@@ -61,10 +61,7 @@ public class Util {
 			// e.printStackTrace();
 			return true;
 		}
-		
 	}
-	
-	 
 	
 	public static BpmnModelInstance loadBpmnProcess(Document bpmnDocument) {
 		try {

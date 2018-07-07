@@ -15,6 +15,6 @@ public class ExecutionListenerFixedTime extends ExecutionListenerMaster{
 	@Override
 	public void notify(DelegateExecution execution) throws Exception {				
 		int fixedTime = 10;
-		eventsHandler.addTaskEvent(execution.getActivityInstanceId(), execution.getCurrentActivityName(), fixedTime, execution.getProcessInstanceId());
+		eventsHandler.addTaskEvent(execution.getActivityInstanceId(), execution.getCurrentActivityName(), fixedTime, execution.getProcessInstanceId(), "");
 	}
 }

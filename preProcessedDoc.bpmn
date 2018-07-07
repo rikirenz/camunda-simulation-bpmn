@@ -1,1341 +1,983 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<semantic:definitions xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:rss="http://purl.org/rss/2.0/" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:trisofeed="http://trisotech.com/feed" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Camunda Modeler" exporterVersion="1.14.0" id="_1399929387037" name="Technical Support Process v2.0.0" targetNamespace="http://www.trisotech.com/definitions/_1399929387037">
-    <semantic:resource id="resource_Front_Office" name="Front Office"/>
-    <semantic:process id="WFP-40005-1" isExecutable="true">
-        <bpmn:userTask id="_10-235" name="Request 1st level support" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-971</semantic:incoming>
-            <semantic:outgoing>_10-450</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_Front_Office</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <semantic:startEvent id="_10-42" name="Customer issue report">
-            <semantic:outgoing>_10-108</semantic:outgoing>
-            <semantic:messageEventDefinition messageRef="Message_1399929387649"/>
-        </semantic:startEvent>
-        <bpmn:userTask id="_10-138" name="Provide solution to customer" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-189</semantic:incoming>
-            <semantic:incoming>_10-454</semantic:incoming>
-            <semantic:outgoing>_10-217</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_Front_Office</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <bpmn:userTask id="_10-920" name="Inform customer the issue is going to be escalated" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-286</semantic:incoming>
-            <semantic:outgoing>_10-971</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_Front_Office</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <bpmn:userTask id="_10-57" name="Get issue description from customer" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-108</semantic:incoming>
-            <semantic:incoming>_10-456</semantic:incoming>
-            <semantic:outgoing>_10-136</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_Front_Office</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <semantic:endEvent id="_10-219" name="Customer issue resolved">
-            <semantic:incoming>_10-233</semantic:incoming>
-        </semantic:endEvent>
-        <semantic:intermediateCatchEvent id="_10-433" name="Solution received from 1st level of support">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.EventListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-450</semantic:incoming>
-            <semantic:outgoing>_10-454</semantic:outgoing>
-            <semantic:messageEventDefinition messageRef="Message_1399929387655"/>
-        </semantic:intermediateCatchEvent>
-        <semantic:exclusiveGateway default="_10-189" id="_10-114" name="">
-            <semantic:incoming>_10-136</semantic:incoming>
-            <semantic:outgoing>_10-189</semantic:outgoing>
-            <semantic:outgoing>_10-286</semantic:outgoing>
-        </semantic:exclusiveGateway>
-        <semantic:exclusiveGateway default="_10-233" id="_10-195" name="">
-            <semantic:incoming>_10-217</semantic:incoming>
-            <semantic:outgoing>_10-233</semantic:outgoing>
-            <semantic:outgoing>_10-456</semantic:outgoing>
-        </semantic:exclusiveGateway>
-        <semantic:sequenceFlow id="_10-108" name="" sourceRef="_10-42" targetRef="_10-57"/>
-        <semantic:sequenceFlow id="_10-136" name="" sourceRef="_10-57" targetRef="_10-114"/>
-        <semantic:sequenceFlow id="_10-189" name="Able to  provide solution" sourceRef="_10-114" targetRef="_10-138"/>
-        <semantic:sequenceFlow id="_10-217" name="" sourceRef="_10-138" targetRef="_10-195"/>
-        <semantic:sequenceFlow id="_10-233" name="Solution is effective" sourceRef="_10-195" targetRef="_10-219"/>
-        <semantic:sequenceFlow id="_10-286" name="Unable to  provide solution" sourceRef="_10-114" targetRef="_10-920">
-            <semantic:conditionExpression language="groovy" xsi:type="semantic:tFormalExpression">import util.Util&#13;
+<semantic:definitions xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:rss="http://purl.org/rss/2.0/" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:trisofeed="http://trisotech.com/feed" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Camunda Modeler" exporterVersion="1.11.3" id="_1399929387037" name="Technical Support Process v2.0.0" targetNamespace="http://www.trisotech.com/definitions/_1399929387037">
+<semantic:resource id="resource_Front_Office" name="Front Office"/>
+<semantic:process id="WFP-40005-1" isExecutable="true">
+<bpmn:userTask id="_10-235" name="Request 1st level support" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-971</semantic:incoming>
+<semantic:performer>
+<semantic:resourceRef>resource_Front_Office</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<bpmn:userTask id="_10-138" name="Provide solution to customer" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-189</semantic:incoming>
+<semantic:incoming>_10-454</semantic:incoming>
+<semantic:outgoing>_10-217</semantic:outgoing>
+<semantic:performer>
+<semantic:resourceRef>resource_Front_Office</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<bpmn:userTask id="_10-920" name="Inform customer the issue is going to be escalated" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-286</semantic:incoming>
+<semantic:outgoing>_10-971</semantic:outgoing>
+<semantic:performer>
+<semantic:resourceRef>resource_Front_Office</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<bpmn:userTask id="_10-57" name="Get issue description from customer" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-108</semantic:incoming>
+<semantic:incoming>_10-456</semantic:incoming>
+<semantic:outgoing>_10-136</semantic:outgoing>
+<semantic:performer>
+<semantic:resourceRef>resource_Front_Office</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<semantic:endEvent id="_10-219" name="Customer issue resolved">
+<semantic:incoming>_10-233</semantic:incoming>
+</semantic:endEvent>
+<semantic:intermediateCatchEvent id="_10-433" name="Solution received from 1st level of support">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.EventListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:outgoing>_10-454</semantic:outgoing>
+<semantic:messageEventDefinition messageRef="Message_1399929387655"/>
+</semantic:intermediateCatchEvent>
+<semantic:exclusiveGateway default="_10-189" id="_10-114" name="">
+<semantic:incoming>_10-136</semantic:incoming>
+<semantic:outgoing>_10-189</semantic:outgoing>
+<semantic:outgoing>_10-286</semantic:outgoing>
+</semantic:exclusiveGateway>
+<semantic:exclusiveGateway default="_10-233" id="_10-195" name="">
+<semantic:incoming>_10-217</semantic:incoming>
+<semantic:outgoing>_10-233</semantic:outgoing>
+<semantic:outgoing>_10-456</semantic:outgoing>
+</semantic:exclusiveGateway>
+<semantic:sequenceFlow id="_10-108" name="" sourceRef="_10-42" targetRef="_10-57"/>
+<semantic:sequenceFlow id="_10-136" name="" sourceRef="_10-57" targetRef="_10-114"/>
+<semantic:sequenceFlow id="_10-189" name="Able to  provide solution" sourceRef="_10-114" targetRef="_10-138"/>
+<semantic:sequenceFlow id="_10-217" name="" sourceRef="_10-138" targetRef="_10-195"/>
+<semantic:sequenceFlow id="_10-233" name="Solution is effective" sourceRef="_10-195" targetRef="_10-219"/>
+<semantic:sequenceFlow id="_10-286" name="Unable to  provide solution" sourceRef="_10-114" targetRef="_10-920">
+<semantic:conditionExpression language="groovy" xsi:type="semantic:tFormalExpression">import util.Util&#13;
 &#13;
 Util.booleanValueFlow("_10-286");</semantic:conditionExpression>
-        </semantic:sequenceFlow>
-        <semantic:sequenceFlow id="_10-450" name="" sourceRef="_10-235" targetRef="_10-433"/>
-        <semantic:sequenceFlow id="_10-454" name="" sourceRef="_10-433" targetRef="_10-138"/>
-        <semantic:sequenceFlow id="_10-456" name="Solution is not effective" sourceRef="_10-195" targetRef="_10-57">
-            <semantic:conditionExpression language="groovy" xsi:type="semantic:tFormalExpression">import util.Util&#13;
+</semantic:sequenceFlow>
+<semantic:sequenceFlow id="_10-454" name="" sourceRef="_10-433" targetRef="_10-138"/>
+<semantic:sequenceFlow id="_10-456" name="Solution is not effective" sourceRef="_10-195" targetRef="_10-57">
+<semantic:conditionExpression language="groovy" xsi:type="semantic:tFormalExpression">import util.Util&#13;
 &#13;
 Util.booleanValueFlow("_10-456");</semantic:conditionExpression>
-        </semantic:sequenceFlow>
-        <semantic:sequenceFlow id="_10-971" name="" sourceRef="_10-920" targetRef="_10-235"/>
-    </semantic:process>
-    <semantic:resource id="resource_1st_Level_Techical_Support_Agent" name="1st Level Techical Support Agent"/>
-    <semantic:process id="WFP-40005-2" isExecutable="false">
-        <semantic:endEvent id="_10-577" name="Issue handled by 1st level support">
-            <semantic:incoming>_10-591</semantic:incoming>
-        </semantic:endEvent>
-        <semantic:exclusiveGateway default="_10-431" id="_10-356" name="">
-            <semantic:incoming>_10-378</semantic:incoming>
-            <semantic:outgoing>_10-431</semantic:outgoing>
-            <semantic:outgoing>_10-509</semantic:outgoing>
-        </semantic:exclusiveGateway>
-        <bpmn:userTask id="_10-303" name="Find solution 1st level issue" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-354</semantic:incoming>
-            <semantic:outgoing>_10-378</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_1st_Level_Techical_Support_Agent</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <semantic:startEvent id="_10-288" name="1st level Issue">
-            <semantic:outgoing>_10-354</semantic:outgoing>
-            <semantic:messageEventDefinition messageRef="Message_1399929387654"/>
-        </semantic:startEvent>
-        <bpmn:userTask id="_10-380" name="Provide solution to Front Office" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-431</semantic:incoming>
-            <semantic:incoming>_10-744</semantic:incoming>
-            <semantic:outgoing>_10-591</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_1st_Level_Techical_Support_Agent</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <bpmn:userTask id="_10-458" name="Request 2nd level support" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-509</semantic:incoming>
-            <semantic:outgoing>_10-740</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_1st_Level_Techical_Support_Agent</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <semantic:intermediateCatchEvent id="_10-723" name="Solution received from 2nd level of support">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.EventListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-740</semantic:incoming>
-            <semantic:outgoing>_10-744</semantic:outgoing>
-            <semantic:messageEventDefinition messageRef="Message_1399929387657"/>
-        </semantic:intermediateCatchEvent>
-        <semantic:sequenceFlow id="_10-354" name="" sourceRef="_10-288" targetRef="_10-303"/>
-        <semantic:sequenceFlow id="_10-378" name="" sourceRef="_10-303" targetRef="_10-356"/>
-        <semantic:sequenceFlow id="_10-431" name="Able to provide  1st level solution" sourceRef="_10-356" targetRef="_10-380"/>
-        <semantic:sequenceFlow id="_10-509" name="Unable to provide 1st level solution" sourceRef="_10-356" targetRef="_10-458">
-            <semantic:conditionExpression language="groovy" xsi:type="semantic:tFormalExpression">import util.Util&#13;
+</semantic:sequenceFlow>
+<semantic:sequenceFlow id="_10-971" name="" sourceRef="_10-920" targetRef="_10-235"/>
+<semantic:startEvent id="_10-42" name="Customer issue report">
+<semantic:outgoing>_10-108</semantic:outgoing>
+</semantic:startEvent>
+</semantic:process>
+<semantic:resource id="resource_1st_Level_Techical_Support_Agent" name="1st Level Techical Support Agent"/>
+<semantic:process id="WFP-40005-2" isExecutable="false">
+<semantic:endEvent id="_10-577" name="Issue handled by 1st level support">
+<semantic:incoming>_10-591</semantic:incoming>
+</semantic:endEvent>
+<semantic:exclusiveGateway default="_10-431" id="_10-356" name="">
+<semantic:incoming>_10-378</semantic:incoming>
+<semantic:outgoing>_10-431</semantic:outgoing>
+<semantic:outgoing>_10-509</semantic:outgoing>
+</semantic:exclusiveGateway>
+<bpmn:userTask id="_10-303" name="Find solution 1st level issue" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-354</semantic:incoming>
+<semantic:outgoing>_10-378</semantic:outgoing>
+<semantic:performer>
+<semantic:resourceRef>resource_1st_Level_Techical_Support_Agent</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<semantic:startEvent id="_10-288" name="1st level Issue">
+<semantic:outgoing>_10-354</semantic:outgoing>
+<semantic:messageEventDefinition messageRef="Message_1399929387654"/>
+</semantic:startEvent>
+<bpmn:userTask id="_10-380" name="Provide solution to Front Office" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-431</semantic:incoming>
+<semantic:incoming>_10-744</semantic:incoming>
+<semantic:outgoing>_10-591</semantic:outgoing>
+<semantic:performer>
+<semantic:resourceRef>resource_1st_Level_Techical_Support_Agent</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<bpmn:userTask id="_10-458" name="Request 2nd level support" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-509</semantic:incoming>
+<semantic:performer>
+<semantic:resourceRef>resource_1st_Level_Techical_Support_Agent</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<semantic:intermediateCatchEvent id="_10-723" name="Solution received from 2nd level of support">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.EventListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:outgoing>_10-744</semantic:outgoing>
+<semantic:messageEventDefinition messageRef="Message_1399929387657"/>
+</semantic:intermediateCatchEvent>
+<semantic:sequenceFlow id="_10-354" name="" sourceRef="_10-288" targetRef="_10-303"/>
+<semantic:sequenceFlow id="_10-378" name="" sourceRef="_10-303" targetRef="_10-356"/>
+<semantic:sequenceFlow id="_10-431" name="Able to provide  1st level solution" sourceRef="_10-356" targetRef="_10-380"/>
+<semantic:sequenceFlow id="_10-509" name="Unable to provide 1st level solution" sourceRef="_10-356" targetRef="_10-458">
+<semantic:conditionExpression language="groovy" xsi:type="semantic:tFormalExpression">import util.Util&#13;
 &#13;
 Util.booleanValueFlow("_10-509");</semantic:conditionExpression>
-        </semantic:sequenceFlow>
-        <semantic:sequenceFlow id="_10-591" name="" sourceRef="_10-380" targetRef="_10-577"/>
-        <semantic:sequenceFlow id="_10-740" name="" sourceRef="_10-458" targetRef="_10-723"/>
-        <semantic:sequenceFlow id="_10-744" name="" sourceRef="_10-723" targetRef="_10-380"/>
-    </semantic:process>
-    <semantic:resource id="resource_Supplier" name="Supplier"/>
-    <semantic:process id="WFP-40005-3" isExecutable="false">
-        <bpmn:userTask id="_10-794" name="Find solution supplier issue" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-845</semantic:incoming>
-            <semantic:outgoing>_10-898</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_Supplier</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <semantic:startEvent id="_10-781" name="Supplier Issue">
-            <semantic:outgoing>_10-845</semantic:outgoing>
-            <semantic:messageEventDefinition messageRef="Message_1399929387659"/>
-        </semantic:startEvent>
-        <bpmn:userTask id="_10-847" name="Provide solution to 2nd level support" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-898</semantic:incoming>
-            <semantic:outgoing>_10-916</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_Supplier</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <semantic:endEvent id="_10-902" name="Issue handled by supplier">
-            <semantic:incoming>_10-916</semantic:incoming>
-        </semantic:endEvent>
-        <semantic:sequenceFlow id="_10-845" name="" sourceRef="_10-781" targetRef="_10-794"/>
-        <semantic:sequenceFlow id="_10-898" name="" sourceRef="_10-794" targetRef="_10-847"/>
-        <semantic:sequenceFlow id="_10-916" name="" sourceRef="_10-847" targetRef="_10-902"/>
-    </semantic:process>
-    <semantic:resource id="resource_2nd_Level_Techical_Support_Agent" name="2nd Level Techical Support Agent"/>
-    <semantic:process id="WFP-40005-5" isExecutable="false">
-        <semantic:exclusiveGateway default="_10-668" id="_10-593" name="">
-            <semantic:incoming>_10-615</semantic:incoming>
-            <semantic:outgoing>_10-668</semantic:outgoing>
-            <semantic:outgoing>_10-721</semantic:outgoing>
-        </semantic:exclusiveGateway>
-        <bpmn:userTask id="_10-670" name="Request supplier support" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-721</semantic:incoming>
-            <semantic:outgoing>_10-777</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_2nd_Level_Techical_Support_Agent</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <bpmn:userTask id="_10-617" name="Provide solution to 1st level support" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-668</semantic:incoming>
-            <semantic:incoming>_10-779</semantic:incoming>
-            <semantic:outgoing>_10-977</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_2nd_Level_Techical_Support_Agent</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <semantic:intermediateCatchEvent id="_10-760" name="Solution received from supplier">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.EventListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-777</semantic:incoming>
-            <semantic:outgoing>_10-779</semantic:outgoing>
-            <semantic:messageEventDefinition messageRef="Message_1399929387658"/>
-        </semantic:intermediateCatchEvent>
-        <bpmn:userTask id="_10-526" name="Find solution 2nd level issue" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
-            <semantic:extensionElements>
-                <camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
-            </semantic:extensionElements>
-            <semantic:incoming>_10-975</semantic:incoming>
-            <semantic:outgoing>_10-615</semantic:outgoing>
-            <semantic:performer>
-                <semantic:resourceRef>resource_2nd_Level_Techical_Support_Agent</semantic:resourceRef>
-            </semantic:performer>
-        </bpmn:userTask>
-        <semantic:startEvent id="_10-511" name="2nd  level Issue">
-            <semantic:outgoing>_10-975</semantic:outgoing>
-            <semantic:messageEventDefinition messageRef="Message_1399929387656"/>
-        </semantic:startEvent>
-        <semantic:endEvent id="_10-746" name="Issue handled by  2nd level support">
-            <semantic:incoming>_10-977</semantic:incoming>
-        </semantic:endEvent>
-        <semantic:sequenceFlow id="_10-615" name="" sourceRef="_10-526" targetRef="_10-593"/>
-        <semantic:sequenceFlow id="_10-668" name="Able to provide  2nd level solution" sourceRef="_10-593" targetRef="_10-617"/>
-        <semantic:sequenceFlow id="_10-721" name="Unable to provide 2nd level solution" sourceRef="_10-593" targetRef="_10-670">
-            <semantic:conditionExpression language="groovy" xsi:type="semantic:tFormalExpression">import util.Util&#13;
+</semantic:sequenceFlow>
+<semantic:sequenceFlow id="_10-591" name="" sourceRef="_10-380" targetRef="_10-577"/>
+<semantic:sequenceFlow id="_10-744" name="" sourceRef="_10-723" targetRef="_10-380"/>
+</semantic:process>
+<semantic:resource id="resource_Supplier" name="Supplier"/>
+<semantic:process id="WFP-40005-3" isExecutable="false">
+<bpmn:userTask id="_10-794" name="Find solution supplier issue" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-845</semantic:incoming>
+<semantic:outgoing>_10-898</semantic:outgoing>
+<semantic:performer>
+<semantic:resourceRef>resource_Supplier</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<semantic:startEvent id="_10-781" name="Supplier Issue">
+<semantic:outgoing>_10-845</semantic:outgoing>
+<semantic:messageEventDefinition messageRef="Message_1399929387659"/>
+</semantic:startEvent>
+<bpmn:userTask id="_10-847" name="Provide solution to 2nd level support" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-898</semantic:incoming>
+<semantic:outgoing>_10-916</semantic:outgoing>
+<semantic:performer>
+<semantic:resourceRef>resource_Supplier</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<semantic:endEvent id="_10-902" name="Issue handled by supplier">
+<semantic:incoming>_10-916</semantic:incoming>
+</semantic:endEvent>
+<semantic:sequenceFlow id="_10-845" name="" sourceRef="_10-781" targetRef="_10-794"/>
+<semantic:sequenceFlow id="_10-898" name="" sourceRef="_10-794" targetRef="_10-847"/>
+<semantic:sequenceFlow id="_10-916" name="" sourceRef="_10-847" targetRef="_10-902"/>
+</semantic:process>
+<semantic:resource id="resource_2nd_Level_Techical_Support_Agent" name="2nd Level Techical Support Agent"/>
+<semantic:process id="WFP-40005-5" isExecutable="false">
+<semantic:exclusiveGateway default="_10-668" id="_10-593" name="">
+<semantic:incoming>_10-615</semantic:incoming>
+<semantic:outgoing>_10-668</semantic:outgoing>
+<semantic:outgoing>_10-721</semantic:outgoing>
+</semantic:exclusiveGateway>
+<bpmn:userTask id="_10-670" name="Request supplier support" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-721</semantic:incoming>
+<semantic:performer>
+<semantic:resourceRef>resource_2nd_Level_Techical_Support_Agent</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<bpmn:userTask id="_10-617" name="Provide solution to 1st level support" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-668</semantic:incoming>
+<semantic:incoming>_10-779</semantic:incoming>
+<semantic:outgoing>_10-977</semantic:outgoing>
+<semantic:performer>
+<semantic:resourceRef>resource_2nd_Level_Techical_Support_Agent</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<semantic:intermediateCatchEvent id="_10-760" name="Solution received from supplier">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.EventListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:outgoing>_10-779</semantic:outgoing>
+<semantic:messageEventDefinition messageRef="Message_1399929387658"/>
+</semantic:intermediateCatchEvent>
+<bpmn:userTask id="_10-526" name="Find solution 2nd level issue" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_10-975</semantic:incoming>
+<semantic:outgoing>_10-615</semantic:outgoing>
+<semantic:performer>
+<semantic:resourceRef>resource_2nd_Level_Techical_Support_Agent</semantic:resourceRef>
+</semantic:performer>
+</bpmn:userTask>
+<semantic:startEvent id="_10-511" name="2nd  level Issue">
+<semantic:outgoing>_10-975</semantic:outgoing>
+<semantic:messageEventDefinition messageRef="Message_1399929387656"/>
+</semantic:startEvent>
+<semantic:endEvent id="_10-746" name="Issue handled by  2nd level support">
+<semantic:incoming>_10-977</semantic:incoming>
+</semantic:endEvent>
+<semantic:sequenceFlow id="_10-615" name="" sourceRef="_10-526" targetRef="_10-593"/>
+<semantic:sequenceFlow id="_10-668" name="Able to provide  2nd level solution" sourceRef="_10-593" targetRef="_10-617"/>
+<semantic:sequenceFlow id="_10-721" name="Unable to provide 2nd level solution" sourceRef="_10-593" targetRef="_10-670">
+<semantic:conditionExpression language="groovy" xsi:type="semantic:tFormalExpression">import util.Util&#13;
 &#13;
 Util.booleanValueFlow("_10-721");</semantic:conditionExpression>
-        </semantic:sequenceFlow>
-        <semantic:sequenceFlow id="_10-777" name="" sourceRef="_10-670" targetRef="_10-760"/>
-        <semantic:sequenceFlow id="_10-779" name="" sourceRef="_10-760" targetRef="_10-617"/>
-        <semantic:sequenceFlow id="_10-975" name="" sourceRef="_10-511" targetRef="_10-526"/>
-        <semantic:sequenceFlow id="_10-977" name="" sourceRef="_10-617" targetRef="_10-746"/>
-    </semantic:process>
-    <semantic:message id="Message_1399929387649" name="1"/>
-    <semantic:message id="Message_1399929387650"/>
-    <semantic:message id="Message_1399929387651"/>
-    <semantic:message id="Message_1399929387652"/>
-    <semantic:message id="Message_1399929387653"/>
-    <semantic:message id="Message_1399929387654" name="2"/>
-    <semantic:message id="Message_1399929387655" name="5"/>
-    <semantic:message id="Message_1399929387656" name="3"/>
-    <semantic:message id="Message_1399929387657" name="6"/>
-    <semantic:message id="Message_1399929387658" name="7"/>
-    <semantic:message id="Message_1399929387659" name="4"/>
-    <semantic:message id="Message_1399929387660"/>
-    <semantic:collaboration id="C1399929387648">
-        <semantic:participant id="_10-1" name="Customer"/>
-        <semantic:participant id="_10-10" name="Front Office" processRef="WFP-40005-1"/>
-        <semantic:participant id="_10-18" name="1st Level Techical Support Agent" processRef="WFP-40005-2"/>
-        <semantic:participant id="_10-26" name="2nd Level Techical Support Agent" processRef="WFP-40005-5"/>
-        <semantic:participant id="_10-34" name="Supplier" processRef="WFP-40005-3"/>
-        <semantic:messageFlow id="_10-55" messageRef="Message_1399929387649" name="" sourceRef="_10-1" targetRef="_10-42"/>
-        <semantic:messageFlow id="_10-110" messageRef="Message_1399929387650" name="" sourceRef="_10-57" targetRef="_10-1"/>
-        <semantic:messageFlow id="_10-112" messageRef="Message_1399929387651" name="" sourceRef="_10-1" targetRef="_10-57"/>
-        <semantic:messageFlow id="_10-191" messageRef="Message_1399929387652" name="" sourceRef="_10-138" targetRef="_10-1"/>
-        <semantic:messageFlow id="_10-193" messageRef="Message_1399929387653" name="" sourceRef="_10-1" targetRef="_10-138"/>
-        <semantic:messageFlow id="_10-301" messageRef="Message_1399929387654" name="" sourceRef="_10-235" targetRef="_10-288"/>
-        <semantic:messageFlow id="_10-452" messageRef="Message_1399929387655" name="" sourceRef="_10-380" targetRef="_10-433"/>
-        <semantic:messageFlow id="_10-524" messageRef="Message_1399929387656" name="" sourceRef="_10-458" targetRef="_10-511"/>
-        <semantic:messageFlow id="_10-742" messageRef="Message_1399929387657" name="" sourceRef="_10-617" targetRef="_10-723"/>
-        <semantic:messageFlow id="_10-900" messageRef="Message_1399929387658" name="" sourceRef="_10-847" targetRef="_10-760"/>
-        <semantic:messageFlow id="_10-918" messageRef="Message_1399929387659" name="" sourceRef="_10-670" targetRef="_10-781"/>
-        <semantic:messageFlow id="_10-973" messageRef="Message_1399929387660" name="" sourceRef="_10-920" targetRef="_10-1"/>
-    </semantic:collaboration>
-    <bpmndi:BPMNDiagram documentation="" id="_40005" name="Scenario 1" resolution="96.00000267028808">
-        <bpmndi:BPMNPlane bpmnElement="C1399929387648">
-            <bpmndi:BPMNShape bpmnElement="_10-1" id="S1399929387615__10-1" isHorizontal="true">
-                <dc:Bounds height="72" width="936" x="288" y="144"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="49.2026760725625" width="12.804751171874997" x="292" y="155"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-10" id="S1399929387617__10-10" isHorizontal="true">
-                <dc:Bounds height="354" width="936" x="288" y="258"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="58.686440721" width="12.804751171874997" x="292" y="405"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-18" id="S1399929387618__10-18" isHorizontal="true">
-                <dc:Bounds height="240" width="936" x="288" y="672"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="159.50321318193755" width="12.804751171874997" x="292" y="712"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-26" id="S1399929387619__10-26" isHorizontal="true">
-                <dc:Bounds height="246" width="936" x="288" y="966"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="163.0708401350625" width="12.804751171874997" x="292" y="1007"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-34" id="S1399929387620__10-34" isHorizontal="true">
-                <dc:Bounds height="168" width="936" x="288" y="1260"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="42.1033108381875" width="12.804751171874997" x="292" y="1322"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-235" id="S1399929387621__10-235">
-                <dc:Bounds height="68" width="83" x="759" y="476"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="38.404653515625" width="72.33333333333334" x="764.3333333333334" y="490.79767324218744"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-42" id="S1399929387622__10-42">
-                <dc:Bounds height="30" width="30" x="345" y="495"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="25.604702343750013" width="94.93333333333335" x="312.5333333333333" y="530.3333333333334"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-138" id="S1399929387623__10-138">
-                <dc:Bounds height="68" width="83" x="853" y="306"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="38.404653515625" width="72.33333333333334" x="858.3333333333334" y="320.79767324218744"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-920" id="S1399929387624__10-920">
-                <dc:Bounds height="68" width="83" x="640" y="476"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="64.00455585937502" width="72.33333333333334" x="645.3333333333334" y="477.9977220703125"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-57" id="S1399929387625__10-57">
-                <dc:Bounds height="68" width="83" x="411" y="476"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="51.204604687499994" width="72.33333333333334" x="416.3333333333333" y="484.39769765625"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-219" id="S1399929387626__10-219">
-                <dc:Bounds height="32" width="32" x="1149" y="324"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="25.604702343750013" width="94.93333333333335" x="1117.5333333333333" y="361.3333333333333"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-433" id="S1399929387627__10-433">
-                <dc:Bounds height="32" width="32" x="878" y="494"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="38.404653515625" width="94.93333333333335" x="846.5333333333334" y="531.3333333333334"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-114" id="S1399929387628__10-114" isMarkerVisible="true">
-                <dc:Bounds height="42" width="42" x="519" y="489"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-195" id="S1399929387629__10-195" isMarkerVisible="true">
-                <dc:Bounds height="42" width="42" x="996" y="319"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-577" id="S1399929387630__10-577">
-                <dc:Bounds height="32" width="32" x="1149" y="728"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="25.604702343750013" width="94.93333333333335" x="1117.5333333333333" y="765.3333333333334"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-356" id="S1399929387631__10-356" isMarkerVisible="true">
-                <dc:Bounds height="42" width="42" x="519" y="723"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-303" id="S1399929387632__10-303">
-                <dc:Bounds height="68" width="83" x="403" y="710"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="38.404653515625" width="72.33333333333334" x="408.3333333333333" y="724.7976732421876"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-288" id="S1399929387633__10-288">
-                <dc:Bounds height="30" width="30" x="345" y="729"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="12.804751171875008" width="94.93333333333335" x="312.5333333333333" y="764.3333333333333"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-380" id="S1399929387634__10-380">
-                <dc:Bounds height="68" width="83" x="853" y="710"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="38.404653515625" width="72.33333333333334" x="858.3333333333334" y="724.7976732421876"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-458" id="S1399929387635__10-458">
-                <dc:Bounds height="68" width="83" x="640" y="806"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="38.404653515625" width="72.33333333333334" x="645.3333333333334" y="820.7976732421876"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-723" id="S1399929387636__10-723">
-                <dc:Bounds height="32" width="32" x="878" y="824"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="38.404653515625" width="94.93333333333335" x="846.5333333333334" y="861.3333333333334"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-794" id="S1399929387637__10-794">
-                <dc:Bounds height="68" width="83" x="546" y="1310"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="51.204604687499994" width="72.33333333333334" x="551.3333333333334" y="1318.3976976562499"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-781" id="S1399929387638__10-781">
-                <dc:Bounds height="30" width="30" x="348" y="1329"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="12.804751171875008" width="94.93333333333335" x="315.5333333333333" y="1364.3333333333333"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-847" id="S1399929387639__10-847">
-                <dc:Bounds height="68" width="83" x="853" y="1310"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="51.204604687499994" width="72.33333333333334" x="858.3333333333334" y="1318.3976976562499"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-902" id="S1399929387640__10-902">
-                <dc:Bounds height="32" width="32" x="1149" y="1328"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="25.604702343750013" width="94.93333333333335" x="1117.5333333333333" y="1365.333333333333"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-593" id="S1399929387641__10-593" isMarkerVisible="true">
-                <dc:Bounds height="42" width="42" x="519" y="1025"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-670" id="S1399929387642__10-670">
-                <dc:Bounds height="68" width="83" x="640" y="1108"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="38.404653515625" width="72.33333333333334" x="645.3333333333334" y="1122.7976732421876"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-617" id="S1399929387643__10-617">
-                <dc:Bounds height="68" width="83" x="853" y="1012"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="51.204604687499994" width="72.33333333333334" x="858.3333333333334" y="1020.39769765625"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-760" id="S1399929387644__10-760">
-                <dc:Bounds height="32" width="32" x="878" y="1126"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="25.604702343750013" width="94.93333333333335" x="846.5333333333334" y="1163.333333333333"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-526" id="S1399929387645__10-526">
-                <dc:Bounds height="68" width="83" x="403" y="1012"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="51.204604687499994" width="72.33333333333334" x="408.3333333333333" y="1020.39769765625"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-511" id="S1399929387646__10-511">
-                <dc:Bounds height="30" width="30" x="345" y="1031"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="12.804751171875008" width="94.93333333333335" x="312.5333333333333" y="1066.3333333333333"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape bpmnElement="_10-746" id="S1399929387647__10-746">
-                <dc:Bounds height="32" width="32" x="1149" y="1030"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="25.604702343750013" width="94.93333333333335" x="1117.5333333333333" y="1067.333333333333"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNEdge bpmnElement="_10-779" id="E1399929387661__10-779">
-                <di:waypoint x="894" y="1126"/>
-                <di:waypoint x="894" y="1080"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-615" id="E1399929387662__10-615">
-                <di:waypoint x="486" y="1046"/>
-                <di:waypoint x="519" y="1046"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-916" id="E1399929387663__10-916">
-                <di:waypoint x="936" y="1344"/>
-                <di:waypoint x="1149" y="1344"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-777" id="E1399929387664__10-777">
-                <di:waypoint x="723" y="1142"/>
-                <di:waypoint x="878" y="1142"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-452" id="E1399929387665__10-452">
-                <di:waypoint x="894" y="710"/>
-                <di:waypoint x="894" y="526"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-191" id="E1399929387666__10-191">
-                <di:waypoint x="880" y="306"/>
-                <di:waypoint x="880" y="288"/>
-                <di:waypoint x="882" y="288"/>
-                <di:waypoint x="882" y="216"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-108" id="E1399929387667__10-108">
-                <di:waypoint x="375" y="510"/>
-                <di:waypoint x="411" y="510"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-301" id="E1399929387668__10-301">
-                <di:waypoint x="800" y="544"/>
-                <di:waypoint x="800" y="574"/>
-                <di:waypoint x="360" y="574"/>
-                <di:waypoint x="360" y="729"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-450" id="E1399929387669__10-450">
-                <di:waypoint x="842" y="510"/>
-                <di:waypoint x="878" y="510"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-431" id="E1399929387670__10-431">
-                <di:waypoint x="560" y="744"/>
-                <di:waypoint x="853" y="744"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="25.604702343750013" width="94.93333333333335" x="665.5333333333334" y="731.197648828125"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-456" id="E1399929387671__10-456">
-                <di:waypoint x="1016" y="361"/>
-                <di:waypoint x="1016" y="562"/>
-                <di:waypoint x="898" y="562"/>
-                <di:waypoint x="804" y="562"/>
-                <di:waypoint x="452" y="562"/>
-                <di:waypoint x="452" y="544"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="25.604702343750013" width="94.93333333333335" x="801.0588277374833" y="549.197648828125"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-193" id="E1399929387672__10-193">
-                <di:waypoint x="910" y="216"/>
-                <di:waypoint x="910" y="234"/>
-                <di:waypoint x="908" y="234"/>
-                <di:waypoint x="908" y="306"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-454" id="E1399929387673__10-454">
-                <di:waypoint x="894" y="494"/>
-                <di:waypoint x="894" y="374"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-973" id="E1399929387674__10-973">
-                <di:waypoint x="681" y="476"/>
-                <di:waypoint x="681" y="216"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-189" id="E1399929387675__10-189">
-                <di:waypoint x="540" y="489"/>
-                <di:waypoint x="540" y="340"/>
-                <di:waypoint x="677" y="340"/>
-                <di:waypoint x="853" y="340"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="25.604702343750013" width="94.93333333333335" x="562.0652958982554" y="327.1976488281252"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-524" id="E1399929387676__10-524">
-                <di:waypoint x="681" y="874"/>
-                <di:waypoint x="681" y="892"/>
-                <di:waypoint x="360" y="892"/>
-                <di:waypoint x="360" y="1031"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-971" id="E1399929387677__10-971">
-                <di:waypoint x="723" y="510"/>
-                <di:waypoint x="759" y="510"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-217" id="E1399929387678__10-217">
-                <di:waypoint x="936" y="340"/>
-                <di:waypoint x="996" y="340"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-233" id="E1399929387679__10-233">
-                <di:waypoint x="1037" y="340"/>
-                <di:waypoint x="1149" y="340"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="12.804751171875008" width="94.93333333333335" x="1045.533333333333" y="333.59762441406247"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-55" id="E1399929387680__10-55">
-                <di:waypoint x="358" y="216"/>
-                <di:waypoint x="358" y="234"/>
-                <di:waypoint x="360" y="234"/>
-                <di:waypoint x="360" y="495"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-509" id="E1399929387681__10-509">
-                <di:waypoint x="540" y="765"/>
-                <di:waypoint x="540" y="840"/>
-                <di:waypoint x="640" y="840"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="24" width="85" x="548" y="827"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-918" id="E1399929387682__10-918">
-                <di:waypoint x="681" y="1176"/>
-                <di:waypoint x="681" y="1194"/>
-                <di:waypoint x="363" y="1194"/>
-                <di:waypoint x="363" y="1329"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-977" id="E1399929387683__10-977">
-                <di:waypoint x="936" y="1046"/>
-                <di:waypoint x="1149" y="1046"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-354" id="E1399929387684__10-354">
-                <di:waypoint x="375" y="744"/>
-                <di:waypoint x="403" y="744"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-975" id="E1399929387685__10-975">
-                <di:waypoint x="375" y="1046"/>
-                <di:waypoint x="403" y="1046"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-378" id="E1399929387686__10-378">
-                <di:waypoint x="486" y="744"/>
-                <di:waypoint x="519" y="744"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-898" id="E1399929387687__10-898">
-                <di:waypoint x="629" y="1344"/>
-                <di:waypoint x="853" y="1344"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-740" id="E1399929387688__10-740">
-                <di:waypoint x="723" y="840"/>
-                <di:waypoint x="878" y="840"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-742" id="E1399929387689__10-742">
-                <di:waypoint x="894" y="1012"/>
-                <di:waypoint x="894" y="856"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-721" id="E1399929387690__10-721">
-                <di:waypoint x="540" y="1067"/>
-                <di:waypoint x="540" y="1142"/>
-                <di:waypoint x="640" y="1142"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="24" width="85" x="548" y="1130"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-900" id="E1399929387691__10-900">
-                <di:waypoint x="894" y="1310"/>
-                <di:waypoint x="894" y="1158"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-112" id="E1399929387692__10-112">
-                <di:waypoint x="466" y="216"/>
-                <di:waypoint x="466" y="476"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-744" id="E1399929387693__10-744">
-                <di:waypoint x="894" y="824"/>
-                <di:waypoint x="894" y="778"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-668" id="E1399929387694__10-668">
-                <di:waypoint x="560" y="1046"/>
-                <di:waypoint x="853" y="1046"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="25.604702343750013" width="94.93333333333335" x="665.5333333333334" y="1033.1976488281248"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-110" id="E1399929387695__10-110">
-                <di:waypoint x="439" y="476"/>
-                <di:waypoint x="439" y="458"/>
-                <di:waypoint x="437" y="458"/>
-                <di:waypoint x="437" y="216"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-286" id="E1399929387696__10-286">
-                <di:waypoint x="560" y="510"/>
-                <di:waypoint x="640" y="510"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616">
-                    <dc:Bounds height="24" width="76" x="569" y="497"/>
-                </bpmndi:BPMNLabel>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-136" id="E1399929387697__10-136">
-                <di:waypoint x="494" y="510"/>
-                <di:waypoint x="519" y="510"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-845" id="E1399929387698__10-845">
-                <di:waypoint x="378" y="1344"/>
-                <di:waypoint x="546" y="1344"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-            <bpmndi:BPMNEdge bpmnElement="_10-591" id="E1399929387699__10-591">
-                <di:waypoint x="936" y="744"/>
-                <di:waypoint x="1149" y="744"/>
-                <bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
-            </bpmndi:BPMNEdge>
-        </bpmndi:BPMNPlane>
-        <bpmndi:BPMNLabelStyle id="LS1399929387616">
-            <dc:Font isBold="false" isItalic="false" isStrikeThrough="false" isUnderline="false" name="Arial" size="8"/>
-        </bpmndi:BPMNLabelStyle>
-    </bpmndi:BPMNDiagram>
-    <semantic:relationship type="BPSimData">
-        <semantic:extensionElements>
-            <bpsim:BPSimData>
-                <bpsim:Scenario id="S1" name="1 - Control perspective">
-                    <bpsim:ScenarioParameters baseTimeUnit="min" replication="3">
-                        <bpsim:Duration>
-                            <bpsim:DurationParameter value="P1M"/>
-                        </bpsim:Duration>
-                        <bpsim:Start>
-                            <bpsim:DateTimeParameter value="2016-01-01T06:00:00"/>
-                        </bpsim:Start>
-                    </bpsim:ScenarioParameters>
-                    <bpsim:ElementParameters elementRef="_10-42">
-                        <bpsim:ControlParameters>
-                            <bpsim:InterTriggerTimer>
-                                <bpsim:TriangularDistribution max="2.5" min="0.35" mode="2"/>
-                            </bpsim:InterTriggerTimer>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-189">
-                        <bpsim:ControlParameters>
-                            <bpsim:Probability>
-                                <bpsim:FloatingParameter value="60"/>
-                            </bpsim:Probability>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-286">
-                        <bpsim:ControlParameters>
-                            <bpsim:Probability>
-                                <bpsim:FloatingParameter value="40"/>
-                            </bpsim:Probability>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-233">
-                        <bpsim:ControlParameters>
-                            <bpsim:Probability>
-                                <bpsim:FloatingParameter value="15"/>
-                            </bpsim:Probability>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-456">
-                        <bpsim:ControlParameters>
-                            <bpsim:Probability>
-                                <bpsim:FloatingParameter value="85"/>
-                            </bpsim:Probability>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-431">
-                        <bpsim:ControlParameters>
-                            <bpsim:Probability>
-                                <bpsim:FloatingParameter value="70"/>
-                            </bpsim:Probability>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-509">
-                        <bpsim:ControlParameters>
-                            <bpsim:Probability>
-                                <bpsim:FloatingParameter value="30"/>
-                            </bpsim:Probability>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-668">
-                        <bpsim:ControlParameters>
-                            <bpsim:Probability>
-                                <bpsim:FloatingParameter value="80"/>
-                            </bpsim:Probability>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-721">
-                        <bpsim:ControlParameters>
-                            <bpsim:Probability>
-                                <bpsim:FloatingParameter value="20"/>
-                            </bpsim:Probability>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-781">
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-511">
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-288">
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-902">
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-219">
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-577">
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-746">
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                </bpsim:Scenario>
-                <bpsim:Scenario id="S2" inherits="S1" name="2 - Temporal perspective">
-                    <bpsim:ScenarioParameters>
-                        <bpsim:Warmup>
-                            <bpsim:DurationParameter value="P7D"/>
-                        </bpsim:Warmup>
-                    </bpsim:ScenarioParameters>
-                    <bpsim:ElementParameters elementRef="WFP-40005-1">
-                        <bpsim:TimeParameters>
-                            <bpsim:ElapsedTime>
-                                <bpsim:ResultRequest>min</bpsim:ResultRequest>
-                                <bpsim:ResultRequest>max</bpsim:ResultRequest>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:ElapsedTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-57">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:TruncatedNormalDistribution max="1000" mean="4" min="0" standardDeviation="0.5"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-920">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:TruncatedNormalDistribution max="1000" mean="1" min="0" standardDeviation="0.5"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-235">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:DurationParameter value="PT30S"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-138">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:TruncatedNormalDistribution max="1000" mean="10" min="0" standardDeviation="2.5"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-303">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:TruncatedNormalDistribution max="1000" mean="4" min="0" standardDeviation="0.5"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-458">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:DurationParameter value="PT30S"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-380">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:TruncatedNormalDistribution max="1000" mean="1" min="0" standardDeviation="0.5"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-526">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:TruncatedNormalDistribution max="1000" mean="7" min="0" standardDeviation="0.5"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-670">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:TruncatedNormalDistribution max="1000" mean="3" min="0" standardDeviation="0.5"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-617">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:TruncatedNormalDistribution max="1000" mean="1" min="0" standardDeviation="0.5"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-794">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:TruncatedNormalDistribution max="1000" mean="300" min="0" standardDeviation="30"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-847">
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:TruncatedNormalDistribution max="1000" mean="2" min="0" standardDeviation="0.5"/>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-219">
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-577">
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-746">
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                </bpsim:Scenario>
-                <bpsim:Scenario id="S3" inherits="S2" name="3 - Resource perspective">
-                    <bpsim:ScenarioParameters baseResultFrequency="P1D" baseResultFrequencyCumul="false"/>
-                    <bpsim:ElementParameters elementRef="_10-42">
-                        <bpsim:ControlParameters>
-                            <bpsim:InterTriggerTimer>
-                                <bpsim:FloatingParameter value="1.0"/>
-                                <bpsim:FloatingParameter validFor="C1" value="0.35"/>
-                                <bpsim:FloatingParameter validFor="C2" value="0.86"/>
-                                <bpsim:FloatingParameter validFor="C3" value="0.55"/>
-                                <bpsim:FloatingParameter validFor="C4" value="1.0"/>
-                                <bpsim:FloatingParameter validFor="C5" value="0.43"/>
-                                <bpsim:FloatingParameter validFor="C6" value="0.67"/>
-                                <bpsim:FloatingParameter validFor="C7" value="2.0"/>
-                            </bpsim:InterTriggerTimer>
-                        </bpsim:ControlParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="resource_Front_Office">
-                        <bpsim:TimeParameters>
-                            <bpsim:WaitTime>
-                                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-                            </bpsim:WaitTime>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:ResourceParameters>
-                            <bpsim:Quantity>
-                                <bpsim:NumericParameter value="0"/>
-                                <bpsim:NumericParameter validFor="C1" value="200"/>
-                                <bpsim:NumericParameter validFor="C2" value="90"/>
-                                <bpsim:NumericParameter validFor="C3" value="130"/>
-                                <bpsim:NumericParameter validFor="C4" value="60"/>
-                                <bpsim:NumericParameter validFor="C5" value="150"/>
-                                <bpsim:NumericParameter validFor="C6" value="100"/>
-                                <bpsim:NumericParameter validFor="C7" value="40"/>
-                            </bpsim:Quantity>
-                        </bpsim:ResourceParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="resource_1st_Level_Techical_Support_Agent">
-                        <bpsim:TimeParameters>
-                            <bpsim:WaitTime>
-                                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-                            </bpsim:WaitTime>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:ResourceParameters>
-                            <bpsim:Quantity>
-                                <bpsim:NumericParameter value="0"/>
-                                <bpsim:NumericParameter validFor="C1" value="3"/>
-                                <bpsim:NumericParameter validFor="C2" value="3"/>
-                                <bpsim:NumericParameter validFor="C3" value="3"/>
-                                <bpsim:NumericParameter validFor="C4" value="3"/>
-                                <bpsim:NumericParameter validFor="C5" value="3"/>
-                                <bpsim:NumericParameter validFor="C6" value="3"/>
-                            </bpsim:Quantity>
-                        </bpsim:ResourceParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="resource_2nd_Level_Techical_Support_Agent">
-                        <bpsim:TimeParameters>
-                            <bpsim:WaitTime>
-                                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-                            </bpsim:WaitTime>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:ResourceParameters>
-                            <bpsim:Quantity>
-                                <bpsim:NumericParameter value="0"/>
-                                <bpsim:NumericParameter validFor="C1" value="2"/>
-                                <bpsim:NumericParameter validFor="C2" value="2"/>
-                                <bpsim:NumericParameter validFor="C3" value="2"/>
-                                <bpsim:NumericParameter validFor="C4" value="2"/>
-                                <bpsim:NumericParameter validFor="C5" value="2"/>
-                                <bpsim:NumericParameter validFor="C6" value="2"/>
-                            </bpsim:Quantity>
-                        </bpsim:ResourceParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="resource_Supplier">
-                        <bpsim:TimeParameters>
-                            <bpsim:WaitTime>
-                                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-                            </bpsim:WaitTime>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>sum</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:ResourceParameters>
-                            <bpsim:Quantity>
-                                <bpsim:NumericParameter value="0"/>
-                                <bpsim:NumericParameter validFor="C8" value="1"/>
-                            </bpsim:Quantity>
-                        </bpsim:ResourceParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-57">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_Front_Office', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-920">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_Front_Office', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-235">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_Front_Office', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-138">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_Front_Office', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-303">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_1st_Level_Techical_Support_Agent', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-458">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_1st_Level_Techical_Support_Agent', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-380">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_1st_Level_Techical_Support_Agent', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-526">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_2nd_Level_Techical_Support_Agent', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-670">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_2nd_Level_Techical_Support_Agent', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-617">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_2nd_Level_Techical_Support_Agent', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-794">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_Supplier', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:ElementParameters elementRef="_10-847">
-                        <bpsim:ResourceParameters>
-                            <bpsim:Selection>
-                                <bpsim:ExpressionParameter value="getResource('resource_Supplier', 1)"/>
-                            </bpsim:Selection>
-                        </bpsim:ResourceParameters>
-                        <bpsim:PropertyParameters>
-                            <bpsim:QueueLength>
-                                <bpsim:ResultRequest>mean</bpsim:ResultRequest>
-                            </bpsim:QueueLength>
-                        </bpsim:PropertyParameters>
-                        <bpsim:ControlParameters>
-                            <bpsim:TriggerCount>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:TriggerCount>
-                        </bpsim:ControlParameters>
-                        <bpsim:TimeParameters>
-                            <bpsim:ProcessingTime>
-                                <bpsim:ResultRequest>count</bpsim:ResultRequest>
-                            </bpsim:ProcessingTime>
-                        </bpsim:TimeParameters>
-                    </bpsim:ElementParameters>
-                    <bpsim:Calendar id="C1" name="shift-6-9am">BEGIN:VCALENDAR
+</semantic:sequenceFlow>
+<semantic:sequenceFlow id="_10-779" name="" sourceRef="_10-760" targetRef="_10-617"/>
+<semantic:sequenceFlow id="_10-975" name="" sourceRef="_10-511" targetRef="_10-526"/>
+<semantic:sequenceFlow id="_10-977" name="" sourceRef="_10-617" targetRef="_10-746"/>
+</semantic:process>
+<semantic:message id="Message_1399929387649"/>
+<semantic:message id="Message_1399929387650"/>
+<semantic:message id="Message_1399929387651"/>
+<semantic:message id="Message_1399929387652"/>
+<semantic:message id="Message_1399929387653"/>
+<semantic:message id="Message_1399929387654" name="2"/>
+<semantic:message id="Message_1399929387655" name="5"/>
+<semantic:message id="Message_1399929387656" name="3"/>
+<semantic:message id="Message_1399929387657" name="6"/>
+<semantic:message id="Message_1399929387658" name="7"/>
+<semantic:message id="Message_1399929387659" name="4"/>
+<semantic:message id="Message_1399929387660"/>
+<semantic:collaboration id="C1399929387648">
+<semantic:participant id="_10-1" name="Customer"/>
+<semantic:participant id="_10-10" name="Front Office" processRef="WFP-40005-1"/>
+<semantic:participant id="_10-18" name="1st Level Techical Support Agent" processRef="WFP-40005-2"/>
+<semantic:participant id="_10-26" name="2nd Level Techical Support Agent" processRef="WFP-40005-5"/>
+<semantic:participant id="_10-34" name="Supplier" processRef="WFP-40005-3"/>
+<semantic:messageFlow id="_10-55" messageRef="Message_1399929387649" name="" sourceRef="_10-1" targetRef="_10-42"/>
+<semantic:messageFlow id="_10-110" messageRef="Message_1399929387650" name="" sourceRef="_10-57" targetRef="_10-1"/>
+<semantic:messageFlow id="_10-112" messageRef="Message_1399929387651" name="" sourceRef="_10-1" targetRef="_10-57"/>
+<semantic:messageFlow id="_10-191" messageRef="Message_1399929387652" name="" sourceRef="_10-138" targetRef="_10-1"/>
+<semantic:messageFlow id="_10-193" messageRef="Message_1399929387653" name="" sourceRef="_10-1" targetRef="_10-138"/>
+<semantic:messageFlow id="_10-452" messageRef="Message_1399929387655" name="" sourceRef="_10-380" targetRef="_10-433"/>
+<semantic:messageFlow id="_10-742" messageRef="Message_1399929387657" name="" sourceRef="_10-617" targetRef="_10-723"/>
+<semantic:messageFlow id="_10-900" messageRef="Message_1399929387658" name="" sourceRef="_10-847" targetRef="_10-760"/>
+<semantic:messageFlow id="_10-973" messageRef="Message_1399929387660" name="" sourceRef="_10-920" targetRef="_10-1"/>
+<semantic:messageFlow id="MessageFlow_0ce9vqk" sourceRef="_10-235" targetRef="_10-288"/>
+<semantic:messageFlow id="MessageFlow_0qyitip" sourceRef="_10-458" targetRef="_10-511"/>
+<semantic:messageFlow id="MessageFlow_02jo835" sourceRef="_10-670" targetRef="_10-781"/>
+</semantic:collaboration>
+<bpmndi:BPMNDiagram documentation="" id="_40005" name="Scenario 1" resolution="96.00000267028808">
+<bpmndi:BPMNPlane bpmnElement="C1399929387648">
+<bpmndi:BPMNShape bpmnElement="_10-1" id="S1399929387615__10-1" isHorizontal="true">
+<dc:Bounds height="72" width="936" x="288" y="144"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="49.2026760725625" width="12.804751171874997" x="292" y="155"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-10" id="S1399929387617__10-10" isHorizontal="true">
+<dc:Bounds height="354" width="936" x="288" y="258"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="58.686440721" width="12.804751171874997" x="292" y="405"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-18" id="S1399929387618__10-18" isHorizontal="true">
+<dc:Bounds height="240" width="936" x="288" y="672"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="159.50321318193755" width="12.804751171874997" x="292" y="712"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-26" id="S1399929387619__10-26" isHorizontal="true">
+<dc:Bounds height="246" width="936" x="288" y="966"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="163.0708401350625" width="12.804751171874997" x="292" y="1007"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-34" id="S1399929387620__10-34" isHorizontal="true">
+<dc:Bounds height="168" width="936" x="288" y="1260"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="42.1033108381875" width="12.804751171874997" x="292" y="1322"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-235" id="S1399929387621__10-235">
+<dc:Bounds height="68" width="83" x="759" y="476"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="38.404653515625" width="72.33333333333334" x="764.3333333333334" y="490.79767324218744"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-138" id="S1399929387623__10-138">
+<dc:Bounds height="68" width="83" x="853" y="306"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="38.404653515625" width="72.33333333333334" x="858.3333333333334" y="320.79767324218744"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-920" id="S1399929387624__10-920">
+<dc:Bounds height="68" width="83" x="640" y="476"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="64.00455585937502" width="72.33333333333334" x="645.3333333333334" y="477.9977220703125"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-57" id="S1399929387625__10-57">
+<dc:Bounds height="68" width="83" x="411" y="476"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="51.204604687499994" width="72.33333333333334" x="416.3333333333333" y="484.39769765625"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-219" id="S1399929387626__10-219">
+<dc:Bounds height="32" width="32" x="1149" y="324"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="25.604702343750013" width="94.93333333333335" x="1117.5333333333333" y="361.3333333333333"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-433" id="S1399929387627__10-433">
+<dc:Bounds height="32" width="32" x="878" y="494"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="38.404653515625" width="94.93333333333335" x="846.5333333333334" y="531.3333333333334"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-114" id="S1399929387628__10-114" isMarkerVisible="true">
+<dc:Bounds height="42" width="42" x="519" y="489"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-195" id="S1399929387629__10-195" isMarkerVisible="true">
+<dc:Bounds height="42" width="42" x="996" y="319"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-577" id="S1399929387630__10-577">
+<dc:Bounds height="32" width="32" x="1149" y="728"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="25.604702343750013" width="94.93333333333335" x="1117.5333333333333" y="765.3333333333334"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-356" id="S1399929387631__10-356" isMarkerVisible="true">
+<dc:Bounds height="42" width="42" x="519" y="723"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-303" id="S1399929387632__10-303">
+<dc:Bounds height="68" width="83" x="403" y="710"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="38.404653515625" width="72.33333333333334" x="408.3333333333333" y="724.7976732421876"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-288" id="S1399929387633__10-288">
+<dc:Bounds height="30" width="30" x="345" y="729"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="12.804751171875008" width="94.93333333333335" x="312.5333333333333" y="764.3333333333333"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-380" id="S1399929387634__10-380">
+<dc:Bounds height="68" width="83" x="853" y="710"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="38.404653515625" width="72.33333333333334" x="858.3333333333334" y="724.7976732421876"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-458" id="S1399929387635__10-458">
+<dc:Bounds height="68" width="83" x="640" y="806"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="38.404653515625" width="72.33333333333334" x="645.3333333333334" y="820.7976732421876"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-723" id="S1399929387636__10-723">
+<dc:Bounds height="32" width="32" x="878" y="824"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="38.404653515625" width="94.93333333333335" x="846.5333333333334" y="861.3333333333334"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-794" id="S1399929387637__10-794">
+<dc:Bounds height="68" width="83" x="546" y="1310"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="51.204604687499994" width="72.33333333333334" x="551.3333333333334" y="1318.3976976562499"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-781" id="S1399929387638__10-781">
+<dc:Bounds height="30" width="30" x="348" y="1329"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="12.804751171875008" width="94.93333333333335" x="315.5333333333333" y="1364.3333333333333"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-847" id="S1399929387639__10-847">
+<dc:Bounds height="68" width="83" x="853" y="1310"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="51.204604687499994" width="72.33333333333334" x="858.3333333333334" y="1318.3976976562499"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-902" id="S1399929387640__10-902">
+<dc:Bounds height="32" width="32" x="1149" y="1328"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="25.604702343750013" width="94.93333333333335" x="1117.5333333333333" y="1365.333333333333"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-593" id="S1399929387641__10-593" isMarkerVisible="true">
+<dc:Bounds height="42" width="42" x="519" y="1025"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-670" id="S1399929387642__10-670">
+<dc:Bounds height="68" width="83" x="640" y="1108"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="38.404653515625" width="72.33333333333334" x="645.3333333333334" y="1122.7976732421876"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-617" id="S1399929387643__10-617">
+<dc:Bounds height="68" width="83" x="853" y="1012"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="51.204604687499994" width="72.33333333333334" x="858.3333333333334" y="1020.39769765625"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-760" id="S1399929387644__10-760">
+<dc:Bounds height="32" width="32" x="878" y="1126"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="25.604702343750013" width="94.93333333333335" x="846.5333333333334" y="1163.333333333333"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-526" id="S1399929387645__10-526">
+<dc:Bounds height="68" width="83" x="403" y="1012"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="51.204604687499994" width="72.33333333333334" x="408.3333333333333" y="1020.39769765625"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-511" id="S1399929387646__10-511">
+<dc:Bounds height="30" width="30" x="345" y="1031"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="12.804751171875008" width="94.93333333333335" x="312.5333333333333" y="1066.3333333333333"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_10-746" id="S1399929387647__10-746">
+<dc:Bounds height="32" width="32" x="1149" y="1030"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="25.604702343750013" width="94.93333333333335" x="1117.5333333333333" y="1067.333333333333"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNEdge bpmnElement="_10-779" id="E1399929387661__10-779">
+<di:waypoint x="894" xsi:type="dc:Point" y="1126"/>
+<di:waypoint x="894" xsi:type="dc:Point" y="1080"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-615" id="E1399929387662__10-615">
+<di:waypoint x="486" xsi:type="dc:Point" y="1046"/>
+<di:waypoint x="519" xsi:type="dc:Point" y="1046"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-916" id="E1399929387663__10-916">
+<di:waypoint x="936" xsi:type="dc:Point" y="1344"/>
+<di:waypoint x="1149" xsi:type="dc:Point" y="1344"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-452" id="E1399929387665__10-452">
+<di:waypoint x="894" xsi:type="dc:Point" y="710"/>
+<di:waypoint x="894" xsi:type="dc:Point" y="526"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-191" id="E1399929387666__10-191">
+<di:waypoint x="880" xsi:type="dc:Point" y="306"/>
+<di:waypoint x="880" xsi:type="dc:Point" y="288"/>
+<di:waypoint x="882" xsi:type="dc:Point" y="288"/>
+<di:waypoint x="882" xsi:type="dc:Point" y="216"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-108" id="E1399929387667__10-108">
+<di:waypoint x="378" xsi:type="dc:Point" y="510"/>
+<di:waypoint x="411" xsi:type="dc:Point" y="510"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-431" id="E1399929387670__10-431">
+<di:waypoint x="560" xsi:type="dc:Point" y="744"/>
+<di:waypoint x="853" xsi:type="dc:Point" y="744"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="25.604702343750013" width="94.93333333333335" x="665.5333333333334" y="731.197648828125"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-456" id="E1399929387671__10-456">
+<di:waypoint x="1016" xsi:type="dc:Point" y="361"/>
+<di:waypoint x="1016" xsi:type="dc:Point" y="562"/>
+<di:waypoint x="898" xsi:type="dc:Point" y="562"/>
+<di:waypoint x="804" xsi:type="dc:Point" y="562"/>
+<di:waypoint x="452" xsi:type="dc:Point" y="562"/>
+<di:waypoint x="452" xsi:type="dc:Point" y="544"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="25.604702343750013" width="94.93333333333335" x="801.0588277374833" y="549.197648828125"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-193" id="E1399929387672__10-193">
+<di:waypoint x="910" xsi:type="dc:Point" y="216"/>
+<di:waypoint x="910" xsi:type="dc:Point" y="234"/>
+<di:waypoint x="908" xsi:type="dc:Point" y="234"/>
+<di:waypoint x="908" xsi:type="dc:Point" y="306"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-454" id="E1399929387673__10-454">
+<di:waypoint x="894" xsi:type="dc:Point" y="494"/>
+<di:waypoint x="894" xsi:type="dc:Point" y="374"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-973" id="E1399929387674__10-973">
+<di:waypoint x="681" xsi:type="dc:Point" y="476"/>
+<di:waypoint x="681" xsi:type="dc:Point" y="216"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-189" id="E1399929387675__10-189">
+<di:waypoint x="540" xsi:type="dc:Point" y="489"/>
+<di:waypoint x="540" xsi:type="dc:Point" y="340"/>
+<di:waypoint x="677" xsi:type="dc:Point" y="340"/>
+<di:waypoint x="853" xsi:type="dc:Point" y="340"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="25.604702343750013" width="94.93333333333335" x="562.0652958982554" y="327.1976488281252"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-971" id="E1399929387677__10-971">
+<di:waypoint x="723" xsi:type="dc:Point" y="510"/>
+<di:waypoint x="759" xsi:type="dc:Point" y="510"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-217" id="E1399929387678__10-217">
+<di:waypoint x="936" xsi:type="dc:Point" y="340"/>
+<di:waypoint x="996" xsi:type="dc:Point" y="340"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-233" id="E1399929387679__10-233">
+<di:waypoint x="1037" xsi:type="dc:Point" y="340"/>
+<di:waypoint x="1149" xsi:type="dc:Point" y="340"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="12.804751171875008" width="94.93333333333335" x="1045.533333333333" y="333.59762441406247"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-55" id="E1399929387680__10-55">
+<di:waypoint x="358" xsi:type="dc:Point" y="216"/>
+<di:waypoint x="358" xsi:type="dc:Point" y="234"/>
+<di:waypoint x="360" xsi:type="dc:Point" y="234"/>
+<di:waypoint x="360" xsi:type="dc:Point" y="492"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-509" id="E1399929387681__10-509">
+<di:waypoint x="540" xsi:type="dc:Point" y="765"/>
+<di:waypoint x="540" xsi:type="dc:Point" y="840"/>
+<di:waypoint x="640" xsi:type="dc:Point" y="840"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="24" width="85" x="548" y="827"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-977" id="E1399929387683__10-977">
+<di:waypoint x="936" xsi:type="dc:Point" y="1046"/>
+<di:waypoint x="1149" xsi:type="dc:Point" y="1046"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-354" id="E1399929387684__10-354">
+<di:waypoint x="375" xsi:type="dc:Point" y="744"/>
+<di:waypoint x="403" xsi:type="dc:Point" y="744"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-975" id="E1399929387685__10-975">
+<di:waypoint x="375" xsi:type="dc:Point" y="1046"/>
+<di:waypoint x="403" xsi:type="dc:Point" y="1046"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-378" id="E1399929387686__10-378">
+<di:waypoint x="486" xsi:type="dc:Point" y="744"/>
+<di:waypoint x="519" xsi:type="dc:Point" y="744"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-898" id="E1399929387687__10-898">
+<di:waypoint x="629" xsi:type="dc:Point" y="1344"/>
+<di:waypoint x="853" xsi:type="dc:Point" y="1344"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-742" id="E1399929387689__10-742">
+<di:waypoint x="894" xsi:type="dc:Point" y="1012"/>
+<di:waypoint x="894" xsi:type="dc:Point" y="856"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-721" id="E1399929387690__10-721">
+<di:waypoint x="540" xsi:type="dc:Point" y="1067"/>
+<di:waypoint x="540" xsi:type="dc:Point" y="1142"/>
+<di:waypoint x="640" xsi:type="dc:Point" y="1142"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="24" width="85" x="548" y="1130"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-900" id="E1399929387691__10-900">
+<di:waypoint x="894" xsi:type="dc:Point" y="1310"/>
+<di:waypoint x="894" xsi:type="dc:Point" y="1158"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-112" id="E1399929387692__10-112">
+<di:waypoint x="466" xsi:type="dc:Point" y="216"/>
+<di:waypoint x="466" xsi:type="dc:Point" y="476"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-744" id="E1399929387693__10-744">
+<di:waypoint x="894" xsi:type="dc:Point" y="824"/>
+<di:waypoint x="894" xsi:type="dc:Point" y="778"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-668" id="E1399929387694__10-668">
+<di:waypoint x="560" xsi:type="dc:Point" y="1046"/>
+<di:waypoint x="853" xsi:type="dc:Point" y="1046"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="25.604702343750013" width="94.93333333333335" x="665.5333333333334" y="1033.1976488281248"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-110" id="E1399929387695__10-110">
+<di:waypoint x="439" xsi:type="dc:Point" y="476"/>
+<di:waypoint x="439" xsi:type="dc:Point" y="458"/>
+<di:waypoint x="437" xsi:type="dc:Point" y="458"/>
+<di:waypoint x="437" xsi:type="dc:Point" y="216"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-286" id="E1399929387696__10-286">
+<di:waypoint x="560" xsi:type="dc:Point" y="510"/>
+<di:waypoint x="640" xsi:type="dc:Point" y="510"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616">
+<dc:Bounds height="24" width="76" x="569" y="497"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-136" id="E1399929387697__10-136">
+<di:waypoint x="494" xsi:type="dc:Point" y="510"/>
+<di:waypoint x="519" xsi:type="dc:Point" y="510"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-845" id="E1399929387698__10-845">
+<di:waypoint x="378" xsi:type="dc:Point" y="1344"/>
+<di:waypoint x="546" xsi:type="dc:Point" y="1344"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_10-591" id="E1399929387699__10-591">
+<di:waypoint x="936" xsi:type="dc:Point" y="744"/>
+<di:waypoint x="1149" xsi:type="dc:Point" y="744"/>
+<bpmndi:BPMNLabel labelStyle="LS1399929387616"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNShape bpmnElement="_10-42" id="StartEvent_030ad83_di">
+<dc:Bounds height="36" width="36" x="342" y="492"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds height="24" width="77" x="322" y="530"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNEdge bpmnElement="MessageFlow_0ce9vqk" id="MessageFlow_0ce9vqk_di">
+<di:waypoint x="759" xsi:type="dc:Point" y="532"/>
+<di:waypoint x="373" xsi:type="dc:Point" y="737"/>
+<di:waypoint x="367" xsi:type="dc:Point" y="731"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds height="12" width="0" x="566" y="613.5"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="MessageFlow_0qyitip" id="MessageFlow_0qyitip_di">
+<di:waypoint x="642" xsi:type="dc:Point" y="866"/>
+<di:waypoint x="372" xsi:type="dc:Point" y="1038"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds height="12" width="0" x="507" y="931"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="MessageFlow_02jo835" id="MessageFlow_02jo835_di">
+<di:waypoint x="642" xsi:type="dc:Point" y="1168"/>
+<di:waypoint x="375" xsi:type="dc:Point" y="1336"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds height="12" width="0" x="508.5" y="1231"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane>
+<bpmndi:BPMNLabelStyle id="LS1399929387616">
+<dc:Font isBold="false" isItalic="false" isStrikeThrough="false" isUnderline="false" name="Arial" size="8"/>
+</bpmndi:BPMNLabelStyle>
+</bpmndi:BPMNDiagram>
+<semantic:relationship type="BPSimData">
+<semantic:extensionElements>
+<bpsim:BPSimData>
+<bpsim:Scenario id="S1" name="1 - Control perspective">
+<bpsim:ScenarioParameters baseTimeUnit="min" replication="3">
+<bpsim:Duration>
+<bpsim:DurationParameter value="P1M"/>
+</bpsim:Duration>
+<bpsim:Start>
+<bpsim:DateTimeParameter value="2016-01-01T06:00:00"/>
+</bpsim:Start>
+</bpsim:ScenarioParameters>
+<bpsim:ElementParameters elementRef="_10-42">
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:TriangularDistribution max="2.5" min="0.35" mode="2"/>
+</bpsim:InterTriggerTimer>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-189">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-286">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:FloatingParameter value="40"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-233">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:FloatingParameter value="15"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-456">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:FloatingParameter value="85"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-431">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:FloatingParameter value="70"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-509">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:FloatingParameter value="30"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-668">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:FloatingParameter value="80"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-721">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:FloatingParameter value="20"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+</bpsim:Scenario>
+<bpsim:Scenario id="S2" inherits="S1" name="2 - Temporal perspective">
+<bpsim:ScenarioParameters>
+<bpsim:Warmup>
+<bpsim:DurationParameter value="P7D"/>
+</bpsim:Warmup>
+</bpsim:ScenarioParameters>
+<bpsim:ElementParameters elementRef="_10-57">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:TruncatedNormalDistribution max="1000" mean="4" min="0" standardDeviation="0.5"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-920">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:TruncatedNormalDistribution max="1000" mean="1" min="0" standardDeviation="0.5"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-235">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:DurationParameter value="PT30S"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-138">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:TruncatedNormalDistribution max="1000" mean="10" min="0" standardDeviation="2.5"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-303">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:TruncatedNormalDistribution max="1000" mean="4" min="0" standardDeviation="0.5"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-458">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:DurationParameter value="PT30S"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-380">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:TruncatedNormalDistribution max="1000" mean="1" min="0" standardDeviation="0.5"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-526">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:TruncatedNormalDistribution max="1000" mean="7" min="0" standardDeviation="0.5"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-670">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:TruncatedNormalDistribution max="1000" mean="3" min="0" standardDeviation="0.5"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-617">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:TruncatedNormalDistribution max="1000" mean="1" min="0" standardDeviation="0.5"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-794">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:TruncatedNormalDistribution max="1000" mean="300" min="0" standardDeviation="30"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-847">
+<bpsim:TimeParameters>
+<bpsim:ProcessingTime>
+<bpsim:TruncatedNormalDistribution max="1000" mean="2" min="0" standardDeviation="0.5"/>
+</bpsim:ProcessingTime>
+</bpsim:TimeParameters>
+</bpsim:ElementParameters>
+</bpsim:Scenario>
+<bpsim:Scenario id="S3" inherits="S2" name="3 - Resource perspective">
+<bpsim:ScenarioParameters baseResultFrequency="P1D" baseResultFrequencyCumul="false"/>
+<bpsim:ElementParameters elementRef="_10-42">
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="1.0"/>
+<bpsim:FloatingParameter validFor="C1" value="0.35"/>
+<bpsim:FloatingParameter validFor="C2" value="0.86"/>
+<bpsim:FloatingParameter validFor="C3" value="0.55"/>
+<bpsim:FloatingParameter validFor="C4" value="1.0"/>
+<bpsim:FloatingParameter validFor="C5" value="0.43"/>
+<bpsim:FloatingParameter validFor="C6" value="0.67"/>
+<bpsim:FloatingParameter validFor="C7" value="2.0"/>
+</bpsim:InterTriggerTimer>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="resource_Front_Office">
+<bpsim:ResourceParameters>
+<bpsim:Quantity>
+<bpsim:NumericParameter value="1"/>
+</bpsim:Quantity>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="resource_1st_Level_Techical_Support_Agent">
+<bpsim:ResourceParameters>
+<bpsim:Quantity>
+<bpsim:NumericParameter value="1"/>
+</bpsim:Quantity>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="resource_2nd_Level_Techical_Support_Agent">
+<bpsim:ResourceParameters>
+<bpsim:Quantity>
+<bpsim:NumericParameter value="1"/>
+</bpsim:Quantity>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="resource_Supplier">
+<bpsim:ResourceParameters>
+<bpsim:Quantity>
+<bpsim:NumericParameter value="1"/>
+</bpsim:Quantity>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-57">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_Front_Office"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-920">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_Front_Office"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-235">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_Front_Office"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-138">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_Front_Office"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-303">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_1st_Level_Techical_Support_Agent"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-458">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_1st_Level_Techical_Support_Agent"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-380">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_1st_Level_Techical_Support_Agent"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-526">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_2nd_Level_Techical_Support_Agent"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-670">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_2nd_Level_Techical_Support_Agent"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-617">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_2nd_Level_Techical_Support_Agent"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-794">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_Supplier"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_10-847">
+<bpsim:ResourceParameters>
+<bpsim:Selection>
+<bpsim:StringParameter value="resource_Supplier"/>
+</bpsim:Selection>
+</bpsim:ResourceParameters>
+</bpsim:ElementParameters>
+<bpsim:Calendar id="C1" name="shift-6-9am"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             UID:1356035064823@localhost
             DTSTART:20160101T060000
@@ -1344,8 +986,8 @@ Util.booleanValueFlow("_10-721");</semantic:conditionExpression>
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-                    <bpsim:Calendar id="C2" name="shift-9-noon">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+<bpsim:Calendar id="C2" name="shift-9-noon"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035100473@localhost
@@ -1355,8 +997,8 @@ Util.booleanValueFlow("_10-721");</semantic:conditionExpression>
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-                    <bpsim:Calendar id="C3" name="shift-noon-3pm">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+<bpsim:Calendar id="C3" name="shift-noon-3pm"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035129707@localhost
@@ -1366,8 +1008,8 @@ Util.booleanValueFlow("_10-721");</semantic:conditionExpression>
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-                    <bpsim:Calendar id="C4" name="shift-3-6pm">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+<bpsim:Calendar id="C4" name="shift-3-6pm"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035191095@localhost
@@ -1377,8 +1019,8 @@ Util.booleanValueFlow("_10-721");</semantic:conditionExpression>
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-                    <bpsim:Calendar id="C5" name="shift-6-10pm">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+<bpsim:Calendar id="C5" name="shift-6-10pm"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035226921@localhost
@@ -1388,8 +1030,8 @@ Util.booleanValueFlow("_10-721");</semantic:conditionExpression>
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-                    <bpsim:Calendar id="C6" name="shift-10-1am">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+<bpsim:Calendar id="C6" name="shift-10-1am"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035246845@localhost
@@ -1399,8 +1041,8 @@ Util.booleanValueFlow("_10-721");</semantic:conditionExpression>
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-                    <bpsim:Calendar id="C7" name="shift-1-6am">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+<bpsim:Calendar id="C7" name="shift-1-6am"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035272706@localhost
@@ -1410,8 +1052,8 @@ Util.booleanValueFlow("_10-721");</semantic:conditionExpression>
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-                    <bpsim:Calendar id="C8" name="shift-9am-10pm-weekdays">BEGIN:VCALENDAR
+            END:VCALENDAR]]></bpsim:Calendar>
+<bpsim:Calendar id="C8" name="shift-9am-10pm-weekdays"><![CDATA[BEGIN:VCALENDAR
             BEGIN:VEVENT
             DTSTAMP:20160101T000000
             UID:1356035303891@localhost
@@ -1421,12 +1063,12 @@ Util.booleanValueFlow("_10-721");</semantic:conditionExpression>
             END:VEVENT
             PRODID:PAF Editor
             VERSION:2.0
-            END:VCALENDAR</bpsim:Calendar>
-                </bpsim:Scenario>
-            </bpsim:BPSimData>
-        </semantic:extensionElements>
-        <semantic:source>_1399929387037</semantic:source>
-        <semantic:target>_1399929387037</semantic:target>
-    </semantic:relationship>
+            END:VCALENDAR]]></bpsim:Calendar>
+</bpsim:Scenario>
+</bpsim:BPSimData>
+</semantic:extensionElements>
+<semantic:source>_1399929387037</semantic:source>
+<semantic:target>_1399929387037</semantic:target>
+</semantic:relationship>
 </semantic:definitions>
 

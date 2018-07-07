@@ -144,8 +144,8 @@ public class EnsoApp {
 				LOGGER.info("task event");
 				
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
-				if (currTaskEvent.getStartTime() > simClock.getCurrentTime())
-					simClock.setCurrentTime(currTaskEvent.getStartTime());
+				if (currTaskEvent.getEndTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currTaskEvent.getEndTime());
 				// move on with the simulation
 				LOGGER.info(currTaskEvent.getName());
 				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).activityInstanceIdIn(currTaskEvent.getId()).singleResult();
@@ -154,15 +154,15 @@ public class EnsoApp {
 			}else if (currEvent instanceof SimulationIntermediateEvent ) {
 				LOGGER.info("Intermediate event");
 				SimulationIntermediateEvent currCatchEvent = (SimulationIntermediateEvent) currEvent;
-				if (currCatchEvent.getStartTime() > simClock.getCurrentTime())
-					simClock.setCurrentTime(currCatchEvent.getStartTime());
+				if (currCatchEvent.getEndTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currCatchEvent.getEndTime());
 				LOGGER.info("SimulationIntermediateEvent: " + currCatchEvent.getProcessId() + " - " + currCatchEvent.getName());
 
 			} else if (currEvent instanceof SimulationCatchEvent) {
 				LOGGER.info("catch event");				
 				SimulationCatchEvent currCatchEvent = (SimulationCatchEvent) currEvent;
-				if (currCatchEvent.getStartTime() > simClock.getCurrentTime())
-					simClock.setCurrentTime(currCatchEvent.getStartTime());
+				if (currCatchEvent.getEndTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currCatchEvent.getEndTime());
 				// Put the event again in the queue with the time updated
 				eventsQueue.add(currCatchEvent.getNextEvent());
 				
@@ -175,8 +175,8 @@ public class EnsoApp {
 			}else if (currEvent instanceof SimulationBoundaryEvent) {
 				LOGGER.info("boundary event");				
 				SimulationBoundaryEvent currBoundaryEvent = (SimulationBoundaryEvent) currEvent;
-				if (currBoundaryEvent.getStartTime() > simClock.getCurrentTime())
-					simClock.setCurrentTime(currBoundaryEvent.getStartTime());
+				if (currBoundaryEvent.getEndTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currBoundaryEvent.getEndTime());
 
 				// trigger the event in the process
 				

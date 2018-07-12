@@ -12,6 +12,7 @@ import bpsimWrappers.ResourceParametersWrapper;
 import bpsimWrappers.TimeParametersWrapper;
 import enso.EnsoApp;
 import simulation.EventsHandler;
+import simulation.SimulationClock;
 import util.BpsimCollection;
 import util.Resource;
 import util.Util;
@@ -20,7 +21,8 @@ public class TaskListener implements ExecutionListener {
 
 	protected final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	private EventsHandler eventsHandler = EventsHandler.getInstance();
-
+	private SimulationClock simClock =  new SimulationClock();
+	
 	private ControlParametersWrapper controlParameters;
 	private CostParametersWrapper costParameters;
 	private PriorityParametersWrapper priorityParameters;
@@ -87,7 +89,7 @@ public class TaskListener implements ExecutionListener {
 				// boundaryControlParameters.getCondition();
 				// boundaryControlParameters.getProbability();
 				// put the event in the queue
-				eventsHandler.addBoundaryEvent(currBoundary, totalTime, execution.getProcessInstanceId());
+				eventsHandler.addBoundaryEvent(currBoundary, totalTime, execution.getProcessInstanceId(), simClock.getCurrentTime());
 				return;
 			}
 		}

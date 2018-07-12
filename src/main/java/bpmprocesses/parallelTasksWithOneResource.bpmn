@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
+  <bpmn:resource id="resource_1" name="resource_1" />
+  <bpmn:process id="parallelTasksWithOneResource" isExecutable="true">
+    <bpmn:startEvent id="startEvent" name="startEvent">
+      <bpmn:outgoing>SequenceFlow_0pc9anr</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:parallelGateway id="ExclusiveGateway_02vfa6v">
+      <bpmn:incoming>SequenceFlow_0pc9anr</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1wva3vq</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0p212ir</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0idrphc</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="task1" name="task1">
+      <bpmn:incoming>SequenceFlow_1wva3vq</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0zkwmgz</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="task2" name="task2">
+      <bpmn:incoming>SequenceFlow_0idrphc</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_11wst5e</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="task3" name="task3">
+      <bpmn:incoming>SequenceFlow_0p212ir</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1afmcc5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="endEvent" name="endEvent">
+      <bpmn:incoming>SequenceFlow_1n5qc7q</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:parallelGateway id="ExclusiveGateway_01lswkk">
+      <bpmn:incoming>SequenceFlow_11wst5e</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1afmcc5</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0zkwmgz</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1n5qc7q</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0pc9anr" sourceRef="startEvent" targetRef="ExclusiveGateway_02vfa6v" />
+    <bpmn:sequenceFlow id="SequenceFlow_1wva3vq" sourceRef="ExclusiveGateway_02vfa6v" targetRef="task1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0p212ir" sourceRef="ExclusiveGateway_02vfa6v" targetRef="task3" />
+    <bpmn:sequenceFlow id="SequenceFlow_0idrphc" sourceRef="ExclusiveGateway_02vfa6v" targetRef="task2" />
+    <bpmn:sequenceFlow id="SequenceFlow_11wst5e" sourceRef="task2" targetRef="ExclusiveGateway_01lswkk" />
+    <bpmn:sequenceFlow id="SequenceFlow_1afmcc5" sourceRef="task3" targetRef="ExclusiveGateway_01lswkk" />
+    <bpmn:sequenceFlow id="SequenceFlow_0zkwmgz" sourceRef="task1" targetRef="ExclusiveGateway_01lswkk" />
+    <bpmn:sequenceFlow id="SequenceFlow_1n5qc7q" sourceRef="ExclusiveGateway_01lswkk" targetRef="endEvent" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="parallelTasksWithOneResource">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="startEvent">
+        <dc:Bounds x="177" y="384" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="170" y="420" width="50" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ParallelGateway_013wba9_di" bpmnElement="ExclusiveGateway_02vfa6v">
+        <dc:Bounds x="359" y="377" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="384" y="431" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_0v1q43w_di" bpmnElement="task1">
+        <dc:Bounds x="564" y="155" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_00waitp_di" bpmnElement="task2">
+        <dc:Bounds x="576" y="362" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_0fuynvt_di" bpmnElement="task3">
+        <dc:Bounds x="564" y="561" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0828lgn_di" bpmnElement="endEvent">
+        <dc:Bounds x="1014" y="384" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1009" y="424" width="47" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ParallelGateway_0fvevf3_di" bpmnElement="ExclusiveGateway_01lswkk">
+        <dc:Bounds x="875" y="377" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="900" y="431" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0pc9anr_di" bpmnElement="SequenceFlow_0pc9anr">
+        <di:waypoint xsi:type="dc:Point" x="213" y="402" />
+        <di:waypoint xsi:type="dc:Point" x="359" y="402" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="286" y="381" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1wva3vq_di" bpmnElement="SequenceFlow_1wva3vq">
+        <di:waypoint xsi:type="dc:Point" x="384" y="377" />
+        <di:waypoint xsi:type="dc:Point" x="384" y="195" />
+        <di:waypoint xsi:type="dc:Point" x="564" y="195" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="399" y="280" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0p212ir_di" bpmnElement="SequenceFlow_0p212ir">
+        <di:waypoint xsi:type="dc:Point" x="384" y="427" />
+        <di:waypoint xsi:type="dc:Point" x="384" y="601" />
+        <di:waypoint xsi:type="dc:Point" x="564" y="601" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="399" y="508" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0idrphc_di" bpmnElement="SequenceFlow_0idrphc">
+        <di:waypoint xsi:type="dc:Point" x="409" y="402" />
+        <di:waypoint xsi:type="dc:Point" x="576" y="402" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="492.5" y="381" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_11wst5e_di" bpmnElement="SequenceFlow_11wst5e">
+        <di:waypoint xsi:type="dc:Point" x="676" y="402" />
+        <di:waypoint xsi:type="dc:Point" x="875" y="402" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="775.5" y="381" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1afmcc5_di" bpmnElement="SequenceFlow_1afmcc5">
+        <di:waypoint xsi:type="dc:Point" x="664" y="601" />
+        <di:waypoint xsi:type="dc:Point" x="900" y="601" />
+        <di:waypoint xsi:type="dc:Point" x="900" y="427" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="782" y="580" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zkwmgz_di" bpmnElement="SequenceFlow_0zkwmgz">
+        <di:waypoint xsi:type="dc:Point" x="664" y="195" />
+        <di:waypoint xsi:type="dc:Point" x="900" y="195" />
+        <di:waypoint xsi:type="dc:Point" x="900" y="377" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="782" y="174" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1n5qc7q_di" bpmnElement="SequenceFlow_1n5qc7q">
+        <di:waypoint xsi:type="dc:Point" x="925" y="402" />
+        <di:waypoint xsi:type="dc:Point" x="1014" y="402" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="969.5" y="381" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmn:relationship type="BPSimData">
+    <bpmn:extensionElements>
+      <bpsim:BPSimData>
+        <bpsim:Scenario id="S1" name="1 - Control perspective">
+          <bpsim:ScenarioParameters baseTimeUnit="min" replication="3">
+            <bpsim:Duration>
+              <bpsim:DurationParameter value="P1M" />
+            </bpsim:Duration>
+            <bpsim:Start>
+              <bpsim:DateTimeParameter value="2016-01-01T06:00:00" />
+            </bpsim:Start>
+          </bpsim:ScenarioParameters>
+          <bpsim:ElementParameters elementRef="resource_1">
+            <bpsim:ResourceParameters>
+              <bpsim:Quantity>
+                <bpsim:NumericParameter value="2" />
+              </bpsim:Quantity>
+            </bpsim:ResourceParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="task3">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+            <bpsim:ResourceParameters>
+              <bpsim:Selection>
+                <bpsim:StringParameter value="resource_1" />
+              </bpsim:Selection>
+            </bpsim:ResourceParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="task2">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+            <bpsim:ResourceParameters>
+              <bpsim:Selection>
+                <bpsim:StringParameter value="resource_1" />
+              </bpsim:Selection>
+            </bpsim:ResourceParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="task1">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+            <bpsim:ResourceParameters>
+              <bpsim:Selection>
+                <bpsim:StringParameter value="resource_1" />
+              </bpsim:Selection>
+            </bpsim:ResourceParameters>
+          </bpsim:ElementParameters>
+        </bpsim:Scenario>
+      </bpsim:BPSimData>
+    </bpmn:extensionElements>
+    <bpmn:source>_1399929387037</bpmn:source>
+    <bpmn:target>_1399929387037</bpmn:target>
+  </bpmn:relationship>
+</bpmn:definitions>

@@ -15,17 +15,16 @@ public class SimulationCatchEvent extends SimulationEvent {
 		this.time = time;
 		this.triggerCount = triggerCount;
 		this.interTriggerTime = interTriggerTime;
-		this.endTime = simClock.getCurrentTime() + time;
+		this.startTime = simClock.getCurrentTime() + time;
 		this.processId = processId;
 	}
 	
 	public SimulationCatchEvent(String name, long time, long startTime, String processId, long interTriggerTime, long triggerCount) {
 		this.name = name;
 		this.time = time;
-		this.endTime = startTime;
+		this.startTime = startTime;
 		this.triggerCount = triggerCount;
 		this.interTriggerTime = interTriggerTime;
-		this.endTime = simClock.getCurrentTime() + time;
 		this.processId = processId;
 	}
 
@@ -33,8 +32,8 @@ public class SimulationCatchEvent extends SimulationEvent {
 		return time;
 	}
 
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
 	}
 
 	
@@ -52,7 +51,7 @@ public class SimulationCatchEvent extends SimulationEvent {
 	}
 		
 	public String toString() {
-		return "name: "+ name +", time:" + time +", startTime:" + endTime + ", processId:" + processId + 
+		return "name: "+ name +", time:" + time +", startTime:" + startTime + ", processId:" + processId + 
 				", interTriggerTime: " + interTriggerTime + ", TriggerCount: " + triggerCount;
 	}
 
@@ -72,7 +71,7 @@ public class SimulationCatchEvent extends SimulationEvent {
 		return new SimulationCatchEvent(
 			name,
 			time,
-			endTime + interTriggerTime, 
+			startTime + interTriggerTime, 
 			processId, 
 			interTriggerTime, 
 			triggerCount

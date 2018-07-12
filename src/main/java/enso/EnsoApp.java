@@ -60,6 +60,7 @@ import simulation.SimulationStartEvent;
 import simulation.SimulationTaskEvent;
 import util.BpmnPreprocesser;
 import util.BpsimCollection;
+import util.Resource;
 import util.Util;
 
 public class EnsoApp {
@@ -141,28 +142,42 @@ public class EnsoApp {
 		while (!eventsQueue.isEmpty()) {
 			SimulationEvent currEvent = eventsQueue.remove();
 			if (currEvent instanceof SimulationTaskEvent) {
-				LOGGER.info("task event");
-				
+				// get the task event
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
-				if (currTaskEvent.getEndTime() > simClock.getCurrentTime())
-					simClock.setCurrentTime(currTaskEvent.getEndTime());
-				// move on with the simulation
-				LOGGER.info(currTaskEvent.getName());
-				Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).activityInstanceIdIn(currTaskEvent.getId()).singleResult();
-				taskService.complete(currTask.getId());
+				LOGGER.info("task event: " + currTaskEvent.getName());			
+				// get the resource that should do the task
+				Resource currResource = BpsimCollection.resourcesElementsAvaliability.get(currTaskEvent.getResourceId());
+				
+				if (currResource.isAvaliable()) {
+					LOGGER.info("------ classic branch");
+					if ((currTaskEvent.getStartTime() + currTaskEvent.getTime()) > simClock.getCurrentTime())
+						simClock.setCurrentTime((currTaskEvent.getStartTime() + currTaskEvent.getTime()));
+					// move on with the simulation
+					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).activityInstanceIdIn(currTaskEvent.getId()).singleResult();
+					taskService.complete(currTask.getId());					
+				} else {
+					LOGGER.info("------- resources have been termineted");
+					currResource.resetQuantity();
+					simClock.setCurrentTime((simClock.getCurrentTime() + currTaskEvent.getTime()));
+					if (currResource.isAvaliable() == false) LOGGER.info("MINCHIA SI E' SPUTTANATO TUTTTO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).activityInstanceIdIn(currTaskEvent.getId()).singleResult();
+					taskService.complete(currTask.getId());
+				}
+				
+
 				
 			}else if (currEvent instanceof SimulationIntermediateEvent ) {
 				LOGGER.info("Intermediate event");
 				SimulationIntermediateEvent currCatchEvent = (SimulationIntermediateEvent) currEvent;
-				if (currCatchEvent.getEndTime() > simClock.getCurrentTime())
-					simClock.setCurrentTime(currCatchEvent.getEndTime());
+				if (currCatchEvent.getStartTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currCatchEvent.getStartTime());
 				LOGGER.info("SimulationIntermediateEvent: " + currCatchEvent.getProcessId() + " - " + currCatchEvent.getName());
 
 			} else if (currEvent instanceof SimulationCatchEvent) {
 				LOGGER.info("catch event");				
 				SimulationCatchEvent currCatchEvent = (SimulationCatchEvent) currEvent;
-				if (currCatchEvent.getEndTime() > simClock.getCurrentTime())
-					simClock.setCurrentTime(currCatchEvent.getEndTime());
+				if (currCatchEvent.getStartTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currCatchEvent.getStartTime());
 				// Put the event again in the queue with the time updated
 				eventsQueue.add(currCatchEvent.getNextEvent());
 				
@@ -175,8 +190,8 @@ public class EnsoApp {
 			}else if (currEvent instanceof SimulationBoundaryEvent) {
 				LOGGER.info("boundary event");				
 				SimulationBoundaryEvent currBoundaryEvent = (SimulationBoundaryEvent) currEvent;
-				if (currBoundaryEvent.getEndTime() > simClock.getCurrentTime())
-					simClock.setCurrentTime(currBoundaryEvent.getEndTime());
+				if (currBoundaryEvent.getStartTime() > simClock.getCurrentTime())
+					simClock.setCurrentTime(currBoundaryEvent.getStartTime());
 
 				// trigger the event in the process
 				

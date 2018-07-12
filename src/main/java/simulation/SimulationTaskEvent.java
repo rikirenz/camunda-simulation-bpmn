@@ -12,7 +12,7 @@ public class SimulationTaskEvent extends SimulationEvent {
 		this.id = id;
 		this.name = name;
 		this.time = time;
-		this.endTime = simClock.getCurrentTime() + time;
+		this.startTime = simClock.getCurrentTime();
 		this.processId = processId;
 		this.setResourceId(resourceId);
 	}
@@ -38,7 +38,7 @@ public class SimulationTaskEvent extends SimulationEvent {
 	}
 	
 	public String toString() {
-		return "id:" + id + ", name: "+ name +", time:" + time +", endTime:" + endTime + ", processId:" + processId + ", resourceId:" + resourceId;
+		return "id:" + id + ", name: "+ name +", time:" + time +", startTime:" + startTime + ", processId:" + processId + ", resourceId:" + resourceId;
 	}
 
 }

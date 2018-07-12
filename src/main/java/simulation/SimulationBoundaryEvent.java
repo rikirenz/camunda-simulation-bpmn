@@ -6,10 +6,10 @@ public class SimulationBoundaryEvent extends SimulationEvent {
 	private String processId;
 	private SimulationClock simClock =  new SimulationClock();
 
-	public SimulationBoundaryEvent(String name, long time, String processId) {
+	public SimulationBoundaryEvent(String name, long time, String processId, long startTime) {
 		this.name = name;
 		this.time = time;
-		this.endTime = simClock.getCurrentTime() + time;
+		this.startTime = startTime;
 		this.processId = processId;
 	}
 	
@@ -22,7 +22,7 @@ public class SimulationBoundaryEvent extends SimulationEvent {
 	}
 	
 	public String toString() {
-		return "name: "+ name +", time:" + time +", endTime:" + endTime + ", processId:" + processId;
+		return "name: "+ name +", time:" + time +", startTime:" + startTime + ", processId:" + processId;
 	}
 }
 

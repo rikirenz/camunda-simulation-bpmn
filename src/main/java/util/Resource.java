@@ -3,21 +3,22 @@ package util;
 public class Resource {
 
 	private String id;
-	private Long quantity = (long) 0;
+	private static Long currentQuantity = (long) 0;
 	private Double fixedCost = (double) 0;
 	private Double unitCost = (double) 0;
-		
-	private boolean avaliable = true;
+	private static Long quantity = (long) 0;
+	
 	
 	public Resource(String id) {
 		this.id = id;
 	}
 
-	public Long getQuantity() {
+	public Long getCurrentQuantity() {
 		return quantity;
 	}
 
 	public void setQuantity(Long quantity) {
+		this.currentQuantity = quantity;
 		this.quantity = quantity;
 	}
 
@@ -38,19 +39,18 @@ public class Resource {
 	}
 		
 	public String toString() {
-		return "quantity: " + quantity + ", fixedCost: " + fixedCost + ", unitCost: " + unitCost;
+		return "currentQuantity: " + currentQuantity + ", quantity: " + quantity + ", fixedCost: " + fixedCost + ", unitCost: " + unitCost;
+	}
+	
+	public synchronized boolean isAvaliable() {
+		if (currentQuantity == 0) return false;
+		currentQuantity--;
+		return true;
+	}
+
+	public synchronized void resetQuantity() {
+		currentQuantity = quantity;
 	}
 
 	
-	public synchronized boolean isAvaliable() {
-		if (avaliable == true) {
-			avaliable = false;
-			return true;
-		}
-		return false;
-	}
-	
-	public void release() {
-		avaliable = true;
-	}
 }

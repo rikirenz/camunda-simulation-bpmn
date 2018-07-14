@@ -27,7 +27,15 @@ public class SimulationDifferentScenariosTest extends TestCase{
 	@Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {     
-        	{"singleTaskProcess", 365, 210},
+        	{"singleTaskProcess", 365, 210}/*,
+        	{"boundaryEventInSubProcess", 0, 0},
+        	{"boundaryEventTimer", 0, 0},
+        	{"parallelTasks", 0, 0},
+        	{"interruptingSubprocessEvent", 0, 0},
+        	{"intermediateEvent", 0, 0},
+        	{"xor", 0, 0},
+        	{"transaction", 0, 0},
+        	{"nonInterruptingSubprocessEvent", 0, 0} */
         });
     }
 

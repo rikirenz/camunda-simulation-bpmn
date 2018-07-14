@@ -11,6 +11,7 @@ import bpsimWrappers.PriorityParametersWrapper;
 import bpsimWrappers.ResourceParametersWrapper;
 import bpsimWrappers.TimeParametersWrapper;
 import enso.EnsoApp;
+import simulation.SimulationCosts;
 import simulation.EventsHandler;
 import simulation.SimulationClock;
 import util.BpsimCollection;
@@ -68,8 +69,9 @@ public class TaskListener implements ExecutionListener {
 		if (resourceParameters != null) resourceId = resourceParameters.getSelection();
 		
 		// do calcutions using the parameters
+
+		if (costParameters != null) calculateTaskCost(costParameters);
 		if (timeParameters != null) totalTime = calculateTaskTime(timeParameters);
-		if (costParameters != null) totalCost = calculateTaskCost(costParameters);
 		if (controlParameters != null) {
 			interTriggerTimer = controlParameters.getInterTriggerTimer();
 			triggerCount = controlParameters.getTriggerCount(); 
@@ -111,11 +113,10 @@ public class TaskListener implements ExecutionListener {
 		return waitTime + setupTime + processingTime + validationTime + reworkTime + queueTime + transferTime;
 	}
 
-	public Double calculateTaskCost(CostParametersWrapper costParameters) throws Exception {
-		fixedCost = costParameters.getFixedCost();
-		unitCost = costParameters.getUnitCost();
-
-		return unitCost + fixedCost;
+	public void calculateTaskCost(CostParametersWrapper costParameters) throws Exception {
+		SimulationCosts costs = new SimulationCosts();
+		costs.addFixedCost(costParameters.getFixedCost());
+		costs.addUnitCost(costParameters.getUnitCost());
 	}
 
 }

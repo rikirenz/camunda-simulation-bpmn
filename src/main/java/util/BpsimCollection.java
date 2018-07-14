@@ -433,10 +433,10 @@ import simulation.SimulationCatchEvent;
 	        	  resourcesElementsAvaliability.put(currResourcesId, currResource);
     		  }  
     		  LOGGER.info(resourcesElementsAvaliability.toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+    	  } catch (Exception e) {
+			  // TODO Auto-generated catch block
+			  e.printStackTrace();
+    	  }
       }
 }
       

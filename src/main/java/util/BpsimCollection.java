@@ -81,6 +81,7 @@ import javax.xml.transform.Transformer;
   import bpsimWrappers.ResourceParametersWrapper;
   import bpsimWrappers.ScenarioWrapper;
   import bpsimWrappers.TimeParametersWrapper;
+import simulation.SimulationResource;
 import simulation.SimulationCatchEvent;
 
   public class BpsimCollection {
@@ -99,7 +100,7 @@ import simulation.SimulationCatchEvent;
       private static Set<String> resourcesElements;
       public static HashMap < String, ArrayList < String >> boundaryEvents;
       public static HashMap < String, ArrayList < Object >> taskObjects;
-      public static HashMap < String, Resource > resourcesElementsAvaliability = new HashMap<String, Resource>();
+      public static HashMap < String, SimulationResource > resourcesElementsAvaliability = new HashMap<String, SimulationResource>();
       
       
       public static ScenarioWrapper scenarioObject;
@@ -125,7 +126,6 @@ import simulation.SimulationCatchEvent;
           }
       }
 
-      
       private void createIndipendentCatchEventArray() {
 
     	  for (ArrayList<String> currAl : startCatchEvents) {
@@ -195,12 +195,7 @@ import simulation.SimulationCatchEvent;
           }
       }
 
-      private void updateHashMap(String id, Object element) {
-          ArrayList currArrayList = taskObjects.get(id);
-          currArrayList.add(element);
-          taskObjects.put(id, currArrayList);
-      }
-
+      
       private HashMap createTaskObjectsHashMap() {
           try {
               if (bpsimData == null) throw new NullPointerException("The bpsim object cannot be null");
@@ -224,7 +219,7 @@ import simulation.SimulationCatchEvent;
                           if (timeParam.getValidationTime() != null) currTimeParametersWrapper.setValidationTime(timeParam.getValidationTime().getParameterValue().get(0).getValue());
                           if (timeParam.getProcessingTime() != null) currTimeParametersWrapper.setProcessingTime(timeParam.getProcessingTime().getParameterValue().get(0).getValue());
 
-                          updateHashMap(currElement.getElementRef().toString(), currTimeParametersWrapper);
+                          updateTaskObjectsHashMap(currElement.getElementRef().toString(), currTimeParametersWrapper);
                       }
 
                       // creates the ControlParameters object
@@ -237,7 +232,7 @@ import simulation.SimulationCatchEvent;
                           if (controlParam.getTriggerCount() != null) currControlParametersWrapper.setTriggerCount(controlParam.getTriggerCount().getParameterValue().get(0).getValue());
                           if (controlParam.getCondition() != null) currControlParametersWrapper.setCondition(controlParam.getCondition().getParameterValue().get(0).getValue());
                           // add it to the list
-                          updateHashMap(currElement.getElementRef().toString(), currControlParametersWrapper);
+                          updateTaskObjectsHashMap(currElement.getElementRef().toString(), currControlParametersWrapper);
                       }
 
                       CostParametersWrapper currCostParametersWrapper = new CostParametersWrapper();
@@ -246,7 +241,7 @@ import simulation.SimulationCatchEvent;
                           // add it to the list
                           if (costParam.getUnitCost() != null) currCostParametersWrapper.setUnitCost(costParam.getUnitCost().getParameterValue().get(0).getValue());
                           if (costParam.getFixedCost() != null) currCostParametersWrapper.setFixedCost(costParam.getFixedCost().getParameterValue().get(0).getValue());
-                          updateHashMap(currElement.getElementRef().toString(), currCostParametersWrapper);
+                          updateTaskObjectsHashMap(currElement.getElementRef().toString(), currCostParametersWrapper);
                       }
 
                       ResourceParametersWrapper currResourceParametersWrapper = new ResourceParametersWrapper();
@@ -256,7 +251,7 @@ import simulation.SimulationCatchEvent;
                           if (resourceParam.getQuantity() != null) currResourceParametersWrapper.setQuantity(resourceParam.getQuantity().getParameterValue().get(0).getValue());
                           if (resourceParam.getSelection() != null) currResourceParametersWrapper.setSelection(resourceParam.getSelection().getParameterValue().get(0).getValue());
                           // add it to the list
-                          updateHashMap(currElement.getElementRef().toString(), currResourceParametersWrapper);
+                          updateTaskObjectsHashMap(currElement.getElementRef().toString(), currResourceParametersWrapper);
                       }
 
                       PriorityParametersWrapper currPriorityParametersWrapper = new PriorityParametersWrapper();
@@ -265,7 +260,7 @@ import simulation.SimulationCatchEvent;
                           if (priorityParam.getInterruptible() != null) currPriorityParametersWrapper.setInterruptible(priorityParam.getInterruptible().getParameterValue().get(0).getValue());
                           if (priorityParam.getPriority() != null) currPriorityParametersWrapper.setPriority(priorityParam.getPriority().getParameterValue().get(0).getValue());                          
                           // add it to the list
-                          updateHashMap(currElement.getElementRef().toString(), currPriorityParametersWrapper);
+                          updateTaskObjectsHashMap(currElement.getElementRef().toString(), currPriorityParametersWrapper);
                       }
                   }
               }
@@ -277,6 +272,14 @@ import simulation.SimulationCatchEvent;
               e.printStackTrace();
               return null;
           }
+      }
+      
+      // util methos related to this class
+      
+      private void updateTaskObjectsHashMap(String id, Object element) {
+          ArrayList currArrayList = taskObjects.get(id);
+          currArrayList.add(element);
+          taskObjects.put(id, currArrayList);
       }
 
       private BPSimData loadBpsimAnnotations() {
@@ -290,7 +293,7 @@ import simulation.SimulationCatchEvent;
               NodeList nl = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
               if (nl.getLength() < 1) return null;
               ((Element) nl.item(0)).setAttribute("xmlns:bpsim", "http://www.bpsim.org/schemas/2.0");
-              String fileString = toString(nl.item(0));
+              String fileString = Util.convertNodeToString(nl.item(0));
               InputSource fileSource = new InputSource(new StringReader(fileString));
               return (BPSimData) unmarshaller.unmarshal(fileSource);
           } catch (Exception e) {
@@ -299,37 +302,6 @@ import simulation.SimulationCatchEvent;
               return null;
           }
       }
-
-      private String toString(Node node) {
-          if (node == null) {
-              throw new IllegalArgumentException("node is null.");
-          }
-
-          try {
-              // Remove unwanted whitespaces
-              node.normalize();
-              XPath xpath = XPathFactory.newInstance().newXPath();
-              XPathExpression expr = xpath.compile("//text()[normalize-space()='']");
-              NodeList nodeList = (NodeList) expr.evaluate(node, XPathConstants.NODESET);
-
-              for (int i = 0; i < nodeList.getLength(); ++i) {
-                  Node nd = nodeList.item(i);
-                  nd.getParentNode().removeChild(nd);
-              }
-
-              // Create and setup transformer
-              Transformer transformer = TransformerFactory.newInstance().newTransformer();
-              transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-              StringWriter writer = new StringWriter();
-              transformer.transform(new DOMSource(node), new StreamResult(writer));
-              return writer.toString();
-          } catch (TransformerException e) {
-              throw new RuntimeException(e);
-          } catch (XPathExpressionException e) {
-              throw new RuntimeException(e);
-          }
-      }
-
 
       private void collectBpmnData() {
     	  collectStartEvents();
@@ -419,7 +391,7 @@ import simulation.SimulationCatchEvent;
 	        	  ArrayList<Object> resourcesParameters = BpsimCollection.taskObjects.get(currResourcesId);
 	        	  // verify if there are parameters
 	        	  if (resourcesParameters == null) continue;
-        		  Resource currResource = new Resource(currResourcesId);	        	  
+        		  SimulationResource currResource = new SimulationResource(currResourcesId);	        	  
 	        	  for (Object currParameter : resourcesParameters) {
 	        		  if (currParameter instanceof ResourceParametersWrapper) {
 	        			  ResourceParametersWrapper currResourcesWrapper = (ResourceParametersWrapper) currParameter;
@@ -432,7 +404,7 @@ import simulation.SimulationCatchEvent;
 	        	  }
 	        	  resourcesElementsAvaliability.put(currResourcesId, currResource);
     		  }  
-    		  LOGGER.info(resourcesElementsAvaliability.toString());
+    		  // LOGGER.info(resourcesElementsAvaliability.toString());
     	  } catch (Exception e) {
 			  // TODO Auto-generated catch block
 			  e.printStackTrace();

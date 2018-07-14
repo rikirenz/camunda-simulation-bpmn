@@ -1,6 +1,6 @@
-package util;
+package simulation;
 
-public class Resource {
+public class SimulationResource {
 
 	private String id;
 	private static Long currentQuantity = (long) 0;
@@ -9,7 +9,7 @@ public class Resource {
 	private static Long quantity = (long) 0;
 	
 	
-	public Resource(String id) {
+	public SimulationResource(String id) {
 		this.id = id;
 	}
 

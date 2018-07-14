@@ -51,6 +51,7 @@ import org.xml.sax.SAXException;
 
 import bpsimWrappers.ControlParametersWrapper;
 import simulation.EventsQueue;
+import simulation.SimulationResource;
 import simulation.SimulationBoundaryEvent;
 import simulation.SimulationCatchEvent;
 import simulation.SimulationClock;
@@ -60,7 +61,6 @@ import simulation.SimulationStartEvent;
 import simulation.SimulationTaskEvent;
 import util.BpmnPreprocesser;
 import util.BpsimCollection;
-import util.Resource;
 import util.Util;
 
 public class EnsoApp {
@@ -76,6 +76,8 @@ public class EnsoApp {
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	private SimulationClock simClock = new SimulationClock();
 
+
+	private ProcessEngine processEngine;
 	private RuntimeService runtimeService;
 	private TaskService taskService;
 
@@ -109,26 +111,25 @@ public class EnsoApp {
 		
 		// load the bpsim data in the xml
 		BpsimCollection bpsimCollection = new BpsimCollection(bpmnDocument);	
-		startSimulation();
+		initializeSimulation();
 		runSimulation();
+		cleanSimulation();
 	}
-		
 	
-	private void startSimulation() {
-		ProcessEngine processEngine = processEngineInit();
+	private void cleanSimulation() {
+		processEngine.close();
+	}
+	
+	private void initializeSimulation() {
+		processEngine = processEngineInit();
 		RepositoryService repositoryService = processEngine.getRepositoryService();
 		BpmnModelInstance modelInstance = Util.loadBpmnProcess(bpmnDocument);
-				
-		//LOGGER.info(Util.convertDocumnetToString(bpmnDocument));
-				
 		Util.writeStringToFile(Util.convertDocumnetToString(bpmnDocument), "preProcessedDoc.bpmn");
-		
 		DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(processBpmnId);
 		deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", modelInstance);
 		deploymentBuilder.deploy();
 		runtimeService = processEngine.getRuntimeService();
 		taskService = processEngine.getTaskService();
-		
 		// start events creation
 		int startTime = delayBetweenInstances;
 		for (int i = 0; i < instancesNumber; i++) {
@@ -146,7 +147,7 @@ public class EnsoApp {
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
 				LOGGER.info("task event: " + currTaskEvent.getName());			
 				// get the resource that should do the task
-				Resource currResource = BpsimCollection.resourcesElementsAvaliability.get(currTaskEvent.getResourceId());
+				SimulationResource currResource = BpsimCollection.resourcesElementsAvaliability.get(currTaskEvent.getResourceId());
 				
 				if (currResource == null || currResource.isAvaliable()) {
 					//LOGGER.info("------ classic branch");

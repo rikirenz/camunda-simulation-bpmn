@@ -27,15 +27,15 @@ public class SimulationDifferentScenariosTest extends TestCase{
 	@Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {     
-        	{"singleTaskProcess", 365, 210}/*,
-        	{"boundaryEventInSubProcess", 0, 0},
-        	{"boundaryEventTimer", 0, 0},
-        	{"parallelTasks", 0, 0},
-        	{"interruptingSubprocessEvent", 0, 0},
-        	{"intermediateEvent", 0, 0},
-        	{"xor", 0, 0},
-        	{"transaction", 0, 0},
-        	{"nonInterruptingSubprocessEvent", 0, 0} */
+        	{"singleTaskProcess", 365, 210},
+        	{"boundaryEventInSubProcess", 365, 210},
+        	{"boundaryEventTimer", 365, 210},
+        	{"parallelTasks", (365*2), (210*3)}, // 2 resources, 3 Tasks
+        	{"interruptingSubprocessEvent", 365, 210},
+        	{"intermediateEvent", 365, 210},
+        	{"xor", 365, 210},
+        	{"transaction", 365, 210},
+        	{"nonInterruptingSubprocessEvent", 365, 210} 
         });
     }
 
@@ -53,6 +53,7 @@ public class SimulationDifferentScenariosTest extends TestCase{
     public void test() {
 		try {
 			// init phase
+			LOGGER.info("Running the test named:" + inputFileName);
 			SimulationClock simClock =  new SimulationClock();
 			SimulationCosts simCosts = new SimulationCosts();
 			EnsoApp app = new EnsoApp(

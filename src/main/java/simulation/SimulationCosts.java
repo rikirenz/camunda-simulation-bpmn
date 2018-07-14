@@ -11,7 +11,7 @@ public class SimulationCosts {
 	
 	private static double fixedCosts = 0;
 	private static double unitCosts = 0;
-			
+		
 	public double getTotalCost() {
 		return fixedCosts + unitCosts;
 	}
@@ -31,5 +31,10 @@ public class SimulationCosts {
 	public synchronized void addFixedCost(double fixedCost) {	
 		this.fixedCosts = this.fixedCosts + fixedCost;
 	}
+	
+	public void resetCost() {
+		fixedCosts = 0;
+		unitCosts = 0;
+	}	
 
 }

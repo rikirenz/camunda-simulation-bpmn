@@ -314,9 +314,9 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_12s631a_di" bpmnElement="EndEventFailEatMeal">
-        <dc:Bounds x="538" y="662" width="36" height="36" />
+        <dc:Bounds x="281" y="651" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="466" y="701" width="90" height="12" />
+          <dc:Bounds x="209" y="690" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1kn2oog_di" bpmnElement="SequenceFlow_1kn2oog">
@@ -434,10 +434,10 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0jegbbk_di" bpmnElement="SequenceFlow_0jegbbk">
         <di:waypoint xsi:type="dc:Point" x="504" y="640" />
-        <di:waypoint xsi:type="dc:Point" x="504" y="680" />
-        <di:waypoint xsi:type="dc:Point" x="538" y="680" />
+        <di:waypoint xsi:type="dc:Point" x="504" y="669" />
+        <di:waypoint xsi:type="dc:Point" x="317" y="669" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="474" y="654" width="90" height="12" />
+          <dc:Bounds x="474" y="648.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="BoundaryEvent_1a7dz1o_di" bpmnElement="BoundaryEventTest">

@@ -13,9 +13,9 @@ import bpsimWrappers.TimeParametersWrapper;
 import enso.EnsoApp;
 import simulation.SimulationCosts;
 import simulation.EventsHandler;
+import simulation.SimulationResource;
 import simulation.SimulationClock;
 import util.BpsimCollection;
-import util.Resource;
 import util.Util;
 
 public class TaskListener implements ExecutionListener {

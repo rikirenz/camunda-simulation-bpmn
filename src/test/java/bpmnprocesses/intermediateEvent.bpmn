@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
   <bpmn:process id="intermediateEvent" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1dg2mly</bpmn:outgoing>
@@ -8,7 +8,7 @@
       <bpmn:incoming>SequenceFlow_1dg2mly</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0397vd8</bpmn:outgoing>
     </bpmn:intermediateThrowEvent>
-    <bpmn:task id="Task_1jgpyg8" name="Task 1">
+    <bpmn:task id="Task_1" name="Task 1">
       <bpmn:incoming>SequenceFlow_0397vd8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1igp2zy</bpmn:outgoing>
     </bpmn:task>
@@ -16,8 +16,8 @@
       <bpmn:incoming>SequenceFlow_1igp2zy</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1dg2mly" sourceRef="StartEvent_1" targetRef="IntermediateThrowEvent_07u6pa5" />
-    <bpmn:sequenceFlow id="SequenceFlow_0397vd8" sourceRef="IntermediateThrowEvent_07u6pa5" targetRef="Task_1jgpyg8" />
-    <bpmn:sequenceFlow id="SequenceFlow_1igp2zy" sourceRef="Task_1jgpyg8" targetRef="EndEvent_07fuuq4" />
+    <bpmn:sequenceFlow id="SequenceFlow_0397vd8" sourceRef="IntermediateThrowEvent_07u6pa5" targetRef="Task_1" />
+    <bpmn:sequenceFlow id="SequenceFlow_1igp2zy" sourceRef="Task_1" targetRef="EndEvent_07fuuq4" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="intermediateEvent">
@@ -33,7 +33,7 @@
           <dc:Bounds x="327" y="324" width="62" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_1jgpyg8_di" bpmnElement="Task_1jgpyg8">
+      <bpmndi:BPMNShape id="Task_1jgpyg8_di" bpmnElement="Task_1">
         <dc:Bounds x="500" y="262" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_07fuuq4_di" bpmnElement="EndEvent_07fuuq4">
@@ -65,4 +65,65 @@
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
+  <bpmn:relationship type="BPSimData">
+    <bpmn:extensionElements>
+      <bpsim:BPSimData>
+        <bpsim:Scenario author="Tim Stephenson" id="default" name="Scenario 1">
+          <bpsim:ScenarioParameters baseTimeUnit="min" replication="3" seed="1" baseCurrencyUnit="USD" traceFormat="XES" />
+          <bpsim:ElementParameters elementRef="Task_1">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:TriangularDistribution max="2.5" min="0.35" mode="2" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="BoundaryEventError" />
+        </bpsim:Scenario>
+      </bpsim:BPSimData>
+    </bpmn:extensionElements>
+    <bpmn:source>Definitions_1</bpmn:source>
+    <bpmn:target>Definitions_1</bpmn:target>
+  </bpmn:relationship>
 </bpmn:definitions>

@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
   <bpmn:process id="xor" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_0zioh7t</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_1yilsac">
+    <bpmn:exclusiveGateway id="ExclusiveGateway">
       <bpmn:incoming>SequenceFlow_0zioh7t</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0flp7iz</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_1jewkg4</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlowTask1</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlowTask2</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="Task_1d04pz9" name="Task 1">
-      <bpmn:incoming>SequenceFlow_0flp7iz</bpmn:incoming>
+    <bpmn:task id="Task_1" name="Task 1">
+      <bpmn:incoming>SequenceFlowTask1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0knrxfp</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="Task_0t4h6er" name="Task 2">
-      <bpmn:incoming>SequenceFlow_1jewkg4</bpmn:incoming>
+    <bpmn:task id="Task_2" name="Task 2">
+      <bpmn:incoming>SequenceFlowTask2</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1smddme</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:sequenceFlow id="SequenceFlow_0zioh7t" sourceRef="StartEvent_1" targetRef="ExclusiveGateway_1yilsac" />
-    <bpmn:sequenceFlow id="SequenceFlow_0flp7iz" sourceRef="ExclusiveGateway_1yilsac" targetRef="Task_1d04pz9" />
-    <bpmn:sequenceFlow id="SequenceFlow_1jewkg4" sourceRef="ExclusiveGateway_1yilsac" targetRef="Task_0t4h6er" />
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0oim9tl">
+    <bpmn:sequenceFlow id="SequenceFlow_0zioh7t" sourceRef="StartEvent_1" targetRef="ExclusiveGateway" />
+    <bpmn:sequenceFlow id="SequenceFlowTask1" sourceRef="ExclusiveGateway" targetRef="Task_1" />
+    <bpmn:sequenceFlow id="SequenceFlowTask2" sourceRef="ExclusiveGateway" targetRef="Task_2">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="jroovy">1</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0oim9tl" default="SequenceFlowTask1">
       <bpmn:incoming>SequenceFlow_0knrxfp</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1smddme</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_07q6wa3</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0knrxfp" sourceRef="Task_1d04pz9" targetRef="ExclusiveGateway_0oim9tl" />
-    <bpmn:sequenceFlow id="SequenceFlow_1smddme" sourceRef="Task_0t4h6er" targetRef="ExclusiveGateway_0oim9tl" />
+    <bpmn:sequenceFlow id="SequenceFlow_0knrxfp" sourceRef="Task_1" targetRef="ExclusiveGateway_0oim9tl" />
+    <bpmn:sequenceFlow id="SequenceFlow_1smddme" sourceRef="Task_2" targetRef="ExclusiveGateway_0oim9tl" />
     <bpmn:endEvent id="EndEvent_078exd1">
       <bpmn:incoming>SequenceFlow_07q6wa3</bpmn:incoming>
     </bpmn:endEvent>
@@ -40,16 +42,16 @@
           <dc:Bounds x="126" y="307" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_1yilsac_di" bpmnElement="ExclusiveGateway_1yilsac" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="ExclusiveGateway_1yilsac_di" bpmnElement="ExclusiveGateway" isMarkerVisible="true">
         <dc:Bounds x="302" y="264" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="327" y="318" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_1d04pz9_di" bpmnElement="Task_1d04pz9">
+      <bpmndi:BPMNShape id="Task_1d04pz9_di" bpmnElement="Task_1">
         <dc:Bounds x="481" y="182" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_0t4h6er_di" bpmnElement="Task_0t4h6er">
+      <bpmndi:BPMNShape id="Task_0t4h6er_di" bpmnElement="Task_2">
         <dc:Bounds x="481" y="343" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0zioh7t_di" bpmnElement="SequenceFlow_0zioh7t">
@@ -59,7 +61,7 @@
           <dc:Bounds x="245.5" y="268" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0flp7iz_di" bpmnElement="SequenceFlow_0flp7iz">
+      <bpmndi:BPMNEdge id="SequenceFlow_0flp7iz_di" bpmnElement="SequenceFlowTask1">
         <di:waypoint xsi:type="dc:Point" x="327" y="264" />
         <di:waypoint xsi:type="dc:Point" x="327" y="222" />
         <di:waypoint xsi:type="dc:Point" x="481" y="222" />
@@ -67,7 +69,7 @@
           <dc:Bounds x="342" y="237" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1jewkg4_di" bpmnElement="SequenceFlow_1jewkg4">
+      <bpmndi:BPMNEdge id="SequenceFlow_1jewkg4_di" bpmnElement="SequenceFlowTask2">
         <di:waypoint xsi:type="dc:Point" x="327" y="314" />
         <di:waypoint xsi:type="dc:Point" x="327" y="383" />
         <di:waypoint xsi:type="dc:Point" x="481" y="383" />
@@ -112,4 +114,65 @@
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
+  <bpmn:relationship type="BPSimData">
+    <bpmn:extensionElements>
+      <bpsim:BPSimData>
+        <bpsim:Scenario author="Tim Stephenson" id="default" name="Scenario 1">
+          <bpsim:ScenarioParameters baseTimeUnit="min" replication="3" seed="1" baseCurrencyUnit="USD" traceFormat="XES" />
+          <bpsim:ElementParameters elementRef="Task_1">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:TriangularDistribution max="2.5" min="0.35" mode="2" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="BoundaryEventError" />
+        </bpsim:Scenario>
+      </bpsim:BPSimData>
+    </bpmn:extensionElements>
+    <bpmn:source>Definitions_1</bpmn:source>
+    <bpmn:target>Definitions_1</bpmn:target>
+  </bpmn:relationship>
 </bpmn:definitions>

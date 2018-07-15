@@ -178,15 +178,15 @@ public class BpmnPreprocesser {
 	 * Convert all the ConditionExpression elements in the bpmnDocument replacing them with custom code
 	 */
 	private void convertConditionExpressionWithCustomCode() {
-		try {
-	        XPathExpression expr = xpath.compile("//*[local-name()='conditionExpression']");
+		try {			
+			XPathExpression expr = xpath.compile("//*[local-name()='conditionExpression']");
 	        NodeList nl = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
 	        for (int i = 0; i < nl.getLength(); i++) {	        
 	        	((Element) nl.item(i)).setAttribute("language", "groovy");
 	        	nl.item(i).setTextContent("import util.Util\r\n\r\n" +
 						"Util.booleanValueFlow(\"" + ((Element) nl.item(i).getParentNode()).getAttribute("id") + "\");"
 	            );	            
-	        }			
+	        }
 		} catch (Exception ex) {
 			
 		}

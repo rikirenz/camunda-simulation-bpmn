@@ -79,11 +79,12 @@ public class TaskListener implements ExecutionListener {
 			priority = priorityParameters.getPriority();			
 		}
 
+			
+
 		// boundary event section
 		if (BpsimCollection.boundaryEvents.get(execution.getCurrentActivityId()) != null) {
 			// find the boundary events
-			LOGGER.info("Boundary Events:"
-					+ BpsimCollection.boundaryEvents.get(execution.getCurrentActivityId()).toString());
+			LOGGER.info("Boundary Events:" + BpsimCollection.boundaryEvents.get(execution.getCurrentActivityId()).toString());
 
 			for (String currBoundary : BpsimCollection.boundaryEvents.get(execution.getCurrentActivityId())) {
 				ControlParametersWrapper boundaryControlParameters = (ControlParametersWrapper) Util.retriveParamaterType(currBoundary, ControlParametersWrapper.class);
@@ -95,9 +96,10 @@ public class TaskListener implements ExecutionListener {
 				return;
 			}
 		}
-
 		// add event to the queue
 		eventsHandler.addTaskEvent(execution.getActivityInstanceId(), execution.getCurrentActivityName(), totalTime, execution.getProcessInstanceId(), resourceId);
+
+
 	}
 
 	public Long calculateTaskTime(TimeParametersWrapper currTimeParameters) throws Exception {

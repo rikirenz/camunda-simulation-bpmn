@@ -127,14 +127,9 @@ import simulation.SimulationCatchEvent;
       }
 
       private void createIndipendentCatchEventArray() {
-
     	  for (ArrayList<String> currAl : startCatchEvents) {
-    		  
         	  // Get the BPSim information about the current event
         	  ArrayList<Object> eventParameters = BpsimCollection.taskObjects.get(currAl.get(0));
-
-        	  LOGGER.info(currAl.get(0));
-
         	  // verify if there are parameters
         	  if (eventParameters == null) continue;
         	
@@ -149,7 +144,6 @@ import simulation.SimulationCatchEvent;
         					currCtrlWrapper.getInterTriggerTimer().longValue(),
         					currCtrlWrapper.getTriggerCount().longValue()
         				  );
-        				  
         				  indipendentIntermediateThrowEvents.add(currSimCatchEvent);
         			  } catch (Exception e) {
         				  e.printStackTrace();
@@ -341,7 +335,7 @@ import simulation.SimulationCatchEvent;
       private void collectBoundaryEvents() {
           try {
 
-              // search all the condition expression tags
+              // search all the messageEventDefinition
               XPathFactory xPathfactory = XPathFactory.newInstance();
               XPath xpath = xPathfactory.newXPath();
 
@@ -350,18 +344,20 @@ import simulation.SimulationCatchEvent;
 	          XPathExpression expr = xpath.compile("//*[local-name()='boundaryEvent']/*[local-name()='messageEventDefinition']");
 	          NodeList nl = (NodeList) expr.evaluate(this.bpmnDocument, XPathConstants.NODESET);
 	          for (int i = 0; i < nl.getLength(); i++) {
-	              ArrayList < String > currBoundaryEvents = boundaryEvents.get(((Element) nl.item(i)).getAttribute("attachedToRef"));
+	        	  Element currNode = ((Element) nl.item(i).getParentNode());
+	        	  Element currMessage = ((Element) nl.item(i));
+	              ArrayList < String > currBoundaryEvents = boundaryEvents.get(currNode.getAttribute("attachedToRef"));
 	              if (currBoundaryEvents == null) {
 	                  // insert
 	                  ArrayList < String > newBoundaryEventsList = new ArrayList < String > ();
-	                  newBoundaryEventsList.add(((Element) nl.item(i)).getAttribute("id"));
-	                  boundaryEvents.put(((Element) nl.item(i)).getAttribute("attachedToRef"), newBoundaryEventsList);
+	                  newBoundaryEventsList.add(currMessage.getAttribute("messageRef"));
+	                  boundaryEvents.put(currNode.getAttribute("attachedToRef"), newBoundaryEventsList);
 	              } else {
 	                  // update
-	                  currBoundaryEvents.add(((Element) nl.item(i)).getAttribute("id"));
+	                  currBoundaryEvents.add(currMessage.getAttribute("messageRef"));
 	              }
 	          }
-	
+	          
           } catch (Exception e) {
         	  e.printStackTrace();
           }  

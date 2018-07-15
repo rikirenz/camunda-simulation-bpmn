@@ -178,20 +178,21 @@ public class EnsoApp {
 				// Put the event again in the queue with the time updated
 				eventsQueue.add(currCatchEvent.getNextEvent());
 				
-				LOGGER.info("" + currCatchEvent.getProcessId() + " - " + currCatchEvent.getName());
+				LOGGER.info("" + currCatchEvent.getProcessId() + " - " + runtimeService.createEventSubscriptionQuery().count());
 				// trigger the event in the process
+				
 				EventSubscription subscription = runtimeService.createEventSubscriptionQuery().
-						processInstanceId(currCatchEvent.getProcessId()).eventName(currCatchEvent.getName()).singleResult();
+						processInstanceId(currCatchEvent.getProcessId()).
+						eventName(currCatchEvent.getName()).singleResult();
+						
 				runtimeService.messageEventReceived(subscription.getEventName(), subscription.getExecutionId());
 
 			}else if (currEvent instanceof SimulationBoundaryEvent) {
-				LOGGER.info("boundary event");				
 				SimulationBoundaryEvent currBoundaryEvent = (SimulationBoundaryEvent) currEvent;
-				if (currBoundaryEvent.getStartTime() > simClock.getCurrentTime())
-					simClock.setCurrentTime(currBoundaryEvent.getStartTime());
+				if ((currBoundaryEvent.getStartTime() + currBoundaryEvent.getTime()) > simClock.getCurrentTime())
+					simClock.setCurrentTime(currBoundaryEvent.getStartTime()+ currBoundaryEvent.getTime());
 
 				// trigger the event in the process
-				LOGGER.info(currBoundaryEvent.getName());
 				EventSubscription subscription = runtimeService.createEventSubscriptionQuery().
 						processInstanceId(currBoundaryEvent.getProcessId()).eventName(currBoundaryEvent.getName()).singleResult();
 				runtimeService.messageEventReceived(subscription.getEventName(), subscription.getExecutionId());

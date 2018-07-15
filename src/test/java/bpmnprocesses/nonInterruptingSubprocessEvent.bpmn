@@ -19,27 +19,27 @@
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="SequenceFlow_03vurpl" sourceRef="StartEvent_0lu3rs2" targetRef="Task_1" />
       <bpmn:sequenceFlow id="SequenceFlow_1n8kyou" sourceRef="Task_1" targetRef="EndEvent_16r8pw8" />
-      <bpmn:subProcess id="SubProcess_0c2vbs7" name="Event Subprocess Interrupting" triggeredByEvent="true">
-        <bpmn:startEvent id="StartEvent_0o5trjo" isInterrupting="false">
-          <bpmn:outgoing>SequenceFlow_17wencg</bpmn:outgoing>
-          <bpmn:signalEventDefinition />
-        </bpmn:startEvent>
-        <bpmn:endEvent id="EndEvent_1im8sce">
-          <bpmn:incoming>SequenceFlow_1qube5p</bpmn:incoming>
-        </bpmn:endEvent>
-        <bpmn:task id="Task_134clqo" name="task subprocess">
-          <bpmn:incoming>SequenceFlow_17wencg</bpmn:incoming>
-          <bpmn:outgoing>SequenceFlow_1qube5p</bpmn:outgoing>
-        </bpmn:task>
-        <bpmn:sequenceFlow id="SequenceFlow_17wencg" sourceRef="StartEvent_0o5trjo" targetRef="Task_134clqo" />
-        <bpmn:sequenceFlow id="SequenceFlow_1qube5p" sourceRef="Task_134clqo" targetRef="EndEvent_1im8sce" />
-      </bpmn:subProcess>
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="SequenceFlow_1j8l1x2" sourceRef="StartEvent_1" targetRef="SubProcess_0mqpfly" />
     <bpmn:endEvent id="EndEvent_02xbu57">
       <bpmn:incoming>SequenceFlow_0ry6vdl</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0ry6vdl" sourceRef="SubProcess_0mqpfly" targetRef="EndEvent_02xbu57" />
+    <bpmn:subProcess id="SubProcess_0c2vbs7" name="Event Subprocess Interrupting" triggeredByEvent="true">
+      <bpmn:startEvent id="IntermediateCatchEventIndipendent" name="IntermediateCatchEventIndipendent" isInterrupting="false">
+        <bpmn:outgoing>SequenceFlow_17wencg</bpmn:outgoing>
+        <bpmn:signalEventDefinition />
+      </bpmn:startEvent>
+      <bpmn:endEvent id="EndEvent_1im8sce">
+        <bpmn:incoming>SequenceFlow_1qube5p</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:task id="Task_2" name="task 2">
+        <bpmn:incoming>SequenceFlow_17wencg</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_1qube5p</bpmn:outgoing>
+      </bpmn:task>
+      <bpmn:sequenceFlow id="SequenceFlow_17wencg" sourceRef="IntermediateCatchEventIndipendent" targetRef="Task_2" />
+      <bpmn:sequenceFlow id="SequenceFlow_1qube5p" sourceRef="Task_2" targetRef="EndEvent_1im8sce" />
+    </bpmn:subProcess>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="nonInterruptingSubprocessEvent">
@@ -50,13 +50,15 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubProcess_0mqpfly_di" bpmnElement="SubProcess_0mqpfly" isExpanded="true">
-        <dc:Bounds x="425" y="90" width="524" height="374" />
+        <dc:Bounds x="425" y="90" width="496" height="256" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1j8l1x2_di" bpmnElement="SequenceFlow_1j8l1x2">
         <di:waypoint xsi:type="dc:Point" x="340" y="277" />
-        <di:waypoint xsi:type="dc:Point" x="425" y="277" />
+        <di:waypoint xsi:type="dc:Point" x="383" y="277" />
+        <di:waypoint xsi:type="dc:Point" x="383" y="218" />
+        <di:waypoint xsi:type="dc:Point" x="425" y="218" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="382.5" y="256" width="0" height="12" />
+          <dc:Bounds x="353" y="241.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_02xbu57_di" bpmnElement="EndEvent_02xbu57">
@@ -66,10 +68,12 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0ry6vdl_di" bpmnElement="SequenceFlow_0ry6vdl">
-        <di:waypoint xsi:type="dc:Point" x="949" y="277" />
+        <di:waypoint xsi:type="dc:Point" x="921" y="218" />
+        <di:waypoint xsi:type="dc:Point" x="954" y="218" />
+        <di:waypoint xsi:type="dc:Point" x="954" y="277" />
         <di:waypoint xsi:type="dc:Point" x="986" y="277" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="967.5" y="256" width="0" height="12" />
+          <dc:Bounds x="924" y="241.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="StartEvent_0lu3rs2_di" bpmnElement="StartEvent_0lu3rs2">
@@ -102,35 +106,35 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="SubProcess_0bkddk4_di" bpmnElement="SubProcess_0c2vbs7" isExpanded="true">
-        <dc:Bounds x="458" y="273" width="445" height="171" />
+        <dc:Bounds x="275" y="555" width="445" height="171" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="StartEvent_00hmuni_di" bpmnElement="StartEvent_0o5trjo">
-        <dc:Bounds x="488" y="349" width="36" height="36" />
+      <bpmndi:BPMNShape id="StartEvent_00hmuni_di" bpmnElement="IntermediateCatchEventIndipendent">
+        <dc:Bounds x="305" y="631" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="506" y="389" width="0" height="12" />
+          <dc:Bounds x="279" y="671" width="89" height="36" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1im8sce_di" bpmnElement="EndEvent_1im8sce">
-        <dc:Bounds x="767" y="349" width="36" height="36" />
+        <dc:Bounds x="584" y="631" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="785" y="389" width="0" height="12" />
+          <dc:Bounds x="557" y="671" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_134clqo_di" bpmnElement="Task_134clqo">
-        <dc:Bounds x="592" y="327" width="100" height="80" />
+      <bpmndi:BPMNShape id="Task_134clqo_di" bpmnElement="Task_2">
+        <dc:Bounds x="409" y="609" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_17wencg_di" bpmnElement="SequenceFlow_17wencg">
-        <di:waypoint xsi:type="dc:Point" x="524" y="367" />
-        <di:waypoint xsi:type="dc:Point" x="592" y="367" />
+        <di:waypoint xsi:type="dc:Point" x="341" y="649" />
+        <di:waypoint xsi:type="dc:Point" x="409" y="649" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="558" y="346" width="0" height="12" />
+          <dc:Bounds x="330" y="628" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1qube5p_di" bpmnElement="SequenceFlow_1qube5p">
-        <di:waypoint xsi:type="dc:Point" x="692" y="367" />
-        <di:waypoint xsi:type="dc:Point" x="767" y="367" />
+        <di:waypoint xsi:type="dc:Point" x="509" y="649" />
+        <di:waypoint xsi:type="dc:Point" x="584" y="649" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="729.5" y="346" width="0" height="12" />
+          <dc:Bounds x="502" y="628" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
@@ -189,7 +193,65 @@
               </bpsim:Priority>
             </bpsim:PriorityParameters>
           </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="BoundaryEventError" />
+          <bpsim:ElementParameters elementRef="Task_2">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:TriangularDistribution max="2.5" min="0.35" mode="2" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="IntermediateCatchEventIndipendent">
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:NumericParameter value="20" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="2" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </bpmn:extensionElements>

@@ -28,14 +28,13 @@ public class SimulationDifferentScenariosTest extends TestCase{
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {     
         	{"singleTaskProcess", 365, 210},
-        	{"boundaryEventInSubProcess", 365, 210},
-        	{"boundaryEventTimer", 365, 210},
         	{"parallelTasks", (365*2), (210*3)}, // 2 resources, 3 Tasks
-        	{"interruptingSubprocessEvent", 365, 210},
-        	{"intermediateEvent", 365, 210},
         	{"xor", 365, 210},
-        	{"transaction", 365, 210},
-        	{"nonInterruptingSubprocessEvent", 365, 210} 
+        	{"boundaryEventTimer", (365*2), (210*2)},
+        	{"intermediateEvent", 365, 210},
+        	{"transaction", (365*2), (210*2)},
+        	//{"interruptingSubprocessEvent", 365, 210},
+        	//{"nonInterruptingSubprocessEvent", 365, 210} 
         });
     }
 

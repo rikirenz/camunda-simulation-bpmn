@@ -11,11 +11,19 @@
     <bpmn:sequenceFlow id="SequenceFlow_1jvr6v3" sourceRef="StartEvent_1" targetRef="Task_1" />
     <bpmn:endEvent id="EndEvent_0r56y9d">
       <bpmn:incoming>SequenceFlow_0ihsnra</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0xyu6xg</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0ihsnra" sourceRef="Task_1" targetRef="EndEvent_0r56y9d" />
     <bpmn:boundaryEvent id="BoundaryEventTimer" attachedToRef="Task_1">
+      <bpmn:outgoing>SequenceFlow_1jtw6jj</bpmn:outgoing>
       <bpmn:timerEventDefinition />
     </bpmn:boundaryEvent>
+    <bpmn:task id="Task_2" name="Task 2">
+      <bpmn:incoming>SequenceFlow_1jtw6jj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xyu6xg</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="SequenceFlow_1jtw6jj" sourceRef="BoundaryEventTimer" targetRef="Task_2" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xyu6xg" sourceRef="Task_2" targetRef="EndEvent_0r56y9d" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="boundaryEventTimer">
@@ -26,15 +34,13 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_05na30m_di" bpmnElement="Task_1">
-        <dc:Bounds x="427" y="171" width="100" height="80" />
+        <dc:Bounds x="388" y="171" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1jvr6v3_di" bpmnElement="SequenceFlow_1jvr6v3">
         <di:waypoint xsi:type="dc:Point" x="261" y="211" />
-        <di:waypoint xsi:type="dc:Point" x="318" y="211" />
-        <di:waypoint xsi:type="dc:Point" x="318" y="211" />
-        <di:waypoint xsi:type="dc:Point" x="427" y="211" />
+        <di:waypoint xsi:type="dc:Point" x="388" y="211" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="288" y="205" width="90" height="12" />
+          <dc:Bounds x="279.5" y="190" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_0r56y9d_di" bpmnElement="EndEvent_0r56y9d">
@@ -44,18 +50,37 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0ihsnra_di" bpmnElement="SequenceFlow_0ihsnra">
-        <di:waypoint xsi:type="dc:Point" x="527" y="211" />
+        <di:waypoint xsi:type="dc:Point" x="488" y="211" />
         <di:waypoint xsi:type="dc:Point" x="812" y="211" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="669.5" y="190" width="0" height="12" />
+          <dc:Bounds x="605" y="190" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="BoundaryEvent_00cpto9_di" bpmnElement="BoundaryEventTimer">
-        <dc:Bounds x="409" y="233" width="36" height="36" />
+        <dc:Bounds x="370" y="233" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="427" y="273" width="0" height="12" />
+          <dc:Bounds x="343" y="273" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_1c6vzb8_di" bpmnElement="Task_2">
+        <dc:Bounds x="467" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1jtw6jj_di" bpmnElement="SequenceFlow_1jtw6jj">
+        <di:waypoint xsi:type="dc:Point" x="388" y="269" />
+        <di:waypoint xsi:type="dc:Point" x="388" y="400" />
+        <di:waypoint xsi:type="dc:Point" x="467" y="400" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="403" y="328.5" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xyu6xg_di" bpmnElement="SequenceFlow_0xyu6xg">
+        <di:waypoint xsi:type="dc:Point" x="567" y="400" />
+        <di:waypoint xsi:type="dc:Point" x="830" y="400" />
+        <di:waypoint xsi:type="dc:Point" x="830" y="229" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="698.5" y="379" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
   <bpmn:relationship type="BPSimData">
@@ -112,6 +137,56 @@
               </bpsim:Priority>
             </bpsim:PriorityParameters>
           </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="Task_2">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:TriangularDistribution max="2.5" min="0.35" mode="2" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="BoundaryEventTimer" />
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </bpmn:extensionElements>

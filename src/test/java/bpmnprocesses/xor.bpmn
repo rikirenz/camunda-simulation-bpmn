@@ -4,7 +4,7 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_0zioh7t</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:exclusiveGateway id="ExclusiveGateway">
+    <bpmn:exclusiveGateway id="ExclusiveGateway" default="SequenceFlowTask1">
       <bpmn:incoming>SequenceFlow_0zioh7t</bpmn:incoming>
       <bpmn:outgoing>SequenceFlowTask1</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlowTask2</bpmn:outgoing>
@@ -20,9 +20,9 @@
     <bpmn:sequenceFlow id="SequenceFlow_0zioh7t" sourceRef="StartEvent_1" targetRef="ExclusiveGateway" />
     <bpmn:sequenceFlow id="SequenceFlowTask1" sourceRef="ExclusiveGateway" targetRef="Task_1" />
     <bpmn:sequenceFlow id="SequenceFlowTask2" sourceRef="ExclusiveGateway" targetRef="Task_2">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="jroovy">1</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">1</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0oim9tl" default="SequenceFlowTask1">
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0oim9tl" >
       <bpmn:incoming>SequenceFlow_0knrxfp</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1smddme</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_07q6wa3</bpmn:outgoing>
@@ -168,7 +168,62 @@
               </bpsim:Priority>
             </bpsim:PriorityParameters>
           </bpsim:ElementParameters>
-          <bpsim:ElementParameters elementRef="BoundaryEventError" />
+          <bpsim:ElementParameters elementRef="Task_2">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:TriangularDistribution max="2.5" min="0.35" mode="2" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="SequenceFlowTask2">
+            <bpsim:ControlParameters>
+              <bpsim:Probability>
+                <bpsim:NumericParameter value="2" />
+              </bpsim:Probability>
+            </bpsim:ControlParameters>
+          </bpsim:ElementParameters>
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </bpmn:extensionElements>

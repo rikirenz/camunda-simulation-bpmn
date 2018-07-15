@@ -27,9 +27,9 @@
           <bpmn:incoming>SequenceFlow_17wencg</bpmn:incoming>
           <bpmn:outgoing>SequenceFlow_1qube5p</bpmn:outgoing>
         </bpmn:task>
-        <bpmn:sequenceFlow id="SequenceFlow_17wencg" sourceRef="StartEvent_0o5trjo" targetRef="Task_134clqo" />
+        <bpmn:sequenceFlow id="SequenceFlow_17wencg" sourceRef="IntermediateCatchEventIndipendent" targetRef="Task_134clqo" />
         <bpmn:sequenceFlow id="SequenceFlow_1qube5p" sourceRef="Task_134clqo" targetRef="EndEvent_1im8sce" />
-        <bpmn:startEvent id="StartEvent_0o5trjo">
+        <bpmn:startEvent id="IntermediateCatchEventIndipendent" name="IntermediateCatchEventIndipendent">
           <bpmn:outgoing>SequenceFlow_17wencg</bpmn:outgoing>
           <bpmn:signalEventDefinition />
         </bpmn:startEvent>
@@ -56,7 +56,7 @@
         <di:waypoint xsi:type="dc:Point" x="340" y="277" />
         <di:waypoint xsi:type="dc:Point" x="425" y="277" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="382.5" y="256" width="0" height="12" />
+          <dc:Bounds x="338" y="256" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_02xbu57_di" bpmnElement="EndEvent_02xbu57">
@@ -69,7 +69,7 @@
         <di:waypoint xsi:type="dc:Point" x="949" y="277" />
         <di:waypoint xsi:type="dc:Point" x="986" y="277" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="967.5" y="256" width="0" height="12" />
+          <dc:Bounds x="923" y="256" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="StartEvent_0lu3rs2_di" bpmnElement="StartEvent_0lu3rs2">
@@ -107,7 +107,7 @@
       <bpmndi:BPMNShape id="EndEvent_1im8sce_di" bpmnElement="EndEvent_1im8sce">
         <dc:Bounds x="767" y="349" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="785" y="389" width="0" height="12" />
+          <dc:Bounds x="740" y="389" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_134clqo_di" bpmnElement="Task_134clqo">
@@ -117,20 +117,20 @@
         <di:waypoint xsi:type="dc:Point" x="524" y="367" />
         <di:waypoint xsi:type="dc:Point" x="592" y="367" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="558" y="346" width="0" height="12" />
+          <dc:Bounds x="513" y="346" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1qube5p_di" bpmnElement="SequenceFlow_1qube5p">
         <di:waypoint xsi:type="dc:Point" x="692" y="367" />
         <di:waypoint xsi:type="dc:Point" x="767" y="367" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="729.5" y="346" width="0" height="12" />
+          <dc:Bounds x="685" y="346" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="StartEvent_0i6wa3t_di" bpmnElement="StartEvent_0o5trjo">
+      <bpmndi:BPMNShape id="StartEvent_0i6wa3t_di" bpmnElement="IntermediateCatchEventIndipendent">
         <dc:Bounds x="488" y="349" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="506" y="389" width="0" height="12" />
+          <dc:Bounds x="462" y="389" width="89" height="36" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

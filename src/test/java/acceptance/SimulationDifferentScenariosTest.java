@@ -33,8 +33,9 @@ public class SimulationDifferentScenariosTest extends TestCase{
         	{"boundaryEventTimer", (365*2), (210*2)},
         	{"intermediateEvent", 365, 210},
         	{"transaction", (365*2), (210*2)},
-        	//{"interruptingSubprocessEvent", 365, 210},
-        	//{"nonInterruptingSubprocessEvent", 365, 210} 
+        	{"nonInterruptingSubprocessEvent", (365*2), (210*4)},
+        	{"interruptingSubprocessEvent", (365*2), (210*3)},
+
         });
     }
 
@@ -71,7 +72,7 @@ public class SimulationDifferentScenariosTest extends TestCase{
 			assertEquals(timeExpected, currTime);
 			assertEquals(costsExpected, simCosts.getTotalCost());
 		} finally {
-			CleanUp.resetSimulationClock();
+			CleanUp.resetSimulation();
 		}
     }    
 }

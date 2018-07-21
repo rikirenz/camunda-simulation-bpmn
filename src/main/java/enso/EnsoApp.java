@@ -126,6 +126,7 @@ public class EnsoApp {
 		BpmnModelInstance modelInstance = Util.loadBpmnProcess(bpmnDocument);
 		Util.writeStringToFile(Util.convertDocumnetToString(bpmnDocument), "preProcessedDoc.bpmn");
 		DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(processBpmnId);
+		Util.writeStringToFile(Util.convertDocumnetToString(bpmnDocument), "preProcessedDoc1.bpmn");
 		deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", modelInstance);
 		deploymentBuilder.deploy();
 		runtimeService = processEngine.getRuntimeService();
@@ -142,6 +143,7 @@ public class EnsoApp {
 	private void runSimulation() {
 		while (!eventsQueue.isEmpty()) {
 			SimulationEvent currEvent = eventsQueue.remove();
+			LOGGER.info("task event: " + eventsQueue.size()	);			
 			if (currEvent instanceof SimulationTaskEvent) {
 				// get the task event
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
@@ -175,10 +177,12 @@ public class EnsoApp {
 				SimulationCatchEvent currCatchEvent = (SimulationCatchEvent) currEvent;
 				if (currCatchEvent.getStartTime() > simClock.getCurrentTime())
 					simClock.setCurrentTime(currCatchEvent.getStartTime());
+
 				// Put the event again in the queue with the time updated
-				eventsQueue.add(currCatchEvent.getNextEvent());
-				
-				LOGGER.info("" + currCatchEvent.getProcessId() + " - " + runtimeService.createEventSubscriptionQuery().count());
+				LOGGER.info("----------------------------" + currCatchEvent.toString());
+				SimulationCatchEvent nextCatchEvent = currCatchEvent.getNextEvent();
+				if (nextCatchEvent != null) eventsQueue.add(nextCatchEvent);
+				LOGGER.info("----------------------------" + (nextCatchEvent != null));
 				// trigger the event in the process
 				
 				EventSubscription subscription = runtimeService.createEventSubscriptionQuery().

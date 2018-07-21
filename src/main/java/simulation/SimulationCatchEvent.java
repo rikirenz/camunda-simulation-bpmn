@@ -65,8 +65,8 @@ public class SimulationCatchEvent extends SimulationEvent {
 	
 
 	public SimulationCatchEvent getNextEvent() {
-		triggerCount--;
-		if (triggerCount == 0) return null;
+		triggerCount = triggerCount - 1;
+		if (triggerCount <= 0) return null;
 		
 		return new SimulationCatchEvent(
 			name,

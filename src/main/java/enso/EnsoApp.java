@@ -157,7 +157,7 @@ public class EnsoApp {
 						simClock.setCurrentTime((currTaskEvent.getStartTime() + currTaskEvent.getTime()));
 					// move on with the simulation
 					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).activityInstanceIdIn(currTaskEvent.getId()).singleResult();
-					taskService.complete(currTask.getId());					
+					if (currTask!= null) taskService.complete(currTask.getId());					
 				} else {
 					//LOGGER.info("------- resources have been termineted");
 					currResource.resetQuantity();

@@ -28,7 +28,7 @@
           <bpmn:incoming>SequenceFlow_00sof2p</bpmn:incoming>
         </bpmn:endEvent>
         <bpmn:sequenceFlow id="SequenceFlow_00sof2p" sourceRef="Task_3" targetRef="EndEvent_00p1sbu" />
-        <bpmn:startEvent id="IntermediateCatchEventIndipendent" name="IntermediateCatchEventIndipendent" isInterrupting="false">
+        <bpmn:startEvent id="IntermediateCatchEventIndipendent" name="IntermediateCatchEventIndipendent">
           <bpmn:outgoing>SequenceFlow_17wencg</bpmn:outgoing>
           <bpmn:signalEventDefinition />
         </bpmn:startEvent>
@@ -148,7 +148,7 @@
           <dc:Bounds x="781.5" y="178" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="StartEvent_06k04d8_di" bpmnElement="IntermediateCatchEventIndipendent">
+      <bpmndi:BPMNShape id="StartEvent_007h3d4_di" bpmnElement="IntermediateCatchEventIndipendent">
         <dc:Bounds x="488" y="349" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="462" y="389" width="89" height="36" />

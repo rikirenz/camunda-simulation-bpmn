@@ -108,7 +108,6 @@ import simulation.SimulationCatchEvent;
       public BpsimCollection(Document bpmnDocument) {
           try {
         	  // this operations have to be executed in this order
-        	  
         	  // collect all the Bpmn nodes data 
         	  this.bpmnDocument = bpmnDocument;
               collectBpmnData();
@@ -184,7 +183,7 @@ import simulation.SimulationCatchEvent;
               scenarioObject = currScenarioWrapper;
               return taskObjects;
           } catch (Exception e) {
-              //e.printStackTrace();
+              e.printStackTrace();
               return null;
           }
       }
@@ -261,9 +260,7 @@ import simulation.SimulationCatchEvent;
 
               return taskObjects;
           } catch (Exception e) {
-        	  
-        	  
-              e.printStackTrace();
+        	  e.printStackTrace();
               return null;
           }
       }
@@ -326,6 +323,8 @@ import simulation.SimulationCatchEvent;
             	  startCatchEvents.add(al);
               }
 	
+          } catch (XPathExpressionException e){
+        	  LOGGER.warning("Not Able to load start events!");
           } catch (Exception e) {
         	  e.printStackTrace();
           }    	  
@@ -359,6 +358,7 @@ import simulation.SimulationCatchEvent;
 	          }
 	          
           } catch (Exception e) {
+        	  
         	  e.printStackTrace();
           }  
       }

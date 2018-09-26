@@ -45,7 +45,6 @@ public class BpmnPreprocesser {
 		convertBoundaryEventsToMessageBoundaryEvents();
 		convertStartSubPorcessEventsToMessageStartEvents();
 		convertConditionExpressionWithCustomCode();
-
 		return bpmnDocument;
 	}
 
@@ -70,7 +69,7 @@ public class BpmnPreprocesser {
 				nodeTaskslist.item(i).insertBefore(ndWrapper, nodeTaskslist.item(i).getFirstChild());		
 	        }
 		} catch (Exception ex) {
-			
+			ex.printStackTrace();
 		}
 	}
 
@@ -95,7 +94,7 @@ public class BpmnPreprocesser {
 	        	this.bpmnDocument.renameNode((Element) nodeTaskslist.item(i), "http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:userTask");
 	        }
 		} catch (Exception ex) {
-			
+			ex.printStackTrace();
 		}
 	}
 	
@@ -119,7 +118,7 @@ public class BpmnPreprocesser {
 	        	this.bpmnDocument.renameNode((Element) nodeTaskslist.item(i), "http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:userTask");
 	        }
 		} catch (Exception ex) {
-			
+      	  ex.printStackTrace();
 		}
 	}
 
@@ -170,7 +169,7 @@ public class BpmnPreprocesser {
           	  currElement.appendChild(messageEventDef);       
             }		
 		} catch (Exception ex) {
-			
+			ex.printStackTrace();
 		}
 	}
 	
@@ -188,7 +187,7 @@ public class BpmnPreprocesser {
 	            );	            
 	        }
 		} catch (Exception ex) {
-			
+			ex.printStackTrace();
 		}
 	}
 	
@@ -221,7 +220,7 @@ public class BpmnPreprocesser {
 				nl.item(i).insertBefore(ndWrapper, nl.item(i).getFirstChild());          
 	        }	        
 		} catch (Exception ex) {
-			
+			ex.printStackTrace();
 		}
 	}
 	
@@ -249,12 +248,7 @@ public class BpmnPreprocesser {
         		}
 
         		if (isAMessageEvent) continue; 	        		
-        		// yes continue
-        	
-        		// no convert it to message start event
-        		
-            	// create a message node
-    	        // <bpmn:message id="Message_123" name="Message_123" />             	  
+
             	Element nd = this.bpmnDocument.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:message");
             	String messageId = "messageStartEvent" + currElement.getAttribute("id") + j;
             	nd.setAttribute("id", messageId);
@@ -268,14 +262,6 @@ public class BpmnPreprocesser {
 						currElement.removeChild(startEventChildNodes.item(k));            			  
 					}
 				}
-		        
-				
-				/* 
-		        <bpmn:startEvent id="IntermediateCatchEventIndipendent" name="IntermediateCatchEventIndipendent" isInterrupting="false">
-		          <bpmn:outgoing>SequenceFlow_0ynguv5</bpmn:outgoing>
-		          <bpmn:messageEventDefinition messageRef="testMessage" />
-		        </bpmn:startEvent>
-		        */
         	
 	          	// add message
 	            Element messageEventDef = this.bpmnDocument.createElementNS("http://www.omg.org/spec/BPMN/20100524/MODEL", "bpmn:messageEventDefinition");

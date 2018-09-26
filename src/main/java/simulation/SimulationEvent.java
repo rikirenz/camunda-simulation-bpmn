@@ -7,9 +7,9 @@ public abstract class SimulationEvent implements Comparable<SimulationEvent> {
 	
 	public SimulationEvent() {}
 	
-	public SimulationEvent(String name, int endTime) {
+	public SimulationEvent(String name, int startTime) {
 		this.name = name;
-		this.startTime = endTime;
+		this.startTime = startTime;
 	}
 	
 	public String getName() {

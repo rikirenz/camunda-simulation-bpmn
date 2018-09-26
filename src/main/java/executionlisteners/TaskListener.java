@@ -13,6 +13,7 @@ import bpsimWrappers.TimeParametersWrapper;
 import enso.EnsoApp;
 import simulation.SimulationCosts;
 import simulation.EventsHandler;
+import simulation.ResultsCatalog;
 import simulation.SimulationResource;
 import simulation.SimulationClock;
 import util.BpsimCollection;
@@ -70,7 +71,10 @@ public class TaskListener implements ExecutionListener {
 		
 		// do calcutions using the parameters
 
-		if (costParameters != null) calculateTaskCost(costParameters);
+		if (costParameters != null) {
+			
+			
+		} calculateTaskCost(costParameters);
 		if (timeParameters != null) totalTime = calculateTaskTime(timeParameters);
 		if (controlParameters != null) {
 			interTriggerTimer = controlParameters.getInterTriggerTimer();
@@ -98,7 +102,9 @@ public class TaskListener implements ExecutionListener {
 		}
 		// add event to the queue
 		eventsHandler.addTaskEvent(execution.getActivityInstanceId(), execution.getCurrentActivityName(), totalTime, execution.getProcessInstanceId(), resourceId);
-
+		
+		ResultsCatalog foo = new ResultsCatalog();
+		foo.addResult(execution.getProcessInstanceId(), execution.getActivityInstanceId(), resourceId, costParameters.getFixedCost(), costParameters.getUnitCost(), totalTime);
 
 	}
 

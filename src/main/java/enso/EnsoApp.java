@@ -24,6 +24,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.camunda.bpm.engine.ProcessEngine;
@@ -51,10 +52,12 @@ import org.xml.sax.SAXException;
 
 import bpsimWrappers.ControlParametersWrapper;
 import simulation.EventsQueue;
+import simulation.ResultsCatalog;
 import simulation.SimulationResource;
 import simulation.SimulationBoundaryEvent;
 import simulation.SimulationCatchEvent;
 import simulation.SimulationClock;
+import simulation.SimulationCosts;
 import simulation.SimulationEvent;
 import simulation.SimulationIntermediateEvent;
 import simulation.SimulationStartEvent;
@@ -105,14 +108,16 @@ public class EnsoApp {
 	        BpmnPreprocesser bpmnPreprocesser = new BpmnPreprocesser(builder.parse(new File(processBpmnPath.toString())));
 	        bpmnDocument = bpmnPreprocesser.getProcessedBpmn();
 		} catch (Exception ex) {
-			
-			
+			LOGGER.warning("Not Able to load the document");
+			ex.printStackTrace();
+			System.exit(1);
 		}
 		
 		// load the bpsim data in the xml
 		BpsimCollection bpsimCollection = new BpsimCollection(bpmnDocument);	
 		initializeSimulation();
 		runSimulation();
+		printResult();
 		cleanSimulation();
 	}
 	
@@ -126,7 +131,6 @@ public class EnsoApp {
 		BpmnModelInstance modelInstance = Util.loadBpmnProcess(bpmnDocument);
 		Util.writeStringToFile(Util.convertDocumnetToString(bpmnDocument), "preProcessedDoc.bpmn");
 		DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(processBpmnId);
-		Util.writeStringToFile(Util.convertDocumnetToString(bpmnDocument), "preProcessedDoc1.bpmn");
 		deploymentBuilder.addModelInstance(processBpmnId + ".bpmn", modelInstance);
 		deploymentBuilder.deploy();
 		runtimeService = processEngine.getRuntimeService();
@@ -138,6 +142,10 @@ public class EnsoApp {
 			eventsQueue.add(startProcessEvent);
 			startTime += delayBetweenInstances;
 		}
+	}
+	
+	private void printResult() {
+		new ResultsCatalog().printResults("results.xml");
 	}
 
 	private void runSimulation() {
@@ -173,7 +181,7 @@ public class EnsoApp {
 					simClock.setCurrentTime(currCatchEvent.getStartTime());
 				LOGGER.info("SimulationIntermediateEvent: " + currCatchEvent.getProcessId() + " - " + currCatchEvent.getName());
 			} else if (currEvent instanceof SimulationCatchEvent) {
-				LOGGER.info("catch event");				
+				LOGGER.info("catch eve	nt");				
 				SimulationCatchEvent currCatchEvent = (SimulationCatchEvent) currEvent;
 				if (currCatchEvent.getStartTime() > simClock.getCurrentTime())
 					simClock.setCurrentTime(currCatchEvent.getStartTime());

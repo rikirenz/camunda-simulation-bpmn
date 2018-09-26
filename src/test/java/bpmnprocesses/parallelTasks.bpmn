@@ -21,7 +21,7 @@
     </bpmn:task>
     <bpmn:task id="task3" name="task3">
       <bpmn:incoming>SequenceFlow_0p212ir</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1afmcc5</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1afmcc5</bpmn:outgoing>	
     </bpmn:task>
     <bpmn:endEvent id="endEvent" name="endEvent">
       <bpmn:incoming>SequenceFlow_1n5qc7q</bpmn:incoming>

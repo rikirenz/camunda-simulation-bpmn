@@ -80,13 +80,12 @@ public class EnsoApp {
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	private SimulationClock simClock = new SimulationClock();
 
-
 	private ProcessEngine processEngine;
 	private RuntimeService runtimeService;
 	private TaskService taskService;
 
-	
-	public EnsoApp(Path processBpmnPath, String processBpmnId, int instancesNumber, int delayBetweenInstances, boolean enableResults) {
+	public EnsoApp(Path processBpmnPath, String processBpmnId, int instancesNumber, int delayBetweenInstances,
+			boolean enableResults) {
 		this.processBpmnPath = processBpmnPath;
 		this.processBpmnId = processBpmnId;
 		this.instancesNumber = instancesNumber;
@@ -103,30 +102,32 @@ public class EnsoApp {
 				.buildProcessEngine();
 	}
 
-	public void startApp() {		
+	public void startApp() {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder builder = factory.newDocumentBuilder();	        	
-	        BpmnPreprocesser bpmnPreprocesser = new BpmnPreprocesser(builder.parse(new File(processBpmnPath.toString())));
-	        bpmnDocument = bpmnPreprocesser.getProcessedBpmn();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			BpmnPreprocesser bpmnPreprocesser = new BpmnPreprocesser(
+					builder.parse(new File(processBpmnPath.toString())));
+			bpmnDocument = bpmnPreprocesser.getProcessedBpmn();
 		} catch (Exception ex) {
 			LOGGER.warning("Not Able to load the document");
 			ex.printStackTrace();
 			System.exit(1);
 		}
-		
+
 		// load the bpsim data in the xml
-		BpsimCollection bpsimCollection = new BpsimCollection(bpmnDocument);	
+		BpsimCollection bpsimCollection = new BpsimCollection(bpmnDocument);
 		initializeSimulation();
 		runSimulation();
-		if (enableResults) printResult();
+		if (enableResults)
+			printResult();
 		cleanSimulation();
 	}
-	
+
 	private void cleanSimulation() {
 		processEngine.close();
 	}
-	
+
 	private void initializeSimulation() {
 		processEngine = processEngineInit();
 		RepositoryService repositoryService = processEngine.getRepositoryService();
@@ -145,7 +146,7 @@ public class EnsoApp {
 			startTime += delayBetweenInstances;
 		}
 	}
-	
+
 	private void printResult() {
 		new ResultsCatalog().printResults();
 	}
@@ -153,62 +154,69 @@ public class EnsoApp {
 	private void runSimulation() {
 		while (!eventsQueue.isEmpty()) {
 			SimulationEvent currEvent = eventsQueue.remove();
-			LOGGER.info("task event: " + eventsQueue.size()	);			
+			LOGGER.info("task event: " + eventsQueue.size());
 			if (currEvent instanceof SimulationTaskEvent) {
 				// get the task event
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
-				LOGGER.info("task event: " + currTaskEvent.getName());			
+				LOGGER.info("task event: " + currTaskEvent.getName());
 				// get the resource that should do the task
-				SimulationResource currResource = BpsimCollection.resourcesElementsAvaliability.get(currTaskEvent.getResourceId());
-				
+				SimulationResource currResource = BpsimCollection.resourcesElementsAvaliability
+						.get(currTaskEvent.getResourceId());
+
 				if (currResource == null || currResource.isAvaliable()) {
-					//LOGGER.info("------ classic branch");
+					// LOGGER.info("------ classic branch");
 					if ((currTaskEvent.getStartTime() + currTaskEvent.getTime()) > simClock.getCurrentTime())
 						simClock.setCurrentTime((currTaskEvent.getStartTime() + currTaskEvent.getTime()));
 					// move on with the simulation
-					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).activityInstanceIdIn(currTaskEvent.getId()).singleResult();
-					if (currTask!= null) taskService.complete(currTask.getId());					
+					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId())
+							.activityInstanceIdIn(currTaskEvent.getId()).singleResult();
+					if (currTask != null)
+						taskService.complete(currTask.getId());
 				} else {
-					//LOGGER.info("------- resources have been termineted");
+					// LOGGER.info("------- resources have been termineted");
 					currResource.resetQuantity();
 					simClock.setCurrentTime((simClock.getCurrentTime() + currTaskEvent.getTime()));
-					if (currResource.isAvaliable() == false) LOGGER.info("Something went very wrong with the resources!");
-					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).activityInstanceIdIn(currTaskEvent.getId()).singleResult();
+					if (currResource.isAvaliable() == false)
+						LOGGER.info("Something went very wrong with the resources!");
+					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId())
+							.activityInstanceIdIn(currTaskEvent.getId()).singleResult();
 					taskService.complete(currTask.getId());
 				}
-			}else if (currEvent instanceof SimulationIntermediateEvent ) {
+			} else if (currEvent instanceof SimulationIntermediateEvent) {
 				LOGGER.info("Intermediate event");
 				SimulationIntermediateEvent currCatchEvent = (SimulationIntermediateEvent) currEvent;
 				if (currCatchEvent.getStartTime() > simClock.getCurrentTime())
 					simClock.setCurrentTime(currCatchEvent.getStartTime());
-				LOGGER.info("SimulationIntermediateEvent: " + currCatchEvent.getProcessId() + " - " + currCatchEvent.getName());
+				LOGGER.info("SimulationIntermediateEvent: " + currCatchEvent.getProcessId() + " - "
+						+ currCatchEvent.getName());
 			} else if (currEvent instanceof SimulationCatchEvent) {
-				LOGGER.info("catch eve	nt");				
+				LOGGER.info("catch event");
 				SimulationCatchEvent currCatchEvent = (SimulationCatchEvent) currEvent;
 				if (currCatchEvent.getStartTime() > simClock.getCurrentTime())
 					simClock.setCurrentTime(currCatchEvent.getStartTime());
 
 				// Put the event again in the queue with the time updated
-				LOGGER.info("----------------------------" + currCatchEvent.toString());
 				SimulationCatchEvent nextCatchEvent = currCatchEvent.getNextEvent();
-				if (nextCatchEvent != null) eventsQueue.add(nextCatchEvent);
-				LOGGER.info("----------------------------" + (nextCatchEvent != null));
-				// trigger the event in the process
-				
-				EventSubscription subscription = runtimeService.createEventSubscriptionQuery().
-						processInstanceId(currCatchEvent.getProcessId()).
-						eventName(currCatchEvent.getName()).singleResult();
-						
-				runtimeService.messageEventReceived(subscription.getEventName(), subscription.getExecutionId());
+				if (nextCatchEvent != null)
+					eventsQueue.add(nextCatchEvent);
 
-			}else if (currEvent instanceof SimulationBoundaryEvent) {
+				// trigger the event in the process
+				if (runtimeService.createEventSubscriptionQuery().processInstanceId(currCatchEvent.getProcessId()).count() > 0) {
+					EventSubscription subscription = runtimeService.createEventSubscriptionQuery()
+							.processInstanceId(currCatchEvent.getProcessId()).eventName(currCatchEvent.getName())
+							.singleResult();
+					runtimeService.messageEventReceived(subscription.getEventName(), subscription.getExecutionId());
+				}
+
+			} else if (currEvent instanceof SimulationBoundaryEvent) {
 				SimulationBoundaryEvent currBoundaryEvent = (SimulationBoundaryEvent) currEvent;
 				if ((currBoundaryEvent.getStartTime() + currBoundaryEvent.getTime()) > simClock.getCurrentTime())
-					simClock.setCurrentTime(currBoundaryEvent.getStartTime()+ currBoundaryEvent.getTime());
+					simClock.setCurrentTime(currBoundaryEvent.getStartTime() + currBoundaryEvent.getTime());
 
 				// trigger the event in the process
-				EventSubscription subscription = runtimeService.createEventSubscriptionQuery().
-						processInstanceId(currBoundaryEvent.getProcessId()).eventName(currBoundaryEvent.getName()).singleResult();
+				EventSubscription subscription = runtimeService.createEventSubscriptionQuery()
+						.processInstanceId(currBoundaryEvent.getProcessId()).eventName(currBoundaryEvent.getName())
+						.singleResult();
 				runtimeService.messageEventReceived(subscription.getEventName(), subscription.getExecutionId());
 			} else {
 				LOGGER.info("Start event");

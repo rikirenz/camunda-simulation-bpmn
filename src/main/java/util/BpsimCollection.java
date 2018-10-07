@@ -296,6 +296,7 @@ import simulation.SimulationCatchEvent;
 
       private void collectBpmnData() {
     	  collectStartEvents();
+    	  //LOGGER.info("-------------------------------- merda -------------------------------------"+startCatchEvents.toString());
     	  collectBoundaryEvents();
     	  collectResources();
       }
@@ -322,6 +323,7 @@ import simulation.SimulationCatchEvent;
             	  al.add( ((Element) nodeMessageslist.item(i)).getAttribute("messageRef"));
             	  startCatchEvents.add(al);
               }
+              
 	
           } catch (XPathExpressionException e){
         	  LOGGER.warning("Not Able to load start events!");

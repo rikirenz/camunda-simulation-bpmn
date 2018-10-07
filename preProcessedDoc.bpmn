@@ -1149,6 +1149,26 @@ Util.booleanValueFlow("_3654E294-536A-4CD2-9950-11F02657EE60");</semantic:condit
 </bpsim:Probability>
 </bpsim:ControlParameters>
 </bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_25E36E2C-9196-4170-8BA3-52DDF55D177E">
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="900"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_F9A272EE-D325-44CF-AFFC-4A615D2C9971">
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="900"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
 </bpsim:Scenario>
 </bpsim:BPSimData>
 </semantic:extensionElements>

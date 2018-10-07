@@ -71,6 +71,7 @@ public class EnsoApp {
 	private Path processBpmnPath;
 	private Document bpmnDocument;
 	private String processBpmnId;
+	private boolean enableResults;
 
 	private int instancesNumber;
 	private int delayBetweenInstances;
@@ -85,11 +86,12 @@ public class EnsoApp {
 	private TaskService taskService;
 
 	
-	public EnsoApp(Path processBpmnPath, String processBpmnId, int instancesNumber, int delayBetweenInstances) {
+	public EnsoApp(Path processBpmnPath, String processBpmnId, int instancesNumber, int delayBetweenInstances, boolean enableResults) {
 		this.processBpmnPath = processBpmnPath;
 		this.processBpmnId = processBpmnId;
 		this.instancesNumber = instancesNumber;
 		this.delayBetweenInstances = delayBetweenInstances;
+		this.enableResults = enableResults;
 	}
 
 	private ProcessEngine processEngineInit() {
@@ -117,7 +119,7 @@ public class EnsoApp {
 		BpsimCollection bpsimCollection = new BpsimCollection(bpmnDocument);	
 		initializeSimulation();
 		runSimulation();
-		printResult();
+		if (enableResults) printResult();
 		cleanSimulation();
 	}
 	
@@ -145,7 +147,7 @@ public class EnsoApp {
 	}
 	
 	private void printResult() {
-		new ResultsCatalog().printResults("results.xml");
+		new ResultsCatalog().printResults();
 	}
 
 	private void runSimulation() {

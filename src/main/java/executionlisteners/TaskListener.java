@@ -71,19 +71,22 @@ public class TaskListener implements ExecutionListener {
 		
 		// do calcutions using the parameters
 
+		Double resultUnitCost = 0.0;
+		Double resultFixedCost = 0.0;
+
 		if (costParameters != null) {
-			
-			
-		} calculateTaskCost(costParameters);
+			calculateTaskCost(costParameters);
+			resultUnitCost = costParameters.getUnitCost();
+			resultFixedCost = costParameters.getFixedCost();
+		}			
+		
 		if (timeParameters != null) totalTime = calculateTaskTime(timeParameters);
 		if (controlParameters != null) {
 			interTriggerTimer = controlParameters.getInterTriggerTimer();
 			triggerCount = controlParameters.getTriggerCount(); 
 			interruptible = priorityParameters.getInterruptible();
 			priority = priorityParameters.getPriority();			
-		}
-
-			
+		}	
 
 		// boundary event section
 		if (BpsimCollection.boundaryEvents.get(execution.getCurrentActivityId()) != null) {
@@ -93,8 +96,6 @@ public class TaskListener implements ExecutionListener {
 			for (String currBoundary : BpsimCollection.boundaryEvents.get(execution.getCurrentActivityId())) {
 				ControlParametersWrapper boundaryControlParameters = (ControlParametersWrapper) Util.retriveParamaterType(currBoundary, ControlParametersWrapper.class);
 				// get the probabilities
-				// boundaryControlParameters.getCondition();
-				// boundaryControlParameters.getProbability();
 				// put the event in the queue
 				eventsHandler.addBoundaryEvent(currBoundary, totalTime, execution.getProcessInstanceId(), simClock.getCurrentTime());
 				return;
@@ -104,7 +105,7 @@ public class TaskListener implements ExecutionListener {
 		eventsHandler.addTaskEvent(execution.getActivityInstanceId(), execution.getCurrentActivityName(), totalTime, execution.getProcessInstanceId(), resourceId);
 		
 		ResultsCatalog foo = new ResultsCatalog();
-		foo.addResult(execution.getProcessInstanceId(), execution.getActivityInstanceId(), resourceId, costParameters.getFixedCost(), costParameters.getUnitCost(), totalTime);
+		foo.addResult(execution.getProcessInstanceId(), execution.getActivityInstanceId(), resourceId, resultFixedCost, resultUnitCost, totalTime);
 
 	}
 

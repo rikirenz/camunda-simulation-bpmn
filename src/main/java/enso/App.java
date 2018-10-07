@@ -12,11 +12,11 @@ public class App {
 	public static void main( String[] args ) throws FileNotFoundException {
 		// init app
 		EnsoApp app = new EnsoApp(
-			Paths.get("src","main","java","bpmprocesses", System.getProperty("bpmn")),
+			Paths.get("resources","bpmprocesses", System.getProperty("bpmn")),
 			System.getProperty("processId"),
 			Integer.valueOf(System.getProperty("instancesNumber")),
-			Integer.valueOf(System.getProperty("delayBetweenInstances"))
-			
+			Integer.valueOf(System.getProperty("delayBetweenInstances")),
+			true
 		);
 		// start app
 		app.startApp();

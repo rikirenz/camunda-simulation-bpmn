@@ -62,7 +62,8 @@ public class SimulationDifferentScenariosTest extends TestCase{
 				),
 				inputFileName,
 				1, 
-				0
+				0,
+				false
 			);
 			// test phase
 			app.startApp();

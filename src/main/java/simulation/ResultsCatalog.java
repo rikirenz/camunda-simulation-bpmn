@@ -10,7 +10,9 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.io.File;
-
+import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,7 @@ import util.Util;
 public class ResultsCatalog {
 
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 	private static Map<String, ArrayList<SimulationResult>> resultsMap = new HashMap<String, ArrayList<SimulationResult>>();
 	private SimulationCosts simCosts;
 	private SimulationClock simClock;
@@ -44,14 +47,9 @@ public class ResultsCatalog {
 
 	}
 	
-	public void printResults(String outputFileName) {
+	public void printResults() {
 		String strResults = "Total time : " + simClock.getCurrentTime() + "\n";
 		strResults += "Total costs : " + simCosts.getTotalCost() + "\n";		
-		
-		
-		
-		// create xml file
-		Util.writeStringToFile(strResults, outputFileName);	
 		
 		try {
 			DocumentBuilderFactory dbFactory =
@@ -106,14 +104,8 @@ public class ResultsCatalog {
 					attr = doc.createAttribute("Time");
 					attr.setValue(String.valueOf(currTaskResult.getTime()));
 					individualTaskResult.setAttributeNode(attr);
-
-				}
-				
+				}	
 			}
-			
-			
-			
-			
 			
 			// setting attribute to element
 			Attr attr = doc.createAttribute("value");
@@ -124,35 +116,21 @@ public class ResultsCatalog {
 			attr.setValue(String.valueOf(simCosts.getTotalCost()));
 			totalCosts.setAttributeNode(attr);
 
-			
-			
-			/*
-			// carname element
-			Element carname = doc.createElement("carname");
-			Attr attrType = doc.createAttribute("type");
-			attrType.setValue("formula one");
-			carname.setAttributeNode(attrType);
-			carname.appendChild(doc.createTextNode("Ferrari 101"));
-			supercar.appendChild(carname);
-
-			Element carname1 = doc.createElement("carname");
-			Attr attrType1 = doc.createAttribute("type");
-			attrType1.setValue("sports");
-			carname1.setAttributeNode(attrType1);
-			carname1.appendChild(doc.createTextNode("Ferrari 202"));
-			supercar.appendChild(carname1);
-			 */
-			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc); 
-			StreamResult result = new StreamResult(new File("C:\\cars.xml"));
-			transformer.transform(source, result);
-
 			
+			StreamResult result = new StreamResult(new File(Paths.get("results",getResultFileName()).toString()));
+			transformer.transform(source, result);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	private String getResultFileName() {
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		return "result"+ sdf.format(timestamp) +".xml";		
+	}
+	
 }

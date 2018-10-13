@@ -29,6 +29,7 @@ public class SimulationDifferentScenariosTest extends TestCase{
         return Arrays.asList(new Object[][] {     
         	{"singleTaskProcess", 365, 210},
         	{"parallelTasks", (365*2), (210*3)}, // 2 resources, 3 Tasks
+        	{"parallelTasksMultipleResources", 26, (210*4)}, // 2 resources, 3 Tasks
         	{"xor", 365, 210},
         	{"boundaryEventTimer", (365*2), (210*2)},
         	{"intermediateEvent", 365, 210},

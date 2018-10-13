@@ -115,10 +115,11 @@ public class TaskListener implements ExecutionListener {
 		processingTime = timeParameters.getProcessingTime();
 		validationTime = timeParameters.getValidationTime();
 		reworkTime = timeParameters.getReworkTime();
-		reworkTime = timeParameters.getQueueTime();
 		queueTime = timeParameters.getQueueTime();
 		transferTime = timeParameters.getTransferTime();
 
+		LOGGER.info("------------------------ Totale tempo task " + waitTime + setupTime + processingTime + validationTime + reworkTime + queueTime + transferTime);
+		
 		return waitTime + setupTime + processingTime + validationTime + reworkTime + queueTime + transferTime;
 	}
 
@@ -126,6 +127,7 @@ public class TaskListener implements ExecutionListener {
 		SimulationCosts costs = new SimulationCosts();
 		costs.addFixedCost(costParameters.getFixedCost());
 		costs.addUnitCost(costParameters.getUnitCost());
+		
 	}
 
 }

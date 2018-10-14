@@ -3,10 +3,11 @@ package simulation;
 public class SimulationResource {
 
 	private String id;
-	private static Long currentQuantity = (long) 0;
+	private Long currentQuantity = (long) 0;
 	private Double fixedCost = (double) 0;
 	private Double unitCost = (double) 0;
-	private static Long quantity = (long) 0;
+	private Long quantity = (long) 0;
+	private Long timeLastResourceHandled = (long) 0;
 	
 	
 	public SimulationResource(String id) {
@@ -42,14 +43,18 @@ public class SimulationResource {
 		return "currentQuantity: " + currentQuantity + ", quantity: " + quantity + ", fixedCost: " + fixedCost + ", unitCost: " + unitCost;
 	}
 	
-	public synchronized boolean isAvaliable() {
+	public boolean isAvaliable() {
 		if (currentQuantity == 0) return false;
 		currentQuantity--;
 		return true;
 	}
+	
+	public Long getTimeLastResourceHandled() {
+		return timeLastResourceHandled;
+	}
 
-	public synchronized void resetQuantity() {
-		currentQuantity = quantity;
+	public void setTimeLastResourceHandled(Long timeLastResourceHandled) {
+		this.timeLastResourceHandled = timeLastResourceHandled;
 	}
 
 	

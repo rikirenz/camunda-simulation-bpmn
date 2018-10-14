@@ -154,30 +154,22 @@ public class EnsoApp {
 	private void runSimulation() {
 		while (!eventsQueue.isEmpty()) {
 			SimulationEvent currEvent = eventsQueue.remove();
-			LOGGER.info("task event: " + eventsQueue.size());
 			if (currEvent instanceof SimulationTaskEvent) {
-				// get the task event
 				SimulationTaskEvent currTaskEvent = (SimulationTaskEvent) currEvent;
-				LOGGER.info("task event: " + currTaskEvent.getName());
-				// get the resource that should do the task
-				SimulationResource currResource = BpsimCollection.resourcesElementsAvaliability
-						.get(currTaskEvent.getResourceId());
-
+				SimulationResource currResource = BpsimCollection.resourcesElementsAvaliability.get(currTaskEvent.getResourceId());
 				if (currResource == null || currResource.isAvaliable()) {
-					// LOGGER.info("------ classic branch");
 					if ((currTaskEvent.getStartTime() + currTaskEvent.getTime()) > simClock.getCurrentTime())
 						simClock.setCurrentTime((currTaskEvent.getStartTime() + currTaskEvent.getTime()));
-					// move on with the simulation
-					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId())
-							.activityInstanceIdIn(currTaskEvent.getId()).singleResult();
-					if (currTask != null)
-						taskService.complete(currTask.getId());
+					if (currResource != null) currResource.setTimeLastResourceHandled(simClock.getCurrentTime());
+					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).activityInstanceIdIn(currTaskEvent.getId()).singleResult();
+					if (currTask != null) taskService.complete(currTask.getId());
 				} else {
-					// LOGGER.info("------- resources have been termineted");
-					currResource.resetQuantity();
-					simClock.setCurrentTime((simClock.getCurrentTime() + currTaskEvent.getTime()));
-					if (currResource.isAvaliable() == false)
-						LOGGER.info("Something went very wrong with the resources!");
+					if (currResource.getTimeLastResourceHandled() > currTaskEvent.getStartTime()) {
+						if (simClock.getCurrentTime() < (currResource.getTimeLastResourceHandled() + currTaskEvent.getTime())) 
+							simClock.setCurrentTime((currResource.getTimeLastResourceHandled() + currTaskEvent.getTime()));
+					} else {
+						simClock.setCurrentTime((simClock.getCurrentTime() + currTaskEvent.getTime()));
+					}
 					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId())
 							.activityInstanceIdIn(currTaskEvent.getId()).singleResult();
 					taskService.complete(currTask.getId());
@@ -227,7 +219,7 @@ public class EnsoApp {
 					eventsQueue.add(currCatchEvent);
 				}
 			}
-			LOGGER.info("Current Time: " + simClock.getCurrentTime());
+			LOGGER.info("Current Event: " + currEvent.getName() + " Current Time: " + simClock.getCurrentTime());
 		}
 	}
 }

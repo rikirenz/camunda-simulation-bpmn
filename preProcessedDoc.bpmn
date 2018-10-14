@@ -1,180 +1,595 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Camunda Modeler" exporterVersion="1.11.3" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
-<bpmn:message id="messageStartEventIntermediateCatchEventIndipendent0" name="messageStartEventIntermediateCatchEventIndipendent0"/>
-<bpmn:process id="interruptingSubprocessEvent" isExecutable="true">
-<bpmn:startEvent id="StartEvent_1">
-<bpmn:outgoing>SequenceFlow_1j8l1x2</bpmn:outgoing>
-</bpmn:startEvent>
-<bpmn:subProcess id="SubProcess_0mqpfly">
-<bpmn:incoming>SequenceFlow_1j8l1x2</bpmn:incoming>
-<bpmn:outgoing>SequenceFlow_0ry6vdl</bpmn:outgoing>
-<bpmn:startEvent id="StartEvent_0lu3rs2">
-<bpmn:outgoing>SequenceFlow_03vurpl</bpmn:outgoing>
-</bpmn:startEvent>
-<bpmn:userTask id="Task_1" name="task 1">
-<semantic:extensionElements xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL">
-<camunda:executionListener class="executionlisteners.TaskListener" event="start"/>
+<semantic:definitions xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Camunda Modeler" exporterVersion="1.11.3" id="_1364754596385" name="Car Repair Process v2.0.0" targetNamespace="http://www.trisotech.com/definitions/_1364754596385">
+<bpmn:message id="messageStartEvent_F9A272EE-D325-44CF-AFFC-4A615D2C99711" name="messageStartEvent_F9A272EE-D325-44CF-AFFC-4A615D2C99711" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"/>
+<bpmn:message id="messageStartEvent_25E36E2C-9196-4170-8BA3-52DDF55D177E0" name="messageStartEvent_25E36E2C-9196-4170-8BA3-52DDF55D177E0" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"/>
+<semantic:process id="CarRepairProcess" isExecutable="true">
+<semantic:dataObject id="DF1364754596566"/>
+<semantic:startEvent id="_51BDA265-2FF5-40CB-B68D-1FBF9DAAA74C" name="Customer Arrives">
+<semantic:outgoing>_896FB358-BF3A-4609-8E83-8405D72DEA9B</semantic:outgoing>
+</semantic:startEvent>
+<bpmn:userTask id="_BA2B78BE-06A0-46C8-9BA2-D9EC923FDEAA" name="Make Estimate" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
 </semantic:extensionElements>
-<bpmn:incoming>SequenceFlow_03vurpl</bpmn:incoming>
-<bpmn:outgoing>SequenceFlow_0u3kpts</bpmn:outgoing>
+<semantic:incoming>_896FB358-BF3A-4609-8E83-8405D72DEA9B</semantic:incoming>
+<semantic:outgoing>_222A5787-C138-497B-8638-02121C5E0477</semantic:outgoing>
+<semantic:ioSpecification>
+<semantic:dataInput id="Din1364754596628"/>
+<semantic:dataOutput id="Dout1364754596626"/>
+<semantic:inputSet>
+<semantic:dataInputRefs>Din1364754596628</semantic:dataInputRefs>
+</semantic:inputSet>
+<semantic:outputSet>
+<semantic:dataOutputRefs>Dout1364754596626</semantic:dataOutputRefs>
+</semantic:outputSet>
+</semantic:ioSpecification>
+<semantic:dataInputAssociation id="_9EB2F46F-FA87-4DB3-9EA5-4CBA7FC355B2">
+<semantic:sourceRef>_6F155721-2EB2-4570-BFE0-E39C0B3EAD82</semantic:sourceRef>
+<semantic:targetRef>Din1364754596628</semantic:targetRef>
+</semantic:dataInputAssociation>
+<semantic:dataOutputAssociation id="_D5635CA0-2E65-458D-A25B-B7EAC7E888E2">
+<semantic:sourceRef>Dout1364754596626</semantic:sourceRef>
+<semantic:targetRef>_44E5E2EF-2B2F-4689-8531-4D451808B0A6</semantic:targetRef>
+</semantic:dataOutputAssociation>
 </bpmn:userTask>
-<bpmn:sequenceFlow id="SequenceFlow_03vurpl" sourceRef="StartEvent_0lu3rs2" targetRef="Task_1"/>
-<bpmn:subProcess id="SubProcess_0c2vbs7" name="Event Subprocess Interrupting" triggeredByEvent="true">
-<bpmn:userTask id="Task_3" name="task 3">
-<semantic:extensionElements xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL">
-<camunda:executionListener class="executionlisteners.TaskListener" event="start"/>
+<bpmn:userTask id="_D4804AD8-3EE4-47F1-942C-D9EAEA2811F0" name="Verify if Estimate Accepted" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
 </semantic:extensionElements>
-<bpmn:incoming>SequenceFlow_17wencg</bpmn:incoming>
-<bpmn:outgoing>SequenceFlow_00sof2p</bpmn:outgoing>
+<semantic:incoming>_222A5787-C138-497B-8638-02121C5E0477</semantic:incoming>
+<semantic:outgoing>_1F31B20E-FE41-440D-9D44-E7437D1639C6</semantic:outgoing>
+<semantic:ioSpecification>
+<semantic:dataInput id="Din1364754596627"/>
+<semantic:inputSet>
+<semantic:dataInputRefs>Din1364754596627</semantic:dataInputRefs>
+</semantic:inputSet>
+<semantic:outputSet/>
+</semantic:ioSpecification>
+<semantic:dataInputAssociation id="_C2B6A48C-B636-4186-955B-9C73CD3FA580">
+<semantic:sourceRef>_44E5E2EF-2B2F-4689-8531-4D451808B0A6</semantic:sourceRef>
+<semantic:targetRef>Din1364754596627</semantic:targetRef>
+</semantic:dataInputAssociation>
 </bpmn:userTask>
-<bpmn:sequenceFlow id="SequenceFlow_17wencg" sourceRef="IntermediateCatchEventIndipendent" targetRef="Task_3"/>
-<bpmn:endEvent id="EndEvent_00p1sbu">
-<bpmn:extensionElements>
-<camunda:executionListener class="executionlisteners.EndEventListener" event="start"/>
-</bpmn:extensionElements>
-<bpmn:incoming>SequenceFlow_00sof2p</bpmn:incoming>
-</bpmn:endEvent>
-<bpmn:sequenceFlow id="SequenceFlow_00sof2p" sourceRef="Task_3" targetRef="EndEvent_00p1sbu"/>
-<bpmn:startEvent id="IntermediateCatchEventIndipendent" name="IntermediateCatchEventIndipendent">
-<bpmn:outgoing>SequenceFlow_17wencg</bpmn:outgoing>
-<bpmn:messageEventDefinition messageRef="messageStartEventIntermediateCatchEventIndipendent0"/>
-</bpmn:startEvent>
-</bpmn:subProcess>
-<bpmn:sequenceFlow id="SequenceFlow_0u3kpts" sourceRef="Task_1" targetRef="Task_2"/>
-<bpmn:endEvent id="EndEvent_028abj9">
-<bpmn:incoming>SequenceFlow_1o2i9y3</bpmn:incoming>
-</bpmn:endEvent>
-<bpmn:userTask id="Task_2" name="task 2">
-<semantic:extensionElements xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL">
-<camunda:executionListener class="executionlisteners.TaskListener" event="start"/>
+<semantic:exclusiveGateway default="_3B161ED4-4C10-4349-9A2D-B4E002D5EC0E" id="_F7498C3B-5925-415A-80D7-D16758B353C9" name="Accepted?">
+<semantic:incoming>_1F31B20E-FE41-440D-9D44-E7437D1639C6</semantic:incoming>
+<semantic:outgoing>_3B161ED4-4C10-4349-9A2D-B4E002D5EC0E</semantic:outgoing>
+<semantic:outgoing>_3654E294-536A-4CD2-9950-11F02657EE60</semantic:outgoing>
+</semantic:exclusiveGateway>
+<semantic:endEvent id="_87E52808-857B-45B0-93E8-F6D7AC0B4B3E" name="Initial Estimate Not Accepted">
+<semantic:incoming>_3654E294-536A-4CD2-9950-11F02657EE60</semantic:incoming>
+</semantic:endEvent>
+<semantic:subProcess id="_EBE375AE-E49A-47F7-8E04-DA6A1532ECC2" name="Repair Car">
+<semantic:incoming>_3B161ED4-4C10-4349-9A2D-B4E002D5EC0E</semantic:incoming>
+<semantic:outgoing>_0884CEBC-44CE-4BE2-958F-8941946BDA64</semantic:outgoing>
+<semantic:startEvent id="_FA77D7D8-9C02-4006-942A-B003AEDA5E3C" name="Start Repairs">
+<semantic:outgoing>SequenceFlow_0metlqp</semantic:outgoing>
+</semantic:startEvent>
+<semantic:subProcess id="_AF4F8D5E-E399-4ED8-992F-9AA653C17D6E" name="" triggeredByEvent="true">
+<semantic:startEvent id="_25E36E2C-9196-4170-8BA3-52DDF55D177E" isInterrupting="false" name="Customer Requests Additional  Repairs">
+<bpmn:messageEventDefinition messageRef="messageStartEvent_25E36E2C-9196-4170-8BA3-52DDF55D177E0" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"/>
+</semantic:startEvent>
+<bpmn:userTask id="_D226B9E0-0194-481E-AAEC-32473D45FEEF" name="Add Additional Issue to List" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
 </semantic:extensionElements>
-<bpmn:incoming>SequenceFlow_0u3kpts</bpmn:incoming>
-<bpmn:outgoing>SequenceFlow_1o2i9y3</bpmn:outgoing>
+<semantic:incoming>_62BD6E5E-B5C0-4719-86CE-D5E30A1D128F</semantic:incoming>
+<semantic:outgoing>_24A3FEEC-8DE6-42DC-9B85-D076EB8909A4</semantic:outgoing>
+<semantic:ioSpecification>
+<semantic:dataOutput id="Dout1364754596601"/>
+<semantic:inputSet/>
+<semantic:outputSet>
+<semantic:dataOutputRefs>Dout1364754596601</semantic:dataOutputRefs>
+</semantic:outputSet>
+</semantic:ioSpecification>
+<semantic:dataOutputAssociation id="_94CD5662-8EB9-4B23-A486-8B6970314AD7">
+<semantic:sourceRef>Dout1364754596601</semantic:sourceRef>
+<semantic:targetRef>_C96534C9-934E-415D-8903-28DA8712B25E</semantic:targetRef>
+</semantic:dataOutputAssociation>
 </bpmn:userTask>
-<bpmn:sequenceFlow id="SequenceFlow_1o2i9y3" sourceRef="Task_2" targetRef="EndEvent_028abj9"/>
-</bpmn:subProcess>
-<bpmn:sequenceFlow id="SequenceFlow_1j8l1x2" sourceRef="StartEvent_1" targetRef="SubProcess_0mqpfly"/>
-<bpmn:endEvent id="EndEvent_02xbu57">
-<bpmn:extensionElements>
-<camunda:executionListener class="executionlisteners.EndEventListener" event="start"/>
-</bpmn:extensionElements>
-<bpmn:incoming>SequenceFlow_0ry6vdl</bpmn:incoming>
-</bpmn:endEvent>
-<bpmn:sequenceFlow id="SequenceFlow_0ry6vdl" sourceRef="SubProcess_0mqpfly" targetRef="EndEvent_02xbu57"/>
-</bpmn:process>
-<bpmndi:BPMNDiagram id="BPMNDiagram_1">
-<bpmndi:BPMNPlane bpmnElement="interruptingSubprocessEvent" id="BPMNPlane_1">
-<bpmndi:BPMNShape bpmnElement="StartEvent_1" id="_BPMNShape_StartEvent_2">
-<dc:Bounds height="36" width="36" x="304" y="259"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="20" width="90" x="277" y="295"/>
-</bpmndi:BPMNLabel>
+<semantic:endEvent id="_4C551546-C127-4CD9-9106-78A3FC8978A6" name="Issue List Amended By Customer">
+<semantic:incoming>_24A3FEEC-8DE6-42DC-9B85-D076EB8909A4</semantic:incoming>
+</semantic:endEvent>
+<semantic:dataObjectReference dataObjectRef="DF1364754596565" id="_C96534C9-934E-415D-8903-28DA8712B25E" name="Itemized  Issues">
+<semantic:dataState name="Amended"/>
+</semantic:dataObjectReference>
+<semantic:sequenceFlow id="_62BD6E5E-B5C0-4719-86CE-D5E30A1D128F" name="" sourceRef="_25E36E2C-9196-4170-8BA3-52DDF55D177E" targetRef="_D226B9E0-0194-481E-AAEC-32473D45FEEF"/>
+<semantic:sequenceFlow id="_24A3FEEC-8DE6-42DC-9B85-D076EB8909A4" name="" sourceRef="_D226B9E0-0194-481E-AAEC-32473D45FEEF" targetRef="_4C551546-C127-4CD9-9106-78A3FC8978A6"/>
+</semantic:subProcess>
+<bpmn:userTask id="_91C1F9A1-0EB9-4FD4-A2A7-99C2E8C34854" name="Take Apart for Issue" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_9C46FDB0-2EBD-4B2F-A72A-0189A4D76A73</semantic:incoming>
+<semantic:incoming>SequenceFlow_0metlqp</semantic:incoming>
+<semantic:outgoing>_F165F4A8-69B1-4B19-A1A4-470BDE12FA77</semantic:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="_A9E2794B-4C41-429B-9C04-46C5B8741DDC" name="Inspect for Issue" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_F165F4A8-69B1-4B19-A1A4-470BDE12FA77</semantic:incoming>
+<semantic:outgoing>_FE1BBBD3-1730-4BC0-895D-76106317615D</semantic:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="_8040CF1A-3CAA-4A98-8E94-DD405EF233E9" name="Handle New Found Issue" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_BEFA7BF4-D1C2-47CB-B0CD-EF87E541B1BC</semantic:incoming>
+<semantic:outgoing>_F298A83E-5AD6-4BB6-95AF-E5B0A26A51FC</semantic:outgoing>
+</bpmn:userTask>
+<semantic:exclusiveGateway default="_751A4C0A-FC0F-441E-A587-4016BE8101B3" id="_5C0BF369-3360-43C3-9792-3E6492BA7291" name="">
+<semantic:incoming>_F298A83E-5AD6-4BB6-95AF-E5B0A26A51FC</semantic:incoming>
+<semantic:incoming>_FE1BBBD3-1730-4BC0-895D-76106317615D</semantic:incoming>
+<semantic:outgoing>_751A4C0A-FC0F-441E-A587-4016BE8101B3</semantic:outgoing>
+<semantic:outgoing>_BEFA7BF4-D1C2-47CB-B0CD-EF87E541B1BC</semantic:outgoing>
+</semantic:exclusiveGateway>
+<semantic:subProcess id="_C89D1737-9813-44C2-A5D5-87649AE7AEC6" name="" triggeredByEvent="true">
+<semantic:startEvent id="_F9A272EE-D325-44CF-AFFC-4A615D2C9971" name="Repairs Aborted">
+<bpmn:messageEventDefinition messageRef="messageStartEvent_F9A272EE-D325-44CF-AFFC-4A615D2C99711" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"/>
+</semantic:startEvent>
+<bpmn:userTask id="_52CCF00D-C0E3-4931-8D4E-6C989E317A07" name="Prepare Car for remittance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_CF5A1710-35F8-48B6-85FD-A90C99FEC5B3</semantic:incoming>
+<semantic:outgoing>_19517CEB-6A0E-4B88-8911-FEEEFE3B55CE</semantic:outgoing>
+<semantic:ioSpecification>
+<semantic:dataOutput id="Dout1364754596612"/>
+<semantic:inputSet/>
+<semantic:outputSet>
+<semantic:dataOutputRefs>Dout1364754596612</semantic:dataOutputRefs>
+</semantic:outputSet>
+</semantic:ioSpecification>
+<semantic:dataOutputAssociation id="_9DBCFE15-F025-4A3B-A3F7-41BFCFA182D1">
+<semantic:sourceRef>Dout1364754596612</semantic:sourceRef>
+<semantic:targetRef>_4134CEB9-F012-4F9E-9EF3-932E18E731E5</semantic:targetRef>
+</semantic:dataOutputAssociation>
+</bpmn:userTask>
+<semantic:endEvent id="_2BBAB508-4026-40F7-8FC3-23E68E77EE46" name="Repairs Aborted">
+<semantic:incoming>_19517CEB-6A0E-4B88-8911-FEEEFE3B55CE</semantic:incoming>
+<semantic:terminateEventDefinition/>
+</semantic:endEvent>
+<semantic:dataObjectReference dataObjectRef="DF1364754596565" id="_4134CEB9-F012-4F9E-9EF3-932E18E731E5" name="Itemized  Issues">
+<semantic:dataState name="Completed Items"/>
+</semantic:dataObjectReference>
+<semantic:sequenceFlow id="_CF5A1710-35F8-48B6-85FD-A90C99FEC5B3" name="" sourceRef="_F9A272EE-D325-44CF-AFFC-4A615D2C9971" targetRef="_52CCF00D-C0E3-4931-8D4E-6C989E317A07"/>
+<semantic:sequenceFlow id="_19517CEB-6A0E-4B88-8911-FEEEFE3B55CE" name="" sourceRef="_52CCF00D-C0E3-4931-8D4E-6C989E317A07" targetRef="_2BBAB508-4026-40F7-8FC3-23E68E77EE46"/>
+</semantic:subProcess>
+<bpmn:userTask id="_071B5D0A-5225-4E55-9105-8D15169DAC96" name="Repair Issue" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_751A4C0A-FC0F-441E-A587-4016BE8101B3</semantic:incoming>
+<semantic:outgoing>_7BCC27D0-D619-4895-92F5-4516D9583479</semantic:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="_2A752317-508C-4BB1-9AE7-49FBC7391B2B" name="Verify if more Issues on Itemized List" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_7BCC27D0-D619-4895-92F5-4516D9583479</semantic:incoming>
+<semantic:outgoing>_8C74C362-DDEF-48B9-AED2-E4034E917A40</semantic:outgoing>
+<semantic:ioSpecification>
+<semantic:dataInput id="Din1364754596619"/>
+<semantic:inputSet>
+<semantic:dataInputRefs>Din1364754596619</semantic:dataInputRefs>
+</semantic:inputSet>
+<semantic:outputSet/>
+</semantic:ioSpecification>
+<semantic:property id="Property_0ttam05" name="__targetRef_placeholder"/>
+<semantic:dataInputAssociation id="_7586D519-92CA-4824-93B9-59E925689D65">
+<semantic:sourceRef>_A5699C3D-74E0-497C-8B62-607B9909A0C9</semantic:sourceRef>
+<semantic:targetRef>Property_0ttam05</semantic:targetRef>
+</semantic:dataInputAssociation>
+</bpmn:userTask>
+<semantic:exclusiveGateway default="_4799D2B0-A204-4A08-94ED-796C25D9AE57" id="_B78F09D7-A493-4FDC-B20C-B251C7405D95" name="Have further issues?">
+<semantic:incoming>_8C74C362-DDEF-48B9-AED2-E4034E917A40</semantic:incoming>
+<semantic:outgoing>_4799D2B0-A204-4A08-94ED-796C25D9AE57</semantic:outgoing>
+<semantic:outgoing>_9C46FDB0-2EBD-4B2F-A72A-0189A4D76A73</semantic:outgoing>
+</semantic:exclusiveGateway>
+<bpmn:userTask id="_DFFBC045-8147-468B-BC85-DAF1134E19CF" name="Prepare Car for Remittance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_4799D2B0-A204-4A08-94ED-796C25D9AE57</semantic:incoming>
+<semantic:outgoing>_56B35746-D946-481B-95EF-27D2CB8F4D29</semantic:outgoing>
+</bpmn:userTask>
+<semantic:endEvent id="_B67579E4-E038-4D9D-AA46-A3F9628CADA1" name="Repairs Completed">
+<semantic:incoming>_56B35746-D946-481B-95EF-27D2CB8F4D29</semantic:incoming>
+</semantic:endEvent>
+<semantic:dataObjectReference dataObjectRef="DF1364754596565" id="_A5699C3D-74E0-497C-8B62-607B9909A0C9" name="Itemized  Issues">
+<semantic:dataState name="Accepted"/>
+</semantic:dataObjectReference>
+<semantic:sequenceFlow id="_4799D2B0-A204-4A08-94ED-796C25D9AE57" name="No More Issues to Repair" sourceRef="_B78F09D7-A493-4FDC-B20C-B251C7405D95" targetRef="_DFFBC045-8147-468B-BC85-DAF1134E19CF"/>
+<semantic:sequenceFlow id="_751A4C0A-FC0F-441E-A587-4016BE8101B3" name="No Added  Issue Found" sourceRef="_5C0BF369-3360-43C3-9792-3E6492BA7291" targetRef="_071B5D0A-5225-4E55-9105-8D15169DAC96"/>
+<semantic:sequenceFlow id="_FE1BBBD3-1730-4BC0-895D-76106317615D" name="" sourceRef="_A9E2794B-4C41-429B-9C04-46C5B8741DDC" targetRef="_5C0BF369-3360-43C3-9792-3E6492BA7291"/>
+<semantic:sequenceFlow id="_F298A83E-5AD6-4BB6-95AF-E5B0A26A51FC" name="" sourceRef="_8040CF1A-3CAA-4A98-8E94-DD405EF233E9" targetRef="_5C0BF369-3360-43C3-9792-3E6492BA7291"/>
+<semantic:sequenceFlow id="_7BCC27D0-D619-4895-92F5-4516D9583479" name="" sourceRef="_071B5D0A-5225-4E55-9105-8D15169DAC96" targetRef="_2A752317-508C-4BB1-9AE7-49FBC7391B2B"/>
+<semantic:sequenceFlow id="_8C74C362-DDEF-48B9-AED2-E4034E917A40" name="" sourceRef="_2A752317-508C-4BB1-9AE7-49FBC7391B2B" targetRef="_B78F09D7-A493-4FDC-B20C-B251C7405D95"/>
+<semantic:sequenceFlow id="_56B35746-D946-481B-95EF-27D2CB8F4D29" name="" sourceRef="_DFFBC045-8147-468B-BC85-DAF1134E19CF" targetRef="_B67579E4-E038-4D9D-AA46-A3F9628CADA1"/>
+<semantic:sequenceFlow id="_9C46FDB0-2EBD-4B2F-A72A-0189A4D76A73" name="More Issues to Repair" sourceRef="_B78F09D7-A493-4FDC-B20C-B251C7405D95" targetRef="_91C1F9A1-0EB9-4FD4-A2A7-99C2E8C34854">
+<semantic:conditionExpression language="groovy" xsi:type="semantic:tFormalExpression">import util.Util&#13;
+&#13;
+Util.booleanValueFlow("_9C46FDB0-2EBD-4B2F-A72A-0189A4D76A73");</semantic:conditionExpression>
+</semantic:sequenceFlow>
+<semantic:sequenceFlow id="_BEFA7BF4-D1C2-47CB-B0CD-EF87E541B1BC" name="New Issue  Found" sourceRef="_5C0BF369-3360-43C3-9792-3E6492BA7291" targetRef="_8040CF1A-3CAA-4A98-8E94-DD405EF233E9">
+<semantic:conditionExpression language="groovy" xsi:type="semantic:tFormalExpression">import util.Util&#13;
+&#13;
+Util.booleanValueFlow("_BEFA7BF4-D1C2-47CB-B0CD-EF87E541B1BC");</semantic:conditionExpression>
+</semantic:sequenceFlow>
+<semantic:dataObject id="DF1364754596565"/>
+<semantic:sequenceFlow id="_F165F4A8-69B1-4B19-A1A4-470BDE12FA77" name="" sourceRef="_91C1F9A1-0EB9-4FD4-A2A7-99C2E8C34854" targetRef="_A9E2794B-4C41-429B-9C04-46C5B8741DDC"/>
+<semantic:sequenceFlow id="SequenceFlow_0metlqp" sourceRef="_FA77D7D8-9C02-4006-942A-B003AEDA5E3C" targetRef="_91C1F9A1-0EB9-4FD4-A2A7-99C2E8C34854"/>
+</semantic:subProcess>
+<bpmn:userTask id="_956694A6-DFD0-4422-800E-A7DF51A627C0" name="Prepare Invoice" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_0884CEBC-44CE-4BE2-958F-8941946BDA64</semantic:incoming>
+<semantic:outgoing>_79CF3D66-DDC0-4E70-A721-206B98C9106D</semantic:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="_78172A06-7EC8-47CC-B49B-01EAD0676195" name="Remit Car" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_CB71865E-954A-4D3D-874F-8DB33A5B391B</semantic:incoming>
+<semantic:outgoing>_9088D441-44C5-462B-8695-47D60A7BC451</semantic:outgoing>
+</bpmn:userTask>
+<semantic:endEvent id="_4CFC937C-2E42-4671-859E-42E710931963" name="Customer Leaves Shop">
+<semantic:incoming>_9088D441-44C5-462B-8695-47D60A7BC451</semantic:incoming>
+</semantic:endEvent>
+<bpmn:userTask id="_12A4A22E-9449-4E50-BDFC-AC00C8DE8660" name="Accept Payment" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<semantic:extensionElements>
+<camunda:executionListener class="executionlisteners.TaskListener" event="start" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"/>
+</semantic:extensionElements>
+<semantic:incoming>_79CF3D66-DDC0-4E70-A721-206B98C9106D</semantic:incoming>
+<semantic:outgoing>_CB71865E-954A-4D3D-874F-8DB33A5B391B</semantic:outgoing>
+</bpmn:userTask>
+<semantic:dataObjectReference dataObjectRef="DF1364754596565" id="_44E5E2EF-2B2F-4689-8531-4D451808B0A6" name="Itemized  Issues">
+<semantic:dataState name="Estimated"/>
+</semantic:dataObjectReference>
+<semantic:dataObjectReference dataObjectRef="DF1364754596566" id="_6F155721-2EB2-4570-BFE0-E39C0B3EAD82" name="Reported Issues"/>
+<semantic:sequenceFlow id="_896FB358-BF3A-4609-8E83-8405D72DEA9B" name="" sourceRef="_51BDA265-2FF5-40CB-B68D-1FBF9DAAA74C" targetRef="_BA2B78BE-06A0-46C8-9BA2-D9EC923FDEAA"/>
+<semantic:sequenceFlow id="_222A5787-C138-497B-8638-02121C5E0477" name="" sourceRef="_BA2B78BE-06A0-46C8-9BA2-D9EC923FDEAA" targetRef="_D4804AD8-3EE4-47F1-942C-D9EAEA2811F0"/>
+<semantic:sequenceFlow id="_1F31B20E-FE41-440D-9D44-E7437D1639C6" name="" sourceRef="_D4804AD8-3EE4-47F1-942C-D9EAEA2811F0" targetRef="_F7498C3B-5925-415A-80D7-D16758B353C9"/>
+<semantic:sequenceFlow id="_3B161ED4-4C10-4349-9A2D-B4E002D5EC0E" name="Initial Estimate Accepted" sourceRef="_F7498C3B-5925-415A-80D7-D16758B353C9" targetRef="_EBE375AE-E49A-47F7-8E04-DA6A1532ECC2"/>
+<semantic:sequenceFlow id="_9088D441-44C5-462B-8695-47D60A7BC451" name="" sourceRef="_78172A06-7EC8-47CC-B49B-01EAD0676195" targetRef="_4CFC937C-2E42-4671-859E-42E710931963"/>
+<semantic:sequenceFlow id="_0884CEBC-44CE-4BE2-958F-8941946BDA64" name="" sourceRef="_EBE375AE-E49A-47F7-8E04-DA6A1532ECC2" targetRef="_956694A6-DFD0-4422-800E-A7DF51A627C0"/>
+<semantic:sequenceFlow id="_79CF3D66-DDC0-4E70-A721-206B98C9106D" name="" sourceRef="_956694A6-DFD0-4422-800E-A7DF51A627C0" targetRef="_12A4A22E-9449-4E50-BDFC-AC00C8DE8660"/>
+<semantic:sequenceFlow id="_CB71865E-954A-4D3D-874F-8DB33A5B391B" name="" sourceRef="_12A4A22E-9449-4E50-BDFC-AC00C8DE8660" targetRef="_78172A06-7EC8-47CC-B49B-01EAD0676195"/>
+<semantic:sequenceFlow id="_3654E294-536A-4CD2-9950-11F02657EE60" name="Initial Estimate Not Accepted" sourceRef="_F7498C3B-5925-415A-80D7-D16758B353C9" targetRef="_87E52808-857B-45B0-93E8-F6D7AC0B4B3E">
+<semantic:conditionExpression language="groovy" xsi:type="semantic:tFormalExpression">import util.Util&#13;
+&#13;
+Util.booleanValueFlow("_3654E294-536A-4CD2-9950-11F02657EE60");</semantic:conditionExpression>
+</semantic:sequenceFlow>
+</semantic:process>
+<semantic:signal id="Signal_1vhwhvn" name="Signal_0vnmvp4"/>
+<semantic:signal id="Signal_0wmnhof" name="Signal_3r8cfc9"/>
+<bpmndi:BPMNDiagram documentation="" id="Trisotech_Visio-_6" name="Car Repair" resolution="96.00000267028808">
+<bpmndi:BPMNPlane bpmnElement="CarRepairProcess">
+<bpmndi:BPMNShape bpmnElement="_51BDA265-2FF5-40CB-B68D-1FBF9DAAA74C" id="S1364754596588__51BDA265-2FF5-40CB-B68D-1FBF9DAAA74C">
+<dc:Bounds height="30" width="30" x="101" y="426"/>
+<bpmndi:BPMNLabel/>
 </bpmndi:BPMNShape>
-<bpmndi:BPMNShape bpmnElement="SubProcess_0mqpfly" id="SubProcess_0mqpfly_di" isExpanded="true">
-<dc:Bounds height="374" width="524" x="425" y="90"/>
+<bpmndi:BPMNShape bpmnElement="_BA2B78BE-06A0-46C8-9BA2-D9EC923FDEAA" id="S1364754596589__BA2B78BE-06A0-46C8-9BA2-D9EC923FDEAA">
+<dc:Bounds height="68" width="83" x="167" y="407"/>
+<bpmndi:BPMNLabel/>
 </bpmndi:BPMNShape>
-<bpmndi:BPMNEdge bpmnElement="SequenceFlow_1j8l1x2" id="SequenceFlow_1j8l1x2_di">
-<di:waypoint x="340" xsi:type="dc:Point" y="277"/>
-<di:waypoint x="425" xsi:type="dc:Point" y="277"/>
+<bpmndi:BPMNShape bpmnElement="_D4804AD8-3EE4-47F1-942C-D9EAEA2811F0" id="S1364754596590__D4804AD8-3EE4-47F1-942C-D9EAEA2811F0">
+<dc:Bounds height="68" width="83" x="287" y="407"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_F7498C3B-5925-415A-80D7-D16758B353C9" id="S1364754596591__F7498C3B-5925-415A-80D7-D16758B353C9" isMarkerVisible="true">
+<dc:Bounds height="42" width="42" x="407" y="420"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_87E52808-857B-45B0-93E8-F6D7AC0B4B3E" id="S1364754596592__87E52808-857B-45B0-93E8-F6D7AC0B4B3E">
+<dc:Bounds height="32" width="32" x="462" y="548"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_EBE375AE-E49A-47F7-8E04-DA6A1532ECC2" id="S1364754596593__EBE375AE-E49A-47F7-8E04-DA6A1532ECC2" isExpanded="true">
+<dc:Bounds height="720" width="1327" x="624" y="29"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_FA77D7D8-9C02-4006-942A-B003AEDA5E3C" id="S1364754596594__FA77D7D8-9C02-4006-942A-B003AEDA5E3C">
+<dc:Bounds height="30" width="30" x="664" y="273"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_AF4F8D5E-E399-4ED8-992F-9AA653C17D6E" id="S1364754596596__AF4F8D5E-E399-4ED8-992F-9AA653C17D6E" isExpanded="true">
+<dc:Bounds height="226" width="426" x="798" y="485"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_25E36E2C-9196-4170-8BA3-52DDF55D177E" id="S1364754596597__25E36E2C-9196-4170-8BA3-52DDF55D177E">
+<dc:Bounds height="30" width="30" x="840" y="607"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_D226B9E0-0194-481E-AAEC-32473D45FEEF" id="S1364754596598__D226B9E0-0194-481E-AAEC-32473D45FEEF">
+<dc:Bounds height="68" width="83" x="935" y="589"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_4C551546-C127-4CD9-9106-78A3FC8978A6" id="S1364754596599__4C551546-C127-4CD9-9106-78A3FC8978A6">
+<dc:Bounds height="32" width="32" x="1112" y="606"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_C96534C9-934E-415D-8903-28DA8712B25E" id="S1364754596600__C96534C9-934E-415D-8903-28DA8712B25E">
+<dc:Bounds height="38" width="30" x="1015" y="494"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_91C1F9A1-0EB9-4FD4-A2A7-99C2E8C34854" id="S1364754596602__91C1F9A1-0EB9-4FD4-A2A7-99C2E8C34854">
+<dc:Bounds height="68" width="83" x="808" y="255"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_A9E2794B-4C41-429B-9C04-46C5B8741DDC" id="S1364754596603__A9E2794B-4C41-429B-9C04-46C5B8741DDC">
+<dc:Bounds height="68" width="83" x="927" y="255"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_8040CF1A-3CAA-4A98-8E94-DD405EF233E9" id="S1364754596605__8040CF1A-3CAA-4A98-8E94-DD405EF233E9">
+<dc:Bounds height="68" width="83" x="1108" y="77"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_5C0BF369-3360-43C3-9792-3E6492BA7291" id="S1364754596606__5C0BF369-3360-43C3-9792-3E6492BA7291" isMarkerVisible="true">
+<dc:Bounds height="42" width="42" x="1205" y="268"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_C89D1737-9813-44C2-A5D5-87649AE7AEC6" id="S1364754596607__C89D1737-9813-44C2-A5D5-87649AE7AEC6" isExpanded="true">
+<dc:Bounds height="228" width="451" x="1336" y="483"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_F9A272EE-D325-44CF-AFFC-4A615D2C9971" id="S1364754596608__F9A272EE-D325-44CF-AFFC-4A615D2C9971">
+<dc:Bounds height="30" width="30" x="1393" y="607"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_52CCF00D-C0E3-4931-8D4E-6C989E317A07" id="S1364754596609__52CCF00D-C0E3-4931-8D4E-6C989E317A07">
+<dc:Bounds height="68" width="83" x="1471" y="588"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_2BBAB508-4026-40F7-8FC3-23E68E77EE46" id="S1364754596610__2BBAB508-4026-40F7-8FC3-23E68E77EE46">
+<dc:Bounds height="32" width="32" x="1684" y="606"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_4134CEB9-F012-4F9E-9EF3-932E18E731E5" id="S1364754596611__4134CEB9-F012-4F9E-9EF3-932E18E731E5">
+<dc:Bounds height="38" width="30" x="1543" y="492"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_071B5D0A-5225-4E55-9105-8D15169DAC96" id="S1364754596613__071B5D0A-5225-4E55-9105-8D15169DAC96">
+<dc:Bounds height="68" width="83" x="1356" y="255"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_2A752317-508C-4BB1-9AE7-49FBC7391B2B" id="S1364754596614__2A752317-508C-4BB1-9AE7-49FBC7391B2B">
+<dc:Bounds height="68" width="83" x="1486" y="255"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_B78F09D7-A493-4FDC-B20C-B251C7405D95" id="S1364754596615__B78F09D7-A493-4FDC-B20C-B251C7405D95" isMarkerVisible="true">
+<dc:Bounds height="42" width="42" x="1617" y="268"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_DFFBC045-8147-468B-BC85-DAF1134E19CF" id="S1364754596616__DFFBC045-8147-468B-BC85-DAF1134E19CF">
+<dc:Bounds height="68" width="83" x="1741" y="255"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_B67579E4-E038-4D9D-AA46-A3F9628CADA1" id="S1364754596617__B67579E4-E038-4D9D-AA46-A3F9628CADA1">
+<dc:Bounds height="32" width="32" x="1877" y="273"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_A5699C3D-74E0-497C-8B62-607B9909A0C9" id="S1364754596618__A5699C3D-74E0-497C-8B62-607B9909A0C9">
+<dc:Bounds height="38" width="30" x="1486" y="149"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_956694A6-DFD0-4422-800E-A7DF51A627C0" id="S1364754596620__956694A6-DFD0-4422-800E-A7DF51A627C0">
+<dc:Bounds height="68" width="83" x="2018" y="250"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_78172A06-7EC8-47CC-B49B-01EAD0676195" id="S1364754596621__78172A06-7EC8-47CC-B49B-01EAD0676195">
+<dc:Bounds height="68" width="83" x="2241" y="250"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_4CFC937C-2E42-4671-859E-42E710931963" id="S1364754596622__4CFC937C-2E42-4671-859E-42E710931963">
+<dc:Bounds height="32" width="32" x="2368" y="268"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_12A4A22E-9449-4E50-BDFC-AC00C8DE8660" id="S1364754596623__12A4A22E-9449-4E50-BDFC-AC00C8DE8660">
+<dc:Bounds height="68" width="83" x="2134" y="250"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_44E5E2EF-2B2F-4689-8531-4D451808B0A6" id="S1364754596624__44E5E2EF-2B2F-4689-8531-4D451808B0A6">
+<dc:Bounds height="38" width="30" x="254" y="545"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="_6F155721-2EB2-4570-BFE0-E39C0B3EAD82" id="S1364754596625__6F155721-2EB2-4570-BFE0-E39C0B3EAD82">
+<dc:Bounds height="38" width="30" x="143" y="320"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNEdge bpmnElement="_79CF3D66-DDC0-4E70-A721-206B98C9106D" id="E1364754596631__79CF3D66-DDC0-4E70-A721-206B98C9106D">
+<di:waypoint x="2101" xsi:type="dc:Point" y="284"/>
+<di:waypoint x="2134" xsi:type="dc:Point" y="284"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_7BCC27D0-D619-4895-92F5-4516D9583479" id="E1364754596632__7BCC27D0-D619-4895-92F5-4516D9583479">
+<di:waypoint x="1439" xsi:type="dc:Point" y="277"/>
+<di:waypoint x="1453" xsi:type="dc:Point" y="277"/>
+<di:waypoint x="1486" xsi:type="dc:Point" y="277"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_24A3FEEC-8DE6-42DC-9B85-D076EB8909A4" id="E1364754596634__24A3FEEC-8DE6-42DC-9B85-D076EB8909A4">
+<di:waypoint x="1018" xsi:type="dc:Point" y="623"/>
+<di:waypoint x="1032" xsi:type="dc:Point" y="623"/>
+<di:waypoint x="1112" xsi:type="dc:Point" y="623"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_D5635CA0-2E65-458D-A25B-B7EAC7E888E2" id="E1364754596636__D5635CA0-2E65-458D-A25B-B7EAC7E888E2" sourceElement="S1364754596589__BA2B78BE-06A0-46C8-9BA2-D9EC923FDEAA">
+<di:waypoint x="209" xsi:type="dc:Point" y="475"/>
+<di:waypoint x="209" xsi:type="dc:Point" y="564"/>
+<di:waypoint x="254" xsi:type="dc:Point" y="564"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_FE1BBBD3-1730-4BC0-895D-76106317615D" id="E1364754596637__FE1BBBD3-1730-4BC0-895D-76106317615D">
+<di:waypoint x="1010" xsi:type="dc:Point" y="289"/>
+<di:waypoint x="1205" xsi:type="dc:Point" y="289"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_1F31B20E-FE41-440D-9D44-E7437D1639C6" id="E1364754596638__1F31B20E-FE41-440D-9D44-E7437D1639C6">
+<di:waypoint x="371" xsi:type="dc:Point" y="441"/>
+<di:waypoint x="385" xsi:type="dc:Point" y="441"/>
+<di:waypoint x="407" xsi:type="dc:Point" y="441"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_896FB358-BF3A-4609-8E83-8405D72DEA9B" id="E1364754596639__896FB358-BF3A-4609-8E83-8405D72DEA9B">
+<di:waypoint x="131" xsi:type="dc:Point" y="441"/>
+<di:waypoint x="145" xsi:type="dc:Point" y="441"/>
+<di:waypoint x="167" xsi:type="dc:Point" y="441"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_222A5787-C138-497B-8638-02121C5E0477" id="E1364754596640__222A5787-C138-497B-8638-02121C5E0477">
+<di:waypoint x="251" xsi:type="dc:Point" y="441"/>
+<di:waypoint x="287" xsi:type="dc:Point" y="441"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_0884CEBC-44CE-4BE2-958F-8941946BDA64" id="E1364754596641__0884CEBC-44CE-4BE2-958F-8941946BDA64">
+<di:waypoint x="1951" xsi:type="dc:Point" y="288"/>
+<di:waypoint x="1985" xsi:type="dc:Point" y="288"/>
+<di:waypoint x="1985" xsi:type="dc:Point" y="285"/>
+<di:waypoint x="2018" xsi:type="dc:Point" y="285"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_7586D519-92CA-4824-93B9-59E925689D65" id="E1364754596642__7586D519-92CA-4824-93B9-59E925689D65" targetElement="S1364754596614__2A752317-508C-4BB1-9AE7-49FBC7391B2B">
+<di:waypoint x="1516" xsi:type="dc:Point" y="168"/>
+<di:waypoint x="1541" xsi:type="dc:Point" y="168"/>
+<di:waypoint x="1541" xsi:type="dc:Point" y="255"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_751A4C0A-FC0F-441E-A587-4016BE8101B3" id="E1364754596643__751A4C0A-FC0F-441E-A587-4016BE8101B3">
+<di:waypoint x="1246" xsi:type="dc:Point" y="289"/>
+<di:waypoint x="1356" xsi:type="dc:Point" y="289"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_F298A83E-5AD6-4BB6-95AF-E5B0A26A51FC" id="E1364754596645__F298A83E-5AD6-4BB6-95AF-E5B0A26A51FC">
+<di:waypoint x="1108" xsi:type="dc:Point" y="111"/>
+<di:waypoint x="1067" xsi:type="dc:Point" y="111"/>
+<di:waypoint x="1216" xsi:type="dc:Point" y="278"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_C2B6A48C-B636-4186-955B-9C73CD3FA580" id="E1364754596646__C2B6A48C-B636-4186-955B-9C73CD3FA580" targetElement="S1364754596590__D4804AD8-3EE4-47F1-942C-D9EAEA2811F0">
+<di:waypoint x="285" xsi:type="dc:Point" y="564"/>
+<di:waypoint x="329" xsi:type="dc:Point" y="564"/>
+<di:waypoint x="329" xsi:type="dc:Point" y="475"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_3B161ED4-4C10-4349-9A2D-B4E002D5EC0E" id="E1364754596647__3B161ED4-4C10-4349-9A2D-B4E002D5EC0E">
+<di:waypoint x="427" xsi:type="dc:Point" y="421"/>
+<di:waypoint x="427" xsi:type="dc:Point" y="288"/>
+<di:waypoint x="624" xsi:type="dc:Point" y="288"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_9EB2F46F-FA87-4DB3-9EA5-4CBA7FC355B2" id="E1364754596649__9EB2F46F-FA87-4DB3-9EA5-4CBA7FC355B2" targetElement="S1364754596589__BA2B78BE-06A0-46C8-9BA2-D9EC923FDEAA">
+<di:waypoint x="174" xsi:type="dc:Point" y="339"/>
+<di:waypoint x="209" xsi:type="dc:Point" y="339"/>
+<di:waypoint x="209" xsi:type="dc:Point" y="407"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_9DBCFE15-F025-4A3B-A3F7-41BFCFA182D1" id="E1364754596650__9DBCFE15-F025-4A3B-A3F7-41BFCFA182D1" sourceElement="S1364754596609__52CCF00D-C0E3-4931-8D4E-6C989E317A07">
+<di:waypoint x="1487" xsi:type="dc:Point" y="588"/>
+<di:waypoint x="1487" xsi:type="dc:Point" y="511"/>
+<di:waypoint x="1543" xsi:type="dc:Point" y="511"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_56B35746-D946-481B-95EF-27D2CB8F4D29" id="E1364754596651__56B35746-D946-481B-95EF-27D2CB8F4D29">
+<di:waypoint x="1824" xsi:type="dc:Point" y="289"/>
+<di:waypoint x="1838" xsi:type="dc:Point" y="289"/>
+<di:waypoint x="1877" xsi:type="dc:Point" y="289"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_CB71865E-954A-4D3D-874F-8DB33A5B391B" id="E1364754596652__CB71865E-954A-4D3D-874F-8DB33A5B391B">
+<di:waypoint x="2217" xsi:type="dc:Point" y="284"/>
+<di:waypoint x="2241" xsi:type="dc:Point" y="284"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_4799D2B0-A204-4A08-94ED-796C25D9AE57" id="E1364754596653__4799D2B0-A204-4A08-94ED-796C25D9AE57">
+<di:waypoint x="1658" xsi:type="dc:Point" y="289"/>
+<di:waypoint x="1672" xsi:type="dc:Point" y="289"/>
+<di:waypoint x="1741" xsi:type="dc:Point" y="289"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_62BD6E5E-B5C0-4719-86CE-D5E30A1D128F" id="E1364754596655__62BD6E5E-B5C0-4719-86CE-D5E30A1D128F">
+<di:waypoint x="870" xsi:type="dc:Point" y="623"/>
+<di:waypoint x="884" xsi:type="dc:Point" y="623"/>
+<di:waypoint x="935" xsi:type="dc:Point" y="623"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_94CD5662-8EB9-4B23-A486-8B6970314AD7" id="E1364754596657__94CD5662-8EB9-4B23-A486-8B6970314AD7" sourceElement="S1364754596598__D226B9E0-0194-481E-AAEC-32473D45FEEF">
+<di:waypoint x="951" xsi:type="dc:Point" y="589"/>
+<di:waypoint x="951" xsi:type="dc:Point" y="514"/>
+<di:waypoint x="1015" xsi:type="dc:Point" y="513"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_8C74C362-DDEF-48B9-AED2-E4034E917A40" id="E1364754596658__8C74C362-DDEF-48B9-AED2-E4034E917A40">
+<di:waypoint x="1569" xsi:type="dc:Point" y="289"/>
+<di:waypoint x="1583" xsi:type="dc:Point" y="289"/>
+<di:waypoint x="1617" xsi:type="dc:Point" y="289"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_CF5A1710-35F8-48B6-85FD-A90C99FEC5B3" id="E1364754596659__CF5A1710-35F8-48B6-85FD-A90C99FEC5B3">
+<di:waypoint x="1423" xsi:type="dc:Point" y="622"/>
+<di:waypoint x="1437" xsi:type="dc:Point" y="622"/>
+<di:waypoint x="1471" xsi:type="dc:Point" y="622"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_9088D441-44C5-462B-8695-47D60A7BC451" id="E1364754596660__9088D441-44C5-462B-8695-47D60A7BC451">
+<di:waypoint x="2324" xsi:type="dc:Point" y="284"/>
+<di:waypoint x="2338" xsi:type="dc:Point" y="284"/>
+<di:waypoint x="2368" xsi:type="dc:Point" y="284"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_19517CEB-6A0E-4B88-8911-FEEEFE3B55CE" id="E1364754596661__19517CEB-6A0E-4B88-8911-FEEEFE3B55CE">
+<di:waypoint x="1554" xsi:type="dc:Point" y="622"/>
+<di:waypoint x="1568" xsi:type="dc:Point" y="622"/>
+<di:waypoint x="1684" xsi:type="dc:Point" y="622"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_9C46FDB0-2EBD-4B2F-A72A-0189A4D76A73" id="E1364754596644__9C46FDB0-2EBD-4B2F-A72A-0189A4D76A73">
+<di:waypoint x="1637" xsi:type="dc:Point" y="309"/>
+<di:waypoint x="1637" xsi:type="dc:Point" y="370"/>
+<di:waypoint x="850" xsi:type="dc:Point" y="370"/>
+<di:waypoint x="850" xsi:type="dc:Point" y="323"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_BEFA7BF4-D1C2-47CB-B0CD-EF87E541B1BC" id="E1364754596635__BEFA7BF4-D1C2-47CB-B0CD-EF87E541B1BC">
+<di:waypoint x="1226" xsi:type="dc:Point" y="268"/>
+<di:waypoint x="1226" xsi:type="dc:Point" y="111"/>
+<di:waypoint x="1191" xsi:type="dc:Point" y="111"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_3654E294-536A-4CD2-9950-11F02657EE60" id="E1364754596648__3654E294-536A-4CD2-9950-11F02657EE60">
+<di:waypoint x="427" xsi:type="dc:Point" y="462"/>
+<di:waypoint x="427" xsi:type="dc:Point" y="564"/>
+<di:waypoint x="462" xsi:type="dc:Point" y="564"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="_F165F4A8-69B1-4B19-A1A4-470BDE12FA77" id="E1364754596633__F165F4A8-69B1-4B19-A1A4-470BDE12FA77">
+<di:waypoint x="891" xsi:type="dc:Point" y="289"/>
+<di:waypoint x="927" xsi:type="dc:Point" y="289"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="SequenceFlow_0metlqp" id="SequenceFlow_0metlqp_di">
+<di:waypoint x="693" xsi:type="dc:Point" y="288"/>
+<di:waypoint x="808" xsi:type="dc:Point" y="289"/>
 <bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="90" x="338" y="256"/>
+<dc:Bounds height="12" width="0" x="750.5" y="267.5"/>
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
-<bpmndi:BPMNShape bpmnElement="EndEvent_02xbu57" id="EndEvent_02xbu57_di">
-<dc:Bounds height="36" width="36" x="986" y="259"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="0" x="1004" y="299"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNShape>
-<bpmndi:BPMNEdge bpmnElement="SequenceFlow_0ry6vdl" id="SequenceFlow_0ry6vdl_di">
-<di:waypoint x="949" xsi:type="dc:Point" y="277"/>
-<di:waypoint x="986" xsi:type="dc:Point" y="277"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="90" x="923" y="256"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNEdge>
-<bpmndi:BPMNShape bpmnElement="StartEvent_0lu3rs2" id="StartEvent_0lu3rs2_di">
-<dc:Bounds height="36" width="36" x="445" y="181"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="0" x="463" y="221"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNShape>
-<bpmndi:BPMNShape bpmnElement="Task_1" id="Task_14xx5lr_di">
-<dc:Bounds height="80" width="100" x="510" y="159"/>
-</bpmndi:BPMNShape>
-<bpmndi:BPMNEdge bpmnElement="SequenceFlow_03vurpl" id="SequenceFlow_03vurpl_di">
-<di:waypoint x="481" xsi:type="dc:Point" y="199"/>
-<di:waypoint x="510" xsi:type="dc:Point" y="199"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="90" x="450.5" y="178"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNEdge>
-<bpmndi:BPMNShape bpmnElement="SubProcess_0c2vbs7" id="SubProcess_0bkddk4_di" isExpanded="true">
-<dc:Bounds height="171" width="445" x="458" y="273"/>
-</bpmndi:BPMNShape>
-<bpmndi:BPMNShape bpmnElement="Task_3" id="Task_134clqo_di">
-<dc:Bounds height="80" width="100" x="592" y="327"/>
-</bpmndi:BPMNShape>
-<bpmndi:BPMNEdge bpmnElement="SequenceFlow_17wencg" id="SequenceFlow_17wencg_di">
-<di:waypoint x="524" xsi:type="dc:Point" y="367"/>
-<di:waypoint x="592" xsi:type="dc:Point" y="367"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="90" x="513" y="346"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNEdge>
-<bpmndi:BPMNEdge bpmnElement="SequenceFlow_0u3kpts" id="SequenceFlow_0u3kpts_di">
-<di:waypoint x="610" xsi:type="dc:Point" y="199"/>
-<di:waypoint x="660" xsi:type="dc:Point" y="199"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="90" x="590" y="178"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNEdge>
-<bpmndi:BPMNShape bpmnElement="EndEvent_028abj9" id="EndEvent_168csn8_di">
-<dc:Bounds height="36" width="36" x="803" y="181"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="0" x="775" y="221"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNShape>
-<bpmndi:BPMNShape bpmnElement="EndEvent_00p1sbu" id="EndEvent_00p1sbu_di">
-<dc:Bounds height="36" width="36" x="805.4191049913942" y="349"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="0" x="823.4191049913942" y="389"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNShape>
-<bpmndi:BPMNEdge bpmnElement="SequenceFlow_00sof2p" id="SequenceFlow_00sof2p_di">
-<di:waypoint x="692" xsi:type="dc:Point" y="367"/>
-<di:waypoint x="805" xsi:type="dc:Point" y="367"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="0" x="748.5" y="346"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNEdge>
-<bpmndi:BPMNShape bpmnElement="Task_2" id="Task_1jbainb_di">
-<dc:Bounds height="80" width="100" x="660.4191049913942" y="159"/>
-</bpmndi:BPMNShape>
-<bpmndi:BPMNEdge bpmnElement="SequenceFlow_1o2i9y3" id="SequenceFlow_1o2i9y3_di">
-<di:waypoint x="760" xsi:type="dc:Point" y="199"/>
-<di:waypoint x="803" xsi:type="dc:Point" y="199"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="12" width="0" x="781.5" y="178"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNEdge>
-<bpmndi:BPMNShape bpmnElement="IntermediateCatchEventIndipendent" id="StartEvent_007h3d4_di">
-<dc:Bounds height="36" width="36" x="488" y="349"/>
-<bpmndi:BPMNLabel>
-<dc:Bounds height="36" width="89" x="462" y="389"/>
-</bpmndi:BPMNLabel>
-</bpmndi:BPMNShape>
 </bpmndi:BPMNPlane>
 </bpmndi:BPMNDiagram>
-<bpmn:relationship type="BPSimData">
-<bpmn:extensionElements>
+<semantic:relationship type="BPSimData">
+<semantic:extensionElements>
 <bpsim:BPSimData>
-<bpsim:Scenario author="Tim Stephenson" id="default" name="Scenario 1">
-<bpsim:ScenarioParameters baseCurrencyUnit="USD" baseTimeUnit="min" replication="3" seed="1" traceFormat="XES"/>
-<bpsim:ElementParameters elementRef="Task_1">
+<bpsim:Scenario author="Tim Stephenson" id="S1" name="Scenario 1: Main flow without sub-processes">
+<bpsim:ScenarioParameters replication="3">
+<bpsim:Duration>
+<bpsim:DurationParameter value="PT60H"/>
+</bpsim:Duration>
+</bpsim:ScenarioParameters>
+<bpsim:ElementParameters elementRef="_BA2B78BE-06A0-46C8-9BA2-D9EC923FDEAA">
 <bpsim:TimeParameters>
 <bpsim:TransferTime>
-<bpsim:TriangularDistribution max="2.5" min="0.35" mode="2"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:TransferTime>
 <bpsim:QueueTime>
 <bpsim:FloatingParameter value="60"/>
@@ -220,10 +635,10 @@
 </bpsim:Priority>
 </bpsim:PriorityParameters>
 </bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="Task_2">
+<bpsim:ElementParameters elementRef="_D4804AD8-3EE4-47F1-942C-D9EAEA2811F0">
 <bpsim:TimeParameters>
 <bpsim:TransferTime>
-<bpsim:TriangularDistribution max="2.5" min="0.35" mode="2"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:TransferTime>
 <bpsim:QueueTime>
 <bpsim:FloatingParameter value="60"/>
@@ -269,10 +684,10 @@
 </bpsim:Priority>
 </bpsim:PriorityParameters>
 </bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="Task_3">
+<bpsim:ElementParameters elementRef="_91C1F9A1-0EB9-4FD4-A2A7-99C2E8C34854">
 <bpsim:TimeParameters>
 <bpsim:TransferTime>
-<bpsim:TriangularDistribution max="2.5" min="0.35" mode="2"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:TransferTime>
 <bpsim:QueueTime>
 <bpsim:FloatingParameter value="60"/>
@@ -318,21 +733,444 @@
 </bpsim:Priority>
 </bpsim:PriorityParameters>
 </bpsim:ElementParameters>
-<bpsim:ElementParameters elementRef="IntermediateCatchEventIndipendent">
+<bpsim:ElementParameters elementRef="_A9E2794B-4C41-429B-9C04-46C5B8741DDC">
+<bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
+<bpsim:ProcessingTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
+</bpsim:TimeParameters>
 <bpsim:ControlParameters>
 <bpsim:InterTriggerTimer>
-<bpsim:NumericParameter value="20"/>
+<bpsim:FloatingParameter value="60"/>
 </bpsim:InterTriggerTimer>
 <bpsim:TriggerCount>
-<bpsim:NumericParameter value="0"/>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_D226B9E0-0194-481E-AAEC-32473D45FEEF">
+<bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
+<bpsim:ProcessingTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
+</bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_A9E2794B-4C41-429B-9C04-46C5B8741DDC">
+<bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
+<bpsim:ProcessingTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
+</bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_8040CF1A-3CAA-4A98-8E94-DD405EF233E9">
+<bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
+<bpsim:ProcessingTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
+</bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_071B5D0A-5225-4E55-9105-8D15169DAC96">
+<bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
+<bpsim:ProcessingTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
+</bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_2A752317-508C-4BB1-9AE7-49FBC7391B2B">
+<bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
+<bpsim:ProcessingTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
+</bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_52CCF00D-C0E3-4931-8D4E-6C989E317A07">
+<bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
+<bpsim:ProcessingTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
+</bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_DFFBC045-8147-468B-BC85-DAF1134E19CF">
+<bpsim:TimeParameters>
+<bpsim:TransferTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:TransferTime>
+<bpsim:QueueTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:QueueTime>
+<bpsim:WaitTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:WaitTime>
+<bpsim:SetUpTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:SetUpTime>
+<bpsim:ProcessingTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ProcessingTime>
+<bpsim:ValidationTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ValidationTime>
+<bpsim:ReworkTime>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:ReworkTime>
+</bpsim:TimeParameters>
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="60"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+<bpsim:CostParameters>
+<bpsim:FixedCost>
+<bpsim:NumericParameter value="200"/>
+</bpsim:FixedCost>
+<bpsim:UnitCost>
+<bpsim:FloatingParameter value="10"/>
+</bpsim:UnitCost>
+</bpsim:CostParameters>
+<bpsim:PriorityParameters>
+<bpsim:Interruptible>
+<bpsim:BooleanParameter value="true"/>
+</bpsim:Interruptible>
+<bpsim:Priority>
+<bpsim:NumericParameter value="200"/>
+</bpsim:Priority>
+</bpsim:PriorityParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_3654E294-536A-4CD2-9950-11F02657EE60">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:NumericParameter value="1"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_9C46FDB0-2EBD-4B2F-A72A-0189A4D76A73">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:NumericParameter value="1"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_BEFA7BF4-D1C2-47CB-B0CD-EF87E541B1BC">
+<bpsim:ControlParameters>
+<bpsim:Probability>
+<bpsim:NumericParameter value="1"/>
+</bpsim:Probability>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_25E36E2C-9196-4170-8BA3-52DDF55D177E">
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="900"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
+</bpsim:TriggerCount>
+</bpsim:ControlParameters>
+</bpsim:ElementParameters>
+<bpsim:ElementParameters elementRef="_F9A272EE-D325-44CF-AFFC-4A615D2C9971">
+<bpsim:ControlParameters>
+<bpsim:InterTriggerTimer>
+<bpsim:FloatingParameter value="900"/>
+</bpsim:InterTriggerTimer>
+<bpsim:TriggerCount>
+<bpsim:NumericParameter value="10"/>
 </bpsim:TriggerCount>
 </bpsim:ControlParameters>
 </bpsim:ElementParameters>
 </bpsim:Scenario>
 </bpsim:BPSimData>
-</bpmn:extensionElements>
-<bpmn:source>Definitions_1</bpmn:source>
-<bpmn:target>Definitions_1</bpmn:target>
-</bpmn:relationship>
-</bpmn:definitions>
+</semantic:extensionElements>
+<semantic:source>_1364754596385</semantic:source>
+<semantic:target>_1364754596385</semantic:target>
+</semantic:relationship>
+</semantic:definitions>
 

@@ -2,7 +2,7 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
   <bpmn:resource id="resource_1" name="resource_1" />
   <bpmn:resource id="resource_2" name="resource_2" />
-  <bpmn:process id="parallelTasksMultipleResources3" isExecutable="true">
+  <bpmn:process id="parallelTasksMultipleResources4" isExecutable="true">
     <bpmn:startEvent id="startEvent" name="startEvent">
       <bpmn:outgoing>SequenceFlow_0pc9anr</bpmn:outgoing>
     </bpmn:startEvent>
@@ -12,6 +12,7 @@
       <bpmn:outgoing>SequenceFlow_0p212ir</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0idrphc</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_15ai6e8</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_05qkuyz</bpmn:outgoing>
     </bpmn:parallelGateway>
     <bpmn:task id="task1" name="task1">
       <bpmn:incoming>SequenceFlow_1wva3vq</bpmn:incoming>
@@ -33,6 +34,7 @@
       <bpmn:incoming>SequenceFlow_1afmcc5</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0zkwmgz</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0e4m2gl</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_06f9cxk</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1n5qc7q</bpmn:outgoing>
     </bpmn:parallelGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0pc9anr" sourceRef="startEvent" targetRef="ExclusiveGateway_02vfa6v" />
@@ -54,9 +56,15 @@
       <bpmn:outgoing>SequenceFlow_0nlya9v</bpmn:outgoing>
     </bpmn:task>
     <bpmn:sequenceFlow id="SequenceFlow_0nlya9v" sourceRef="task5" targetRef="endEvent" />
+    <bpmn:task id="task6" name="task6">
+      <bpmn:incoming>SequenceFlow_05qkuyz</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_06f9cxk</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="SequenceFlow_05qkuyz" sourceRef="ExclusiveGateway_02vfa6v" targetRef="task6" />
+    <bpmn:sequenceFlow id="SequenceFlow_06f9cxk" sourceRef="task6" targetRef="ExclusiveGateway_01lswkk" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="parallelTasksMultipleResources3">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="parallelTasksMultipleResources4">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="startEvent">
         <dc:Bounds x="277" y="368" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -92,11 +100,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0pc9anr_di" bpmnElement="SequenceFlow_0pc9anr">
         <di:waypoint xsi:type="dc:Point" x="313" y="386" />
-        <di:waypoint xsi:type="dc:Point" x="334" y="386" />
-        <di:waypoint xsi:type="dc:Point" x="334" y="386" />
         <di:waypoint xsi:type="dc:Point" x="359" y="386" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="304" y="380" width="90" height="12" />
+          <dc:Bounds x="291" y="365" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1wva3vq_di" bpmnElement="SequenceFlow_1wva3vq">
@@ -186,6 +192,25 @@
           <dc:Bounds x="1079" y="381" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Task_0z01623_di" bpmnElement="task6">
+        <dc:Bounds x="572" y="551" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_05qkuyz_di" bpmnElement="SequenceFlow_05qkuyz">
+        <di:waypoint xsi:type="dc:Point" x="384" y="386" />
+        <di:waypoint xsi:type="dc:Point" x="384" y="591" />
+        <di:waypoint xsi:type="dc:Point" x="572" y="591" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="399" y="482.5" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_06f9cxk_di" bpmnElement="SequenceFlow_06f9cxk">
+        <di:waypoint xsi:type="dc:Point" x="672" y="591" />
+        <di:waypoint xsi:type="dc:Point" x="900" y="591" />
+        <di:waypoint xsi:type="dc:Point" x="900" y="427" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="786" y="570" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
   <bpmn:relationship type="BPSimData">
@@ -203,14 +228,14 @@
           <bpsim:ElementParameters elementRef="resource_1">
             <bpsim:ResourceParameters>
               <bpsim:Quantity>
-                <bpsim:NumericParameter value="1" />
+                <bpsim:NumericParameter value="2" />
               </bpsim:Quantity>
             </bpsim:ResourceParameters>
           </bpsim:ElementParameters>
           <bpsim:ElementParameters elementRef="resource_2">
             <bpsim:ResourceParameters>
               <bpsim:Quantity>
-                <bpsim:NumericParameter value="1" />
+                <bpsim:NumericParameter value="2" />
               </bpsim:Quantity>
             </bpsim:ResourceParameters>
           </bpsim:ElementParameters>
@@ -328,7 +353,7 @@
                 <bpsim:FloatingParameter value="0" />
               </bpsim:TransferTime>
               <bpsim:QueueTime>
-                <bpsim:FloatingParameter value="12" />
+                <bpsim:FloatingParameter value="13" />
               </bpsim:QueueTime>
               <bpsim:WaitTime>
                 <bpsim:FloatingParameter value="0" />
@@ -382,7 +407,7 @@
                 <bpsim:FloatingParameter value="0" />
               </bpsim:TransferTime>
               <bpsim:QueueTime>
-                <bpsim:FloatingParameter value="13" />
+                <bpsim:FloatingParameter value="12" />
               </bpsim:QueueTime>
               <bpsim:WaitTime>
                 <bpsim:FloatingParameter value="0" />
@@ -484,6 +509,61 @@
               </bpsim:Selection>
             </bpsim:ResourceParameters>
           </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="task6">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:FloatingParameter value="13" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="60" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="10" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="10" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+            <bpsim:ResourceParameters>
+              <bpsim:Selection>
+                <bpsim:StringParameter value="resource_1" />
+              </bpsim:Selection>
+            </bpsim:ResourceParameters>
+          </bpsim:ElementParameters>
+          
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </bpmn:extensionElements>

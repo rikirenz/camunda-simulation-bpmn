@@ -8,6 +8,7 @@ public class SimulationResource {
 	private Double unitCost = (double) 0;
 	private Long quantity = (long) 0;
 	private Long timeLastResourceHandled = (long) 0;
+	private Long updateCounter = (long) 0;
 	
 	
 	public SimulationResource(String id) {
@@ -19,6 +20,7 @@ public class SimulationResource {
 	}
 
 	public void setQuantity(Long quantity) {
+		this.updateCounter = quantity;
 		this.currentQuantity = quantity;
 		this.quantity = quantity;
 	}
@@ -54,7 +56,15 @@ public class SimulationResource {
 	}
 
 	public void setTimeLastResourceHandled(Long timeLastResourceHandled) {
-		this.timeLastResourceHandled = timeLastResourceHandled;
+		if (this.updateCounter == this.quantity)
+			this.timeLastResourceHandled = timeLastResourceHandled;
+	
+		this.updateCounter--;
+		
+		if (this.updateCounter == 0) this.updateCounter = this.quantity;
+		
+		
+		
 	}
 
 	

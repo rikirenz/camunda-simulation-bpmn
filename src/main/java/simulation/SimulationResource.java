@@ -62,10 +62,6 @@ public class SimulationResource {
 		this.updateCounter--;
 		
 		if (this.updateCounter == 0) this.updateCounter = this.quantity;
-		
-		
-		
 	}
-
 	
 }

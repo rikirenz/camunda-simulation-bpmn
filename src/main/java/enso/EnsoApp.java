@@ -160,16 +160,20 @@ public class EnsoApp {
 				if (currResource == null || currResource.isAvaliable()) {
 					if ((currTaskEvent.getStartTime() + currTaskEvent.getTime()) > simClock.getCurrentTime())
 						simClock.setCurrentTime((currTaskEvent.getStartTime() + currTaskEvent.getTime()));
-					if (currResource != null) currResource.setTimeResourceReleased(simClock.getCurrentTime());
+					if (currResource != null) currResource.setTimeResourceReleased(currTaskEvent.getStartTime() + currTaskEvent.getTime());
 					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId()).activityInstanceIdIn(currTaskEvent.getId()).singleResult();
 					if (currTask != null) taskService.complete(currTask.getId());
 				} else {
-					if (currResource.getTimeResourceReleased() > currTaskEvent.getStartTime()) {
+					if (currResource.getTimeResourceReleased() >= currTaskEvent.getStartTime()) {
 						if (simClock.getCurrentTime() < (currResource.getTimeResourceReleased() + currTaskEvent.getTime())) 
 							simClock.setCurrentTime((currResource.getTimeResourceReleased() + currTaskEvent.getTime()));
 					} else {
 						simClock.setCurrentTime((simClock.getCurrentTime() + currTaskEvent.getTime()));
 					}
+					currResource.setTimeResourceReleased(currResource.getTimeResourceReleased() + currTaskEvent.getTime());
+					currResource.useResource();
+
+					
 					Task currTask = taskService.createTaskQuery().processInstanceId(currTaskEvent.getProcessId())
 							.activityInstanceIdIn(currTaskEvent.getId()).singleResult();
 					taskService.complete(currTask.getId());

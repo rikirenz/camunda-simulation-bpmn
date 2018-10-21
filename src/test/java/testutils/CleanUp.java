@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import simulation.SimulationCatchEvent;
 import simulation.SimulationClock;
 import simulation.SimulationCosts;
+import simulation.SimulationResource;
 import util.BpsimCollection;
 
 /**
@@ -20,11 +21,10 @@ public final class CleanUp {
     public static void resetSimulation() {
 		SimulationClock simClock = new SimulationClock();
 		simClock.resetTime();
-		
 		SimulationCosts simCosts = new SimulationCosts();
-		simCosts.resetCost();
-		
+		simCosts.resetCost();	
 		BpsimCollection.indipendentIntermediateThrowEvents = new ArrayList<SimulationCatchEvent>();
+		
     }
     
 }

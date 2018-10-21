@@ -33,12 +33,13 @@ public class SimulationDifferentScenariosTest extends TestCase{
         	{"parallelTasksMultipleResources2", 25, (210*4)}, // 2 resources, 3 Tasks
         	{"parallelTasksMultipleResources3", 38, (210*5)}, // 2 resources, 3 Tasks
         	{"parallelTasksMultipleResources4", 38, (210*6)}, // 2 resources, 3 Tasks
-        	{"xor", 365, 210},
-        	{"boundaryEventTimer", (365*2), (210*2)},
-        	{"intermediateEvent", 365, 210},
-        	{"transaction", (365*2), (210*2)},
-        	{"nonInterruptingSubprocessEvent", (365*2), (210*4)},
-        	{"interruptingSubprocessEvent", (365*2), (210*3)},
+        	{"parallelTasksMultipleResources5", 25, (210*4)}, // 2 resources, 3 Tasks
+        	//{"xor", 365, 210},
+        	//{"boundaryEventTimer", (365*2), (210*2)},
+        	//{"intermediateEvent", 365, 210},
+        	//{"transaction", (365*2), (210*2)},
+        	//{"nonInterruptingSubprocessEvent", (365*2), (210*4)},
+        	//{"interruptingSubprocessEvent", (365*2), (210*3)},
         });
     }
 

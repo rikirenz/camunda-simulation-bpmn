@@ -1,11 +1,13 @@
 package simulation;
 
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.logging.Logger;
 
 public class SimulationResource {
 
+	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	
-	private static PriorityBlockingQueue<Long> resourcesTimeQueue = new PriorityBlockingQueue<Long>();
+	private PriorityBlockingQueue<Long> resourcesTimeQueue = new PriorityBlockingQueue<Long>();
 	private String id;
 	private Long currentQuantity = (long) 0;
 	private Double fixedCost = (double) 0;
@@ -52,14 +54,13 @@ public class SimulationResource {
 		return true;
 	}
 	
+	public void useResource() {
+		LOGGER.info("====================== " + resourcesTimeQueue.toString());
+		resourcesTimeQueue.remove();
+	}
+	
 	public Long getTimeResourceReleased() {
-		try {
-			if (resourcesTimeQueue.isEmpty()) return null;
-			return resourcesTimeQueue.take();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return resourcesTimeQueue.peek();
 	}
 
 	public void setTimeResourceReleased(Long timeLastResourceHandled) {

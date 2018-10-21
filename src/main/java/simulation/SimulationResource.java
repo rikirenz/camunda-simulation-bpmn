@@ -1,14 +1,16 @@
 package simulation;
 
+import java.util.concurrent.PriorityBlockingQueue;
+
 public class SimulationResource {
 
+	
+	private static PriorityBlockingQueue<Long> resourcesTimeQueue = new PriorityBlockingQueue<Long>();
 	private String id;
 	private Long currentQuantity = (long) 0;
 	private Double fixedCost = (double) 0;
 	private Double unitCost = (double) 0;
 	private Long quantity = (long) 0;
-	private Long timeLastResourceHandled = (long) 0;
-	private Long updateCounter = (long) 0;
 	
 	
 	public SimulationResource(String id) {
@@ -20,7 +22,6 @@ public class SimulationResource {
 	}
 
 	public void setQuantity(Long quantity) {
-		this.updateCounter = quantity;
 		this.currentQuantity = quantity;
 		this.quantity = quantity;
 	}
@@ -42,7 +43,7 @@ public class SimulationResource {
 	}
 		
 	public String toString() {
-		return "currentQuantity: " + currentQuantity + ", quantity: " + quantity + ", fixedCost: " + fixedCost + ", unitCost: " + unitCost;
+		return "Resource Id: " + id + ", currentQuantity: " + currentQuantity + ", quantity: " + quantity + ", fixedCost: " + fixedCost + ", unitCost: " + unitCost;
 	}
 	
 	public boolean isAvaliable() {
@@ -51,17 +52,18 @@ public class SimulationResource {
 		return true;
 	}
 	
-	public Long getTimeLastResourceHandled() {
-		return timeLastResourceHandled;
+	public Long getTimeResourceReleased() {
+		try {
+			if (resourcesTimeQueue.isEmpty()) return null;
+			return resourcesTimeQueue.take();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
-	public void setTimeLastResourceHandled(Long timeLastResourceHandled) {
-		if (this.updateCounter == this.quantity)
-			this.timeLastResourceHandled = timeLastResourceHandled;
-	
-		this.updateCounter--;
-		
-		if (this.updateCounter == 0) this.updateCounter = this.quantity;
+	public void setTimeResourceReleased(Long timeLastResourceHandled) {
+		resourcesTimeQueue.add(timeLastResourceHandled);
 	}
 	
 }

@@ -20,38 +20,25 @@ import testutils.CleanUp;
 
 
 @RunWith(Parameterized.class)
-public class SimulationDifferentScenariosTest extends TestCase{
+public class SimulationDistributionInScenarioTest extends TestCase{
 
 	private final static Logger LOGGER = Logger.getLogger("ENSO-APP");
 	
 	@Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
-        	{"singleTaskProcess", 365, 210},
-        	{"parallelTasks", (365*2), (210*3)}, // 2 resources, 3 Tasks
-        	{"parallelTasksMultipleResources", 26, (210*4)}, // 2 resources, 3 Tasks
-        	{"parallelTasksMultipleResources2", 25, (210*4)}, // 2 resources, 3 Tasks
-        	{"parallelTasksMultipleResources3", 38, (210*5)}, // 2 resources, 3 Tasks
-        	{"parallelTasksMultipleResources4", 38, (210*6)}, // 2 resources, 3 Tasks
-        	{"parallelTasksMultipleResources5", 25, (210*4)}, // 2 resources, 3 Tasks
-        	{"xor", 365, 210},
-        	{"boundaryEventTimer", (365*2), (210*2)},
-        	{"intermediateEvent", 365, 210},
-        	{"transaction", (365*2), (210*2)},
-        	{"nonInterruptingSubprocessEvent", (365*2), (210*4)},
-        	{"interruptingSubprocessEvent", (365*2), (210*3)},
-    	});
+        	{"testAllDistribution", (78), (0)}
+        });
     }
 
     private String inputFileName;
     private int timeExpected;
     private double costsExpected;
 
-    public SimulationDifferentScenariosTest(String inputFileName, int timeExpected, double costsExpected) {
-        this.inputFileName = inputFileName;
-        this.timeExpected = timeExpected;
-        this.costsExpected = costsExpected;
-    }
+	    public SimulationDistributionInScenarioTest(String inputFileName, int timeExpected, double costsExpected) {
+	        this.inputFileName = inputFileName;
+	        this.costsExpected = costsExpected;
+	    }
 
     @Test
     public void test() {
@@ -73,8 +60,6 @@ public class SimulationDifferentScenariosTest extends TestCase{
 			app.startApp();
 			// verification phase
 			long currTime = simClock.getCurrentTime();
-			
-			assertEquals(timeExpected, currTime);
 			assertEquals(costsExpected, simCosts.getTotalCost());
 		} finally {
 			CleanUp.resetSimulation();

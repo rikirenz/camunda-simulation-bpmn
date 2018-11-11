@@ -1,0 +1,63 @@
+* [33mc352434[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m added test case for parallel resource
+* [33m571ddf5[m Add priority quque for resources time
+* [33m687e270[m[33m ([m[1;31morigin/master[m[33m)[m added resourceSimulationTest skeleton
+* [33m49b4cfd[m fix time update for multiple resources
+* [33md290298[m fix bug multiple resources in parallel task
+* [33m2cfbb10[m add test for multiple resources
+* [33mab8cae3[m fix bug for subprocess events
+* [33m39e5fbb[m results refactor
+* [33maff9b1a[m Update README.md
+* [33m4532c18[m add new information in the readme file
+* [33mb7ccd76[m results: format result in xml
+* [33mcaa6d0b[m acceptance-test: fix last test
+* [33m7c8f0b2[m acceptance-tests: complete test suite all tests ok
+* [33ma99de8d[m acceptance: added tests and fix bugs related
+* [33m73c0dd1[m acceptance: add all the test cases
+* [33mb59142e[m tests: improve acceptance tests
+* [33m7967dd9[m tests: add acceptance test pilot
+* [33m4b9e7b2[m resources: add mechanism to handle resources
+* [33m3da4d1f[m WIP -  before main refacto -safe commit
+* [33m28147bb[m WIP
+* [33m1dddc4e[m general refactor
+* [33mff4e969[m bpmn: create the file with the preprocessed bpmn
+* [33mcca61aa[m bpmn files: fix missing tags
+* [33m9f1bcf4[m doc: update the command line to execute the app
+* [33m9ccdddb[m refactor to load CarRepairProcess bpmn
+* [33mffe9b8a[m refactor bpmn preprocessing ops
+* [33m82a9e7d[m add conversion: boundary event to bound mess event
+* [33mb974bab[m conversion task to user tasks
+* [33mbc14bd9[m add conversion task to user task
+* [33mf3e3740[m handle boundary & indipendent events using messages
+* [33m3e1fe32[m preprocessing bpmn to simply the simulation
+* [33md66edf9[m call enso code from the bpmn using groovy
+* [33m119e961[m implement indipendent event handling
+* [33me488776[m add catch events
+* [33mba43d54[m ExecutionListeners: add listeners and example
+* [33md06783a[m add strategy pattern to cast bpsim parameters
+* [33m8676def[m BpsimCollection: add map to store task sim info
+* [33mc8a33e5[m GatewayListener: Add randomi gatewayListener
+* [33mba7245e[m bpmnprocesses: add exclusive gateway
+* [33ma590c0d[m Milestone_parsing_bpmn
+* [33m29bc8fe[m ensoApp: refactor logs and removed a for cycle
+* [33m9ceefac[m tests: add test  to veirfy query process
+* [33maf079c5[m ensoApp: add porocessId filter to terminate tasks
+* [33mc512b56[m ensoApp: use instanceof in the events dispatch
+* [33m912e0b7[m docs: update docs for the new system variables
+* [33md38177e[m ensoApp: add multiple processes
+* [33meba8544[m EventsHandler: refactor to reduce responsability
+* [33m15a5d86[m EventsHandler: terminate the task using complete
+* [33md2a1478[m simulation: change sim time for parallel branches
+* [33m564c47c[m app: add bpmn model as input of the command tool
+* [33m8e94367[m travis: add travis yml
+* [33meaa184a[m doc: add documentation to start the app
+* [33ma96fe98[m tests: add integration test for the parallel branches
+* [33mf76da08[m ensoApp: split the app from the main method
+* [33m177ba97[m bug fix: publish subscribe pattern fix
+* [33m362da0d[m tests: add unit tests for the simulation package
+* [33m35faecd[m simulation: refactor using java standard library
+* [33m3d277a5[m .gitignore: gitignore target folder
+* [33m917cd47[m proj migration: from webapp to commandline tool
+* [33md5aa37a[m sim: add sim handler to manage time and tasks
+* [33m6df3b79[m .gitgnore: add gitgnore file
+* [33mae67d03[m readme: add readme file to the project
+* [33m4b4bc7a[m Initial Commit

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpsim="http://www.bpsim.org/schemas/2.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.11.3">
+  <bpmn:process id="testAllDistribution" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_133vu00</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="task1" name="task1">
+      <bpmn:incoming>SequenceFlow_133vu00</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0g71oct</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="task2" name="task2">
+      <bpmn:incoming>SequenceFlow_0g71oct</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_01qcczb</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_12ctvg6">
+      <bpmn:incoming>SequenceFlow_01qcczb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_133vu00" sourceRef="StartEvent_1" targetRef="task1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0g71oct" sourceRef="task1" targetRef="task2" />
+    <bpmn:sequenceFlow id="SequenceFlow_01qcczb" sourceRef="task2" targetRef="EndEvent_12ctvg6" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="testAllDistribution">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="183" y="175" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="156" y="211" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_1ss82i6_di" bpmnElement="task1">
+        <dc:Bounds x="290" y="153" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_0xu4wyu_di" bpmnElement="task2">
+        <dc:Bounds x="424" y="153" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_12ctvg6_di" bpmnElement="EndEvent_12ctvg6">
+        <dc:Bounds x="560" y="175" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="533" y="215" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_133vu00_di" bpmnElement="SequenceFlow_133vu00">
+        <di:waypoint xsi:type="dc:Point" x="219" y="193" />
+        <di:waypoint xsi:type="dc:Point" x="290" y="193" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="254.5" y="172" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0g71oct_di" bpmnElement="SequenceFlow_0g71oct">
+        <di:waypoint xsi:type="dc:Point" x="390" y="193" />
+        <di:waypoint xsi:type="dc:Point" x="424" y="193" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="407" y="172" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_01qcczb_di" bpmnElement="SequenceFlow_01qcczb">
+        <di:waypoint xsi:type="dc:Point" x="524" y="193" />
+        <di:waypoint xsi:type="dc:Point" x="560" y="193" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="497" y="172" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmn:relationship type="BPSimData">
+    <bpmn:extensionElements>
+      <bpsim:BPSimData>
+        <bpsim:Scenario author="Tim Stephenson" id="default" name="Scenario 1">
+          <bpsim:ScenarioParameters baseTimeUnit="min" replication="3" seed="1" baseCurrencyUnit="USD" traceFormat="XES" />
+          <bpsim:ElementParameters elementRef="task1">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:TriangularDistribution max="2" min="0.35" mode="2" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:TruncatedNormalDistribution max="1000" mean="20" min="0" standardDeviation="1" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:WeibullDistribution shape="1" scale="1" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:NegativeExponentialDistribution mean="1" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:BinomialDistribution probability="0" trials="0" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:BetaDistribution shape="0" scale="0" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:GammaDistribution shape="1" scale="1" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="0" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="0" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="task2">
+            <bpsim:TimeParameters>
+              <bpsim:TransferTime>
+                <bpsim:ErlangDistribution mean="0" k="0" />
+              </bpsim:TransferTime>
+              <bpsim:QueueTime>
+                <bpsim:LogNormalDistribution mean="0" standardDeviation="1" />
+              </bpsim:QueueTime>
+              <bpsim:WaitTime>
+                <bpsim:NormalDistribution mean="0" standardDeviation="1" />
+              </bpsim:WaitTime>
+              <bpsim:SetUpTime>
+                <bpsim:PoissonDistribution mean="1" />
+              </bpsim:SetUpTime>
+              <bpsim:ProcessingTime>
+                <bpsim:UniformDistribution min="0" max="2" />
+              </bpsim:ProcessingTime>
+              <bpsim:ValidationTime>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:ValidationTime>
+              <bpsim:ReworkTime>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:ReworkTime>
+            </bpsim:TimeParameters>
+            <bpsim:ControlParameters>
+              <bpsim:InterTriggerTimer>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:InterTriggerTimer>
+              <bpsim:TriggerCount>
+                <bpsim:NumericParameter value="0" />
+              </bpsim:TriggerCount>
+            </bpsim:ControlParameters>
+            <bpsim:CostParameters>
+              <bpsim:FixedCost>
+                <bpsim:NumericParameter value="0" />
+              </bpsim:FixedCost>
+              <bpsim:UnitCost>
+                <bpsim:FloatingParameter value="0" />
+              </bpsim:UnitCost>
+            </bpsim:CostParameters>
+            <bpsim:PriorityParameters>
+              <bpsim:Interruptible>
+                <bpsim:BooleanParameter value="true" />
+              </bpsim:Interruptible>
+              <bpsim:Priority>
+                <bpsim:NumericParameter value="200" />
+              </bpsim:Priority>
+            </bpsim:PriorityParameters>
+          </bpsim:ElementParameters>
+        </bpsim:Scenario>
+      </bpsim:BPSimData>
+    </bpmn:extensionElements>
+    <bpmn:source>Definitions_1</bpmn:source>
+    <bpmn:target>Definitions_1</bpmn:target>
+  </bpmn:relationship>
+</bpmn:definitions>
